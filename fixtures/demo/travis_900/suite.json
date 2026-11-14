@@ -1,0 +1,19 @@
+{
+  "_fake": true,
+  "key": "travis_900",
+  "property_id": 0,
+  "address": "100 Example Medical Pkwy",
+  "city": "Houston",
+  "suite": "900",
+  "floor": "9",
+  "sqft": 6500,
+  "use": "OfficeMedical",
+  "asking_rent_psf_yr": 28.0,
+  "service_type": "FullService",
+  "listing_notes": [
+    "Second-generation medical suite with procedure room. Placeholder text."
+  ],
+  "matterport_model_id": "",
+  "lat": 29.7,
+  "lon": -95.4
+}
