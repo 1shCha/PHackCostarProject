@@ -7,7 +7,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 import { downloadPanos, getModel } from "../src/lib/spatial/matterport";
 
-const MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash";
 
 async function pickImage(): Promise<string> {
   if (process.argv[2]) return process.argv[2];
