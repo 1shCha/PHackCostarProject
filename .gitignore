@@ -147,3 +147,29 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# ---- SecondLife additions ----
+# Secrets: never commit keys
+.env
+.env.*
+!.env.example
+
+# CoStar kit and anything derived from it (this repo is public)
+data/kit/
+data/*.zip
+fixtures/real/
+cache/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Next.js
+web/.next/
+web/node_modules/
+.DS_Store
+
+# Local tool config
+.claude/
