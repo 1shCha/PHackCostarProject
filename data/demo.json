@@ -1,0 +1,547 @@
+{
+  "fit": {
+    "checks": [
+      {
+        "need": "3+ exam rooms",
+        "status": "pass",
+        "evidence": "3 exam rooms labeled in scan"
+      },
+      {
+        "need": "Procedure room",
+        "status": "pass",
+        "evidence": "Procedure room with sink and medical gas"
+      },
+      {
+        "need": "Reception and waiting",
+        "status": "pass",
+        "evidence": "Reception desk pinned"
+      }
+    ],
+    "accessibility": [
+      {
+        "check": "Step-free entrance",
+        "status": "unknown",
+        "evidence": "Needs entrance scan"
+      }
+    ]
+  },
+  "history": {
+    "timeline": [
+      {
+        "tenant": "Example Laser Clinic",
+        "industry": "HealthCareAndSocialAssistance",
+        "category": "medical",
+        "from": "2000-08-01",
+        "to": "2010-01-31",
+        "sqft": 1600,
+        "match": "confirmed",
+        "why_matched": "Tenant record names Suite 900",
+        "why_ended": "Closed location"
+      },
+      {
+        "tenant": "Example Pain Center",
+        "industry": "HealthCareAndSocialAssistance",
+        "category": "medical",
+        "from": "2011-03-01",
+        "to": "2016-06-30",
+        "sqft": 6200,
+        "match": "likely",
+        "why_matched": "Same floor, similar size, other suites accounted for",
+        "why_ended": "Moved"
+      },
+      {
+        "tenant": "Unknown tenant",
+        "industry": "Unknown",
+        "category": "unknown",
+        "from": "2017-01-01",
+        "to": "2019-12-31",
+        "sqft": null,
+        "match": "same_floor",
+        "why_matched": "Same floor, suite not recorded",
+        "why_ended": ""
+      }
+    ],
+    "likely_buildout": [
+      {
+        "feature": "Procedure room",
+        "source": "listing note",
+        "confidence": "confirmed"
+      },
+      {
+        "feature": "Exam rooms with sinks",
+        "source": "past tenant",
+        "confidence": "likely"
+      }
+    ],
+    "notes": [
+      "Suite is larger today than the 2000s tenancy: history may cover part of the space."
+    ]
+  },
+  "inspect": {
+    "floorplan": {
+      "url": "/demo/floorplan.svg",
+      "width": 720,
+      "height": 500
+    },
+    "rooms": [
+      {
+        "id": "reception",
+        "label": "reception",
+        "display": "Reception",
+        "confidence": 0.94,
+        "area_sqft": null,
+        "polygon": [
+          [
+            20,
+            20
+          ],
+          [
+            260,
+            20
+          ],
+          [
+            260,
+            200
+          ],
+          [
+            20,
+            200
+          ]
+        ],
+        "features": [
+          {
+            "type": "reception_desk",
+            "x": 140,
+            "y": 120,
+            "pano_url": ""
+          }
+        ]
+      },
+      {
+        "id": "waiting",
+        "label": "waiting",
+        "display": "Waiting area",
+        "confidence": 0.88,
+        "area_sqft": null,
+        "polygon": [
+          [
+            20,
+            200
+          ],
+          [
+            260,
+            200
+          ],
+          [
+            260,
+            330
+          ],
+          [
+            20,
+            330
+          ]
+        ],
+        "features": []
+      },
+      {
+        "id": "exam_1",
+        "label": "exam_room",
+        "display": "Exam room",
+        "confidence": 0.91,
+        "area_sqft": null,
+        "polygon": [
+          [
+            280,
+            20
+          ],
+          [
+            420,
+            20
+          ],
+          [
+            420,
+            170
+          ],
+          [
+            280,
+            170
+          ]
+        ],
+        "features": [
+          {
+            "type": "sink",
+            "x": 400,
+            "y": 40,
+            "pano_url": ""
+          },
+          {
+            "type": "cabinets",
+            "x": 350,
+            "y": 40,
+            "pano_url": ""
+          }
+        ]
+      },
+      {
+        "id": "exam_2",
+        "label": "exam_room",
+        "display": "Exam room",
+        "confidence": 0.89,
+        "area_sqft": null,
+        "polygon": [
+          [
+            420,
+            20
+          ],
+          [
+            560,
+            20
+          ],
+          [
+            560,
+            170
+          ],
+          [
+            420,
+            170
+          ]
+        ],
+        "features": [
+          {
+            "type": "sink",
+            "x": 540,
+            "y": 40,
+            "pano_url": ""
+          }
+        ]
+      },
+      {
+        "id": "exam_3",
+        "label": "exam_room",
+        "display": "Exam room",
+        "confidence": 0.86,
+        "area_sqft": null,
+        "polygon": [
+          [
+            560,
+            20
+          ],
+          [
+            700,
+            20
+          ],
+          [
+            700,
+            170
+          ],
+          [
+            560,
+            170
+          ]
+        ],
+        "features": [
+          {
+            "type": "sink",
+            "x": 680,
+            "y": 40,
+            "pano_url": ""
+          }
+        ]
+      },
+      {
+        "id": "procedure",
+        "label": "procedure",
+        "display": "Procedure room",
+        "confidence": 0.82,
+        "area_sqft": null,
+        "polygon": [
+          [
+            280,
+            300
+          ],
+          [
+            520,
+            300
+          ],
+          [
+            520,
+            480
+          ],
+          [
+            280,
+            480
+          ]
+        ],
+        "features": [
+          {
+            "type": "sink",
+            "x": 500,
+            "y": 320,
+            "pano_url": ""
+          },
+          {
+            "type": "medical_gas",
+            "x": 300,
+            "y": 460,
+            "pano_url": ""
+          }
+        ]
+      },
+      {
+        "id": "office",
+        "label": "office",
+        "display": "Private office",
+        "confidence": 0.9,
+        "area_sqft": null,
+        "polygon": [
+          [
+            540,
+            300
+          ],
+          [
+            700,
+            300
+          ],
+          [
+            700,
+            480
+          ],
+          [
+            540,
+            480
+          ]
+        ],
+        "features": []
+      },
+      {
+        "id": "storage",
+        "label": "storage",
+        "display": "Storage",
+        "confidence": 0.77,
+        "area_sqft": null,
+        "polygon": [
+          [
+            20,
+            350
+          ],
+          [
+            260,
+            350
+          ],
+          [
+            260,
+            480
+          ],
+          [
+            20,
+            480
+          ]
+        ],
+        "features": []
+      }
+    ],
+    "counts": {
+      "reception": 1,
+      "reception_desk": 1,
+      "waiting": 1,
+      "sink": 4,
+      "cabinets": 1,
+      "procedure": 1,
+      "medical_gas": 1,
+      "office": 1,
+      "storage": 1,
+      "exam_room": 3
+    }
+  },
+  "negotiate": {
+    "mode": "tenant",
+    "subject": "Letter of intent: Suite 900",
+    "letter": "Placeholder letter. Role 1 replaces this with a letter written from the pricing numbers.",
+    "asks": [
+      "Base rent $26.50/sf/yr, full service",
+      "3 months free rent",
+      "Use existing procedure room as-is"
+    ],
+    "fallbacks": [
+      "Accept $27.50 with 4 months free",
+      "Shorter 5-year term with renewal option"
+    ]
+  },
+  "pricing": {
+    "target_rent_psf_yr": 27.5,
+    "range_psf_yr": [
+      25.0,
+      30.0
+    ],
+    "service_type": "FullService",
+    "basis": "submarket",
+    "n_deals": 14,
+    "comps": [
+      {
+        "address": "Example Tower A",
+        "suite": "610",
+        "signed": "2025-03-01",
+        "sqft": 3100,
+        "rent_psf_yr": 27.0,
+        "service_type": "FullService",
+        "industry": "medical",
+        "free_months": 2,
+        "ti_psf": null
+      },
+      {
+        "address": "Example Tower B",
+        "suite": "1200",
+        "signed": "2024-09-15",
+        "sqft": 5400,
+        "rent_psf_yr": 29.5,
+        "service_type": "FullService",
+        "industry": "medical",
+        "free_months": null,
+        "ti_psf": 40
+      },
+      {
+        "address": "Example Plaza",
+        "suite": "300",
+        "signed": "2024-05-01",
+        "sqft": 2600,
+        "rent_psf_yr": 25.5,
+        "service_type": "FullService",
+        "industry": "office",
+        "free_months": 1,
+        "ti_psf": null
+      }
+    ],
+    "releasing_value_yr": 178750,
+    "buildout_savings": {
+      "low": 250000,
+      "high": 450000,
+      "assumption": "Placeholder: medical build-out cost per sq ft times suite size; replace with a cited figure."
+    }
+  },
+  "prospects": {
+    "companies": [
+      {
+        "name": "Example Dermatology Group",
+        "industry": "HealthCareAndSocialAssistance",
+        "category": "dermatology",
+        "current_address": "Example St, Houston",
+        "lease_expires": "2027-06-30",
+        "sqft": 2800,
+        "employees": 14,
+        "distance_mi": 1.2,
+        "reason": "Dermatology, similar size, lease ends in 2027"
+      },
+      {
+        "name": "Example Skin & Laser",
+        "industry": "HealthCareAndSocialAssistance",
+        "category": "dermatology",
+        "current_address": "Example Ave, Houston",
+        "lease_expires": "2027-11-30",
+        "sqft": 3400,
+        "employees": 20,
+        "distance_mi": 2.4,
+        "reason": "Laser procedures fit the procedure room"
+      },
+      {
+        "name": "Example Plastic Surgery",
+        "industry": "HealthCareAndSocialAssistance",
+        "category": "plastic_surgery",
+        "current_address": "Example Blvd, Houston",
+        "lease_expires": "2028-02-28",
+        "sqft": 6100,
+        "employees": 25,
+        "distance_mi": 3.1,
+        "reason": "Needs a procedure room; size matches"
+      }
+    ],
+    "coverage_note": "Only tenants with a known lease expiration are searched."
+  },
+  "site": {
+    "image_url": "",
+    "captured": "2026-01-01",
+    "parking_stalls": 180,
+    "frontage": "Main road frontage, visible from the street",
+    "notes": [
+      "Placeholder: Role 2 replaces with Vexcel imagery."
+    ]
+  },
+  "suite": {
+    "key": "travis_900",
+    "property_id": 0,
+    "address": "100 Example Medical Pkwy",
+    "city": "Houston",
+    "suite": "900",
+    "floor": "9",
+    "sqft": 6500,
+    "use": "OfficeMedical",
+    "asking_rent_psf_yr": 28.0,
+    "service_type": "FullService",
+    "listing_notes": [
+      "Second-generation medical suite with procedure room. Placeholder text."
+    ],
+    "matterport_model_id": "",
+    "lat": 29.7,
+    "lon": -95.4
+  },
+  "tenant_mix": {
+    "as_of": "last CoStar research",
+    "total_current": 12,
+    "unknown_tenants": 2,
+    "by_category": [
+      {
+        "category": "dental",
+        "count": 1,
+        "tenants": [
+          {
+            "name": "Example Dental",
+            "suite": "400",
+            "floor": "4"
+          }
+        ]
+      },
+      {
+        "category": "medical",
+        "count": 4,
+        "tenants": [
+          {
+            "name": "Example Orthopedics",
+            "suite": "700",
+            "floor": "7"
+          },
+          {
+            "name": "Example Imaging",
+            "suite": "200",
+            "floor": "2"
+          },
+          {
+            "name": "Example Pediatrics",
+            "suite": "510",
+            "floor": "5"
+          },
+          {
+            "name": "Example Physical Therapy",
+            "suite": "300",
+            "floor": "3"
+          }
+        ]
+      },
+      {
+        "category": "office",
+        "count": 5,
+        "tenants": []
+      }
+    ],
+    "conflicts": [
+      {
+        "category": "dental",
+        "reason": "A dental practice already operates in the building (Suite 400)."
+      }
+    ],
+    "complements": [
+      {
+        "category": "dermatology",
+        "reason": "Orthopedics and imaging tenants can refer patients; no dermatologist in the building."
+      }
+    ]
+  }
+}

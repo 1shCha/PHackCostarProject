@@ -1,6 +1,0 @@
-fastapi>=0.115
-uvicorn[standard]>=0.30
-python-dotenv>=1.0
-# Orchestrator (Role 3 adds when wiring Bedrock):
-# strands-agents
-# boto3
