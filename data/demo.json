@@ -356,7 +356,7 @@
   "negotiate": {
     "mode": "tenant",
     "subject": "Letter of intent: Suite 900",
-    "letter": "Placeholder letter. Role 1 replaces this with a letter written from the pricing numbers.",
+    "letter": "Sample letter. Add ANTHROPIC_API_KEY to .env and Claude writes this letter from the real numbers.",
     "asks": [
       "Base rent $26.50/sf/yr, full service",
       "3 months free rent",

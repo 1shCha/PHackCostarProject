@@ -1,5 +1,8 @@
 import { runAll } from "@/agents";
 
+// Run the agents on every request (not once at build time), so Claude writes a fresh letter.
+export const dynamic = "force-dynamic";
+
 // The Space Card. Runs every agent on the server and shows the results.
 export default async function Home() {
   const card = await runAll("travis_900");
@@ -45,7 +48,10 @@ export default async function Home() {
 
       <Box title="Offer letter">
         <p className="font-medium">{negotiate.subject}</p>
-        <p className="text-sm">{negotiate.letter}</p>
+        <p className="whitespace-pre-wrap text-sm">{negotiate.letter}</p>
+        <ul className="mt-2 list-disc pl-5 text-sm">
+          {negotiate.asks.map((a, i) => <li key={i}>{a}</li>)}
+        </ul>
       </Box>
     </main>
   );
