@@ -2410,3 +2410,60 @@ footer .brand svg {
 .tour-visual.tour-live:after {
   display: none;
 }
+
+/* Live floor plan: image from the scan with AI room labels and feature pins drawn on top */
+.floorplan.floorplan-live {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.floorplan.floorplan-live:before,
+.floorplan.floorplan-live:after {
+  display: none;
+}
+.floorplan-live svg {
+  width: 100%;
+  height: 100%;
+}
+.fp-room {
+  cursor: pointer;
+}
+.fp-room polygon {
+  fill: rgba(169, 204, 224, 0.28);
+  stroke: var(--sage);
+  stroke-width: 2;
+  transition: fill 0.15s ease;
+}
+.fp-room:hover polygon {
+  fill: rgba(242, 138, 75, 0.25);
+}
+.fp-room text {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--ink);
+  text-anchor: middle;
+  pointer-events: none;
+}
+.fp-room text.fp-conf {
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--grey);
+}
+.fp-pin {
+  cursor: pointer;
+}
+.fp-pin circle {
+  fill: var(--orange);
+  stroke: #fff;
+  stroke-width: 2;
+}
+.fp-pin text {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  fill: #fff;
+  text-anchor: middle;
+  pointer-events: none;
+}

@@ -479,70 +479,6 @@ function Results({ back, open }: { back: () => void; open: () => void }) {
   );
 }
 
-const roomData = [
-  ["Operating room", "96%", "op"],
-  ["Exam 1", "94%", "exam"],
-  ["Exam 2", "91%", "exam2"],
-  ["Reception", "98%", "reception"],
-  ["Waiting", "95%", "waiting"],
-  ["Office", "82%", "office"],
-  ["Storage", "78%", "storage"],
-  ["Restroom", "99%", "restroom"],
-];
-
-function FloorPlan({ selectPin }: { selectPin: (name: string) => void }) {
-  return (
-    <div className="floorplan">
-      <span className="room op">
-        Operating room <b>96%</b>
-      </span>
-      <span className="room exam">
-        Exam 1 <b>94%</b>
-      </span>
-      <span className="room exam2">
-        Exam 2 <b>91%</b>
-      </span>
-      <span className="room reception">
-        Reception <b>98%</b>
-      </span>
-      <span className="room waiting">
-        Waiting <b>95%</b>
-      </span>
-      <span className="room office">
-        Office <b>82%</b>
-      </span>
-      <span className="room storage">
-        Storage <b>78%</b>
-      </span>
-      <span className="room restroom">
-        Restroom <b>99%</b>
-      </span>
-      <button
-        className="pin p1"
-        onClick={() => selectPin("Operating room sink")}
-        aria-label="View operating room sink"
-      >
-        +
-      </button>
-      <button
-        className="pin p2"
-        onClick={() => selectPin("Exam room sink")}
-        aria-label="View exam room sink"
-      >
-        +
-      </button>
-      <button
-        className="pin p3"
-        onClick={() => selectPin("Reception desk")}
-        aria-label="View reception desk"
-      >
-        +
-      </button>
-      <span className="placeholder-label">Floor plan from scan</span>
-    </div>
-  );
-}
-
 function ChapterHeading({
   number,
   time,
@@ -583,6 +519,76 @@ function EvidenceTitle({
   );
 }
 
+// ---------- Helpers that turn agent data into display text ----------
+type Confidence = "Confirmed" | "Likely" | "Unknown";
+type TimelineEntry = Card["history"]["timeline"][number];
+
+const toConfidence = (match?: string | null): Confidence =>
+  match === "confirmed" ? "Confirmed" : match === "likely" ? "Likely" : "Unknown";
+const yearOf = (date?: string | null) => (date ? date.slice(0, 4) : "Now");
+const money = (n?: number | null) => (n == null ? "—" : `$${Number(n).toFixed(2).replace(/\.00$/, "")}`);
+const titleCase = (text: string) => text.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+const prettyUse = (use: string) =>
+  ({ OfficeMedical: "Medical office", Medical: "Medical", Office: "Office", OfficeRetail: "Office / retail", Retail: "Retail" })[
+    use
+  ] ?? titleCase(use);
+const yearsBetween = (from?: string | null, to?: string | null) => {
+  const start = from ? new Date(from).getTime() : Date.now();
+  const end = to ? new Date(to).getTime() : Date.now();
+  return Math.max(0.5, (end - start) / (365.25 * 24 * 3600 * 1000));
+};
+
+/** Timeline entries in order, plus a "For lease" band after the last tenant left. */
+function timelineWithVacancy(timeline: TimelineEntry[]) {
+  const sorted = [...timeline].sort((a, b) => (a.from ?? "").localeCompare(b.from ?? ""));
+  const lastEnd = sorted.reduce<string | null>((latest, e) => (e.to && (!latest || e.to > latest) ? e.to : latest), null);
+  const stillOccupied = sorted.some((e) => !e.to);
+  return { sorted, vacantSince: stillOccupied ? null : lastEnd };
+}
+
+/** Floor plan image with the labeled room outlines and feature pins drawn on top (coordinates are image pixels). */
+function FloorPlanLive({ inspect, selectPin }: { inspect: Card["inspect"]; selectPin: (name: string) => void }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const { url, width, height } = inspect.floorplan;
+  const showImage = Boolean(url) && !imageFailed;
+  return (
+    <div className="floorplan floorplan-live">
+      <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Floor plan from scan">
+        {showImage && <image href={url} width={width} height={height} onError={() => setImageFailed(true)} />}
+        {inspect.rooms.map((room) => {
+          const pts = room.polygon.map(([x, y]) => `${x},${y}`).join(" ");
+          const cx = room.polygon.reduce((sum, p) => sum + p[0], 0) / room.polygon.length;
+          const cy = room.polygon.reduce((sum, p) => sum + p[1], 0) / room.polygon.length;
+          return (
+            <g key={room.id} className="fp-room" onClick={() => selectPin(room.display)}>
+              <polygon points={pts} />
+              <text x={cx} y={cy}>
+                {room.display}
+              </text>
+              <text x={cx} y={cy + 15} className="fp-conf">
+                {Math.round(room.confidence * 100)}%
+              </text>
+            </g>
+          );
+        })}
+        {inspect.rooms.flatMap((room) =>
+          room.features.map((f, i) => (
+            <g
+              key={`${room.id}-${i}`}
+              className="fp-pin"
+              onClick={() => selectPin(`${room.display}: ${titleCase(f.type)}`)}
+            >
+              <circle cx={f.x} cy={f.y} r={9} />
+              <text x={f.x} y={f.y + 4}>+</text>
+            </g>
+          )),
+        )}
+      </svg>
+      {!showImage && <span className="placeholder-label">Floor plan from scan</span>}
+    </div>
+  );
+}
+
 function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer: () => void }) {
   const [pin, setPin] = useState<string | null>(null);
   const [compared, setCompared] = useState(false);
@@ -590,6 +596,23 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
   const [suggested, setSuggested] = useState(false);
   const [showDeals, setShowDeals] = useState(false);
   const [activeAsks, setActiveAsks] = useState([true, true, true]);
+
+  const { suite: s, history, inspect, pricing, tenant_mix: mix, fit, site, negotiate } = card;
+  const { sorted: timeline, vacantSince } = timelineWithVacancy(history.timeline);
+  const longest = [...timeline].sort((a, b) => yearsBetween(b.from, b.to) - yearsBetween(a.from, a.to))[0];
+  const hasProcedure = inspect.rooms.some((r) => r.label === "procedure");
+  const bestNextUse = mix.complements[0]?.category;
+  const totalSqft = inspect.rooms.reduce((sum, r) => sum + (r.area_sqft ?? 0), 0);
+  const freeMonths = pricing.comps.map((c) => c.free_months).filter((m): m is number => typeof m === "number");
+  const typicalFree = freeMonths.length ? `${Math.min(...freeMonths)}–${Math.max(...freeMonths)} mo.` : "—";
+  const [low, high] = pricing.range_psf_yr ?? [pricing.target_rent_psf_yr, pricing.target_rent_psf_yr];
+  const targetPos = high > low ? ((pricing.target_rent_psf_yr - low) / (high - low)) * 100 : 50;
+  const bars = [
+    ...timeline.map((e, i) => ({ label: e.tenant, years: yearsBetween(e.from, e.to), cls: i === 0 ? "laser" : "plastic" })),
+    ...(vacantSince ? [{ label: "For lease", years: yearsBetween(vacantSince, null), cls: "lease" }] : []),
+  ];
+  const years = [...new Set(timeline.flatMap((e) => [yearOf(e.from), ...(e.to ? [yearOf(e.to)] : [])]))].sort();
+
   return (
     <main className="page space-page">
       <Back onClick={back} label="All matches" />
@@ -597,8 +620,10 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         <div className="space-hero-top">
           <div>
             <p className="kicker light">Your best match · 94% fit</p>
-            <h1>6655 Travis St</h1>
-            <p className="space-suite">Suite 900 · Houston, TX</p>
+            <h1>{s.address}</h1>
+            <p className="space-suite">
+              Suite {s.suite} · {s.city}
+            </p>
           </div>
           <div className="hero-actions">
             <button className="ghost" onClick={() => setCompared(!compared)}>
@@ -611,19 +636,16 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         </div>
         <div className="hero-stats">
           <span>
-            <b>6,692</b> sq ft listed
+            <b>{s.sqft ? Math.round(s.sqft).toLocaleString() : "—"}</b> sq ft listed
           </span>
           <span>
-            <b>Medical</b> office
+            <b>{prettyUse(s.use)}</b>
           </span>
           <span>
-            <b>$28</b>/sf/yr Full Service
+            <b>{money(s.asking_rent_psf_yr)}</b>/sf/yr {titleCase(s.service_type)}
           </span>
         </div>
-        <p className="space-summary">
-          A cosmetic and plastic surgery space for over 20 years. The operating room is still there,
-          and it’s been vacant since 2023.
-        </p>
+        <p className="space-summary">{s.listing_notes[0] ?? "Listing notes not recorded."}</p>
         <div className="hero-sources">
           <Source source="CoStar" dark />
           <Source source="Matterport scan" dark />
@@ -634,55 +656,59 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         <ChapterHeading
           number="01"
           time="THEN"
-          title="A plastic surgery practice ran an operating suite here for 15 years."
+          title={
+            longest
+              ? `${longest.tenant} shaped this space for ${Math.round(yearsBetween(longest.from, longest.to))} years.`
+              : "No past tenants recorded for this space yet."
+          }
           text="The space was shaped by care long before it became a listing."
         />
         <div className="content-card">
           <EvidenceTitle source="CoStar">Who was here</EvidenceTitle>
           <div className="big-timeline">
             <div className="timeline-years">
-              <span>2000</span>
-              <span>2008</span>
-              <span>2010</span>
-              <span>2023</span>
+              {years.map((y) => (
+                <span key={y}>{y}</span>
+              ))}
               <span>Now</span>
             </div>
-            <div className="timeline-bars">
-              <span className="laser">Cosmetic Laser Institute of Texas</span>
-              <span className="plastic">Facial Plastic Surgery Associates</span>
-              <span className="lease">For lease</span>
+            <div className="timeline-bars" style={{ gridTemplateColumns: bars.map((b) => `${b.years}fr`).join(" ") }}>
+              {bars.map((b) => (
+                <span key={b.label} className={b.cls}>
+                  {b.label}
+                </span>
+              ))}
             </div>
           </div>
           <div className="timeline-notes">
-            <div>
-              <b>2000–2010</b>
-              <strong>Cosmetic Laser Institute of Texas</strong>
-              <span>Cosmetic laser clinic</span>
-              <Source source="CoStar" />
-            </div>
-            <div>
-              <b>2008–2023</b>
-              <strong>Facial Plastic Surgery Associates</strong>
-              <span>Plastic surgery practice</span>
-              <Source source="CoStar" confidence="Likely" />
-              <small>
-                Recorded as Suite 600 — same floor, same size, left 3 days after Suite 900 was
-                listed.
-              </small>
-            </div>
-            <div>
-              <b>Aug 2023–now</b>
-              <strong>For lease</strong>
-              <span>Occupant unknown</span>
-              <Source source="CoStar" confidence="Unknown" />
-            </div>
+            {timeline.map((e) => (
+              <div key={`${e.tenant}-${e.from}`}>
+                <b>
+                  {yearOf(e.from)}–{e.to ? yearOf(e.to) : "now"}
+                </b>
+                <strong>{e.tenant}</strong>
+                <span>{titleCase(e.category)}</span>
+                <Source source="CoStar" confidence={toConfidence(e.match)} />
+                {e.match !== "confirmed" && <small>{e.why_matched}</small>}
+              </div>
+            ))}
+            {vacantSince && (
+              <div>
+                <b>{yearOf(vacantSince)}–now</b>
+                <strong>For lease</strong>
+                <span>Vacant</span>
+                <Source source="CoStar" confidence="Confirmed" />
+              </div>
+            )}
           </div>
-          <div className="built-chips">
-            <span>Likely built in</span>
-            <b>Operating room</b>
-            <b>Treatment rooms with sinks</b>
-            <b>Reception</b>
-          </div>
+          {history.likely_buildout.length > 0 && (
+            <div className="built-chips">
+              <span>Likely built in</span>
+              {history.likely_buildout.slice(0, 4).map((b) => (
+                <b key={b.feature}>{b.feature.length > 48 ? `${b.feature.slice(0, 46)}…` : b.feature}</b>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -690,22 +716,32 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         <ChapterHeading
           number="02"
           time="NOW"
-          title="The operating room is still here."
+          title={
+            hasProcedure
+              ? "The procedure room is still here."
+              : `${inspect.rooms.length} rooms are already built in.`
+          }
           text="A scan turns every room into evidence you can act on."
         />
         <div className="content-card">
           <EvidenceTitle source="Matterport scan">What’s built in</EvidenceTitle>
           <div className="plan-layout">
-            <FloorPlan selectPin={setPin} />
+            <FloorPlanLive inspect={inspect} selectPin={setPin} />
             <div className="room-list">
-              <p>8 rooms detected</p>
-              {roomData.map(([name, confidence]) => (
-                <button key={name} onClick={() => setPin(name)}>
-                  <span>{name}</span>
-                  <b>{confidence}</b>
+              <p>{inspect.rooms.length} rooms detected</p>
+              {inspect.rooms.map((room) => (
+                <button key={room.id} onClick={() => setPin(room.display)}>
+                  <span>{room.display}</span>
+                  <b>{Math.round(room.confidence * 100)}%</b>
                 </button>
               ))}
-              <small>Measured 4,620 sq ft of usable rooms from 8 rooms and 33 scans.</small>
+              <small>
+                {totalSqft > 0
+                  ? `Measured ${Math.round(totalSqft).toLocaleString()} sq ft across ${inspect.rooms.length} rooms.`
+                  : `Room labels from the 3D scan. ${Object.entries(inspect.counts)
+                      .map(([k, v]) => `${v} ${titleCase(k).toLowerCase()}`)
+                      .join(" · ")}`}
+              </small>
             </div>
           </div>
         </div>
@@ -725,27 +761,20 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         <div className="split-grid">
           <div className="content-card fit-card">
             <EvidenceTitle source="Matterport scan">Does it fit your practice</EvidenceTitle>
-            {[
-              ["5 exam rooms with sinks", "Pass", "5 sinks pinned in scan"],
-              ["Procedure room", "Pass", "Operating room still in place"],
-              ["Patient reception", "Pass", "Desk and glass check-in"],
-              ["Dedicated restroom", "Pass", "1 room confirmed"],
-              ["ADA door clearance", "Partial", "Visual screening only"],
-            ].map(([item, state, note]) => (
-              <div className="check-row" key={item}>
-                <span className={state.toLowerCase()}>
-                  {state === "Pass" ? <Icon name="check" size={14} /> : "—"}
-                </span>
-                <p>
-                  <b>{item}</b>
-                  <small>{note}</small>
-                </p>
-                <Source
-                  source="Matterport scan"
-                  confidence={state === "Pass" ? "Confirmed" : "Likely"}
-                />
-              </div>
-            ))}
+            {[...fit.checks, ...fit.accessibility].map((c) => {
+              const item = "need" in c ? c.need : c.check;
+              const state = c.status === "pass" ? "Pass" : c.status === "fail" ? "Fail" : "Partial";
+              return (
+                <div className="check-row" key={item}>
+                  <span className={state.toLowerCase()}>{state === "Pass" ? <Icon name="check" size={14} /> : "—"}</span>
+                  <p>
+                    <b>{item}</b>
+                    <small>{c.evidence}</small>
+                  </p>
+                  <Source source="Matterport scan" confidence={state === "Pass" ? "Confirmed" : "Likely"} />
+                </div>
+              );
+            })}
             <p className="screening-note">
               Accessibility screening is directional, not a compliance review.
             </p>
@@ -763,7 +792,7 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
             </div>
             <div className="access-stats">
               <div>
-                <b>118</b>
+                <b>{site.parking_stalls ?? "—"}</b>
                 <span>parking spaces</span>
               </div>
               <div>
@@ -783,7 +812,7 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         <ChapterHeading
           number="03"
           time="NEXT"
-          title="Perfect for a dermatology practice."
+          title={bestNextUse ? `Perfect for a ${titleCase(bestNextUse).toLowerCase()} practice.` : "Find the right next tenant."}
           text="The best next use builds on the work the space has already done."
         />
         <div className="pricing-grid">
@@ -791,23 +820,31 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
             <EvidenceTitle source="CoStar">What it should cost</EvidenceTitle>
             <p>Target starting rent</p>
             <div className="big-rent">
-              $26.75<small>/sf/yr</small>
+              {money(pricing.target_rent_psf_yr)}
+              <small>/sf/yr</small>
             </div>
             <div className="rent-range">
-              <span style={{ width: "64%" }} />
-              <i style={{ left: "53%" }} />
+              <span style={{ width: "100%" }} />
+              <i style={{ left: `${Math.max(0, Math.min(100, targetPos))}%` }} />
               <div>
-                <b>$25.50</b>
-                <b>$28.25</b>
+                <b>{money(low)}</b>
+                <b>{money(high)}</b>
               </div>
             </div>
-            <p className="muted">Based on 14 signed medical deals in the building and nearby.</p>
+            <p className="muted">
+              Based on {pricing.n_deals} signed deals ({pricing.basis}, {titleCase(pricing.service_type)}).
+            </p>
             <div className="price-details">
               <span>
-                <b>4–6 mo.</b>typical free rent
+                <b>{typicalFree}</b>typical free rent
               </span>
               <span>
-                <b>$180K–$260K</b>estimated build-out savings
+                <b>
+                  {pricing.buildout_savings
+                    ? `$${Math.round(pricing.buildout_savings.low / 1000)}K–$${Math.round(pricing.buildout_savings.high / 1000)}K`
+                    : "—"}
+                </b>
+                estimated build-out savings
               </span>
             </div>
             <button className="text-button" onClick={() => setShowDeals(!showDeals)}>
@@ -815,15 +852,16 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
             </button>
             {showDeals && (
               <div className="deal-details">
-                <span>
-                  <b>6655 Travis · Ste 720</b>$27.50 · 5 months free
-                </span>
-                <span>
-                  <b>Medical Center · Ste 310</b>$26.25 · 4 months free
-                </span>
-                <span>
-                  <b>Travis Plaza · Ste 840</b>$28.00 · 6 months free
-                </span>
+                {pricing.comps.slice(0, 6).map((c) => (
+                  <span key={`${c.address}-${c.suite}-${c.signed}`}>
+                    <b>
+                      {c.address}
+                      {c.suite ? ` · Ste ${c.suite}` : ""}
+                    </b>
+                    {money(c.rent_psf_yr)}
+                    {c.free_months ? ` · ${c.free_months} months free` : ""}
+                  </span>
+                ))}
               </div>
             )}
           </div>
@@ -832,11 +870,11 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
               <Icon name="spark" />
             </span>
             <h3>Good neighbors</h3>
-            <p>No dermatologist in the building yet.</p>
+            <p>{mix.conflicts[0]?.reason ?? "No direct competitor in the building."}</p>
             <ul>
-              <li>Plastic surgery practice, same floor</li>
-              <li>Imaging center, 0.3 miles</li>
-              <li>Primary care, 2 suites away</li>
+              {mix.complements.slice(0, 3).map((c) => (
+                <li key={c.category}>{c.reason}</li>
+              ))}
             </ul>
             <div className="insight">
               Medical neighbors could refer patients.
@@ -853,7 +891,7 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
             </p>
           </div>
           <div className="ask-chips">
-            {["$26.75 base rent", "5 months free", "Keep existing build-out"].map((ask, index) => (
+            {negotiate.asks.slice(0, 3).map((ask, index) => (
               <button
                 className={activeAsks[index] ? "selected" : ""}
                 key={ask}
