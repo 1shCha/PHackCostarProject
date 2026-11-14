@@ -17,3 +17,6 @@ data/real/
 
 .DS_Store
 *.log
+
+# Matterport/Vexcel downloads and AI results (regenerate with scripts/)
+cache/
