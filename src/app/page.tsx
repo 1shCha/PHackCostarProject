@@ -1,4 +1,5 @@
 import { runAll } from "@/agents";
+import { Tour3D } from "@/components/Tour3D";
 
 // The Space Card. Runs every agent on the server and shows the results.
 export default async function Home() {
@@ -14,6 +15,10 @@ export default async function Home() {
           {suite.sqft.toLocaleString()} sq ft · {suite.use} · asking ${suite.asking_rent_psf_yr}/sf/yr
         </p>
       </header>
+
+      <Box title="Walk through the space">
+        <Tour3D modelId={suite.matterport_model_id} title={`Suite ${suite.suite}`} />
+      </Box>
 
       <Box title="Who was here">
         {history.timeline.map((t, i) => (
