@@ -10,13 +10,15 @@ npm run dev
 ```
 Open http://localhost:3000
 
-## The 3 files that matter
+## Who works where
 
-| File | What it is |
-|---|---|
-| `data/demo.json` | Sample answer for every agent. **This is the shape your code must return.** |
-| `src/agents.ts` | One function per agent. Replace the body of yours with real code. |
-| `src/app/page.tsx` | The screen that shows the results. |
+| Role | Your file | What you do |
+|---|---|---|
+| 1 · CoStar data | `src/agents/costar.ts` | suite, history, tenant mix, pricing, prospects from the CoStar kit |
+| 2 · Matterport + Vexcel | `src/agents/spatial.ts` | rooms and pins from the 3D scan, fit, aerial view |
+| 3 · Product | `src/agents/index.ts` + `src/app/page.tsx` | runs all agents, Claude writes the letter, the screen |
+
+`data/demo.json` is the sample answer for every agent. **Your function must return the same shape.** Edit only your own file to avoid conflicts.
 
 ## Rules
 
