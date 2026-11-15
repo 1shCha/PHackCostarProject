@@ -1,0 +1,442 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/B9b1hGuh61v",
+    "width": 1987,
+    "height": 1169
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "warehouse",
+      "display": "Open area: warehouse",
+      "confidence": 0.72,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 1390,
+      "polygon": [
+        [
+          1462,
+          530
+        ],
+        [
+          1894,
+          530
+        ],
+        [
+          1894,
+          83
+        ],
+        [
+          70,
+          84
+        ],
+        [
+          71,
+          1049
+        ],
+        [
+          991,
+          1048
+        ],
+        [
+          991,
+          886
+        ],
+        [
+          991,
+          530
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 242,
+          "y": 898,
+          "pano_url": "",
+          "note": "insulated flexible HVAC ducting overhead above partition",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 258,
+          "y": 898,
+          "pano_url": "",
+          "note": "gray electrical panel box on partition wall",
+          "seen_in": 1
+        },
+        {
+          "type": "roll_up_door",
+          "x": 924,
+          "y": 264,
+          "pano_url": "",
+          "note": "corrugated overhead door on back wall, gray metal",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 892,
+          "y": 264,
+          "pano_url": "",
+          "note": "insulated silver flex ducts over partition wall",
+          "seen_in": 1
+        },
+        {
+          "type": "roll_up_door",
+          "x": 281,
+          "y": 306,
+          "pano_url": "",
+          "note": "gray metal overhead door at far end of bay",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 297,
+          "y": 306,
+          "pano_url": "",
+          "note": "HVAC air handler with flexible silver ducting on raised platform",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 265,
+          "y": 306,
+          "pano_url": "",
+          "note": "gray electrical panel on wall of enclosed platform",
+          "seen_in": 1
+        },
+        {
+          "type": "roll_up_door",
+          "x": 1459,
+          "y": 290,
+          "pano_url": "",
+          "note": "gray sectional overhead door with tracks and spring",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1475,
+          "y": 290,
+          "pano_url": "",
+          "note": "foil-wrapped insulated HVAC ducts above partition wall",
+          "seen_in": 1
+        },
+        {
+          "type": "roll_up_door",
+          "x": 530,
+          "y": 563,
+          "pano_url": "",
+          "note": "corrugated metal roll-up door at far end of the bay",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 546,
+          "y": 563,
+          "pano_url": "",
+          "note": "insulated flex ductwork and air handler above the enclosed room",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 562,
+          "y": 563,
+          "pano_url": "",
+          "note": "electrical panel on the white partition wall",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 920,
+          "y": 802,
+          "pano_url": "",
+          "note": "gray electrical panel recessed in wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty open space with bare concrete floor, painted CMU walls, exposed red steel beams, and overhead ducting suggests a warehouse or flex bay.",
+        "Open concrete-floor unit with exposed steel rafters, CMU walls, a roll-up door and overhead HVAC ducting suggests a small warehouse or flex bay.",
+        "Open bare concrete floor, painted block walls, exposed steel rafters and a roll-up door suggest an empty warehouse or industrial unit."
+      ],
+      "zones": [
+        {
+          "label": "warehouse",
+          "display": "Warehouse",
+          "confidence": 0.6,
+          "x": 242,
+          "y": 898,
+          "features": [
+            "ventilation_exhaust",
+            "heavy_power"
+          ]
+        },
+        {
+          "label": "warehouse",
+          "display": "Warehouse",
+          "confidence": 0.7,
+          "x": 892,
+          "y": 264,
+          "features": [
+            "roll_up_door",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "warehouse",
+          "display": "Warehouse",
+          "confidence": 0.8,
+          "x": 265,
+          "y": 306,
+          "features": [
+            "roll_up_door",
+            "ventilation_exhaust",
+            "heavy_power"
+          ]
+        },
+        {
+          "label": "warehouse",
+          "display": "Warehouse",
+          "confidence": 0.8,
+          "x": 1443,
+          "y": 290,
+          "features": [
+            "roll_up_door",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "warehouse",
+          "display": "Warehouse",
+          "confidence": 0.8,
+          "x": 530,
+          "y": 563,
+          "features": [
+            "roll_up_door",
+            "ventilation_exhaust",
+            "heavy_power"
+          ]
+        },
+        {
+          "label": "warehouse",
+          "display": "Warehouse",
+          "confidence": 0.6,
+          "x": 920,
+          "y": 802,
+          "features": [
+            "heavy_power"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.59,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 241,
+      "polygon": [
+        [
+          1462,
+          530
+        ],
+        [
+          1894,
+          530
+        ],
+        [
+          1894,
+          1048
+        ],
+        [
+          1462,
+          1048
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 1680,
+          "y": 764,
+          "pano_url": "",
+          "note": "white base cabinet with countertop in adjoining room seen through doorway",
+          "seen_in": 5
+        },
+        {
+          "type": "glass_partition",
+          "x": 1705,
+          "y": 778,
+          "pano_url": "",
+          "note": "tall narrow windows on exterior wall (exterior, not interior partition)",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty carpeted room with drop ceiling, painted block and drywall walls, a door and tall windows, consistent with a small private office.",
+        "Small empty carpeted rooms with drop ceilings, a door, windows facing the parking lot, and data/phone jacks on the wall suggest private offices, with a white base cabinet in the adjoining open area.",
+        "These are small empty carpeted rooms with painted block walls, drop ceilings, a door with a deadbolt and exterior windows, which fits private offices; the only built-in seen is a base cabinet in the adjoining room."
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.46,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 236,
+      "polygon": [
+        [
+          1145,
+          1048
+        ],
+        [
+          1145,
+          886
+        ],
+        [
+          991,
+          886
+        ],
+        [
+          991,
+          530
+        ],
+        [
+          1462,
+          530
+        ],
+        [
+          1462,
+          1048
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 1242,
+          "y": 721,
+          "pano_url": "",
+          "note": "white base cabinet with stone-look top against block wall",
+          "seen_in": 5
+        },
+        {
+          "type": "toilet",
+          "x": 1149,
+          "y": 722,
+          "pano_url": "",
+          "note": "toilet visible in small restroom behind the women's door",
+          "seen_in": 3
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1278,
+          "y": 723,
+          "pano_url": "",
+          "note": "large ceiling HVAC return grille",
+          "seen_in": 3
+        },
+        {
+          "type": "counter",
+          "x": 1405,
+          "y": 595,
+          "pano_url": "",
+          "note": "single base cabinet with countertop, no sink or appliances",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1082,
+          "y": 592,
+          "pano_url": "",
+          "note": "small white base cabinet with laminate top against block wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted suite with small rooms, drop ceiling, and a single freestanding base cabinet near a restroom door; the rooms are bare and look like small offices.",
+        "Small carpeted rooms with drop ceilings, outlets and data jacks, plus a restroom and a door leading to a warehouse, suggest private offices in an office/warehouse suite.",
+        "Empty carpeted rooms with drop ceiling, a lone base cabinet with countertop, a women's restroom door, and small side rooms suggest a generic office suite with a small workroom or break area."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "restroom",
+      "display": "Restroom",
+      "confidence": 0.93,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 27,
+      "polygon": [
+        [
+          1145,
+          1048
+        ],
+        [
+          1145,
+          886
+        ],
+        [
+          991,
+          886
+        ],
+        [
+          991,
+          1048
+        ]
+      ],
+      "features": [
+        {
+          "type": "toilet",
+          "x": 1096,
+          "y": 947,
+          "pano_url": "",
+          "note": "white toilet tank beside sink",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1112,
+          "y": 947,
+          "pano_url": "",
+          "note": "vanity sink with chrome faucet and clear handles inside the restroom",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small room with a toilet, a vanity sink, a towel ring, a toilet paper holder, a paper towel dispenser and a 'Women' sign."
+      ]
+    }
+  ],
+  "counts": {
+    "warehouse": 1,
+    "ventilation_exhaust": 5,
+    "heavy_power": 4,
+    "roll_up_door": 4,
+    "private_office": 1,
+    "cabinets": 1,
+    "glass_partition": 1,
+    "restroom": 1,
+    "toilet": 1,
+    "sink": 1
+  },
+  "measured": {
+    "rooms": 4,
+    "scans": 17,
+    "area_sqft": 1894,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 4 rooms, 17 photos inside them, 0 rooms with no photo inside",
+    "Second look at photo dd6upx (50% sure): now private_office at 60%",
+    "Second look at photo zdhzh8 (55% sure): now private_office at 60%",
+    "Second look at photo cz22dp (50% sure): now private_office at 60%",
+    "Second look at photo pq8ytq (40% sure): now private_office at 55%",
+    "Second look at photo ttnkww (50% sure): now private_office at 55%",
+    "Second look at photo w44c0z (55% sure): now private_office at 70%",
+    "Second look at photo 90tcws (35% sure): now private_office at 45%",
+    "Second look at photo e149d7 (50% sure): now private_office at 60%",
+    "Second look at photo kh5w4y (30% sure): now open_workspace at 55%"
+  ]
+}

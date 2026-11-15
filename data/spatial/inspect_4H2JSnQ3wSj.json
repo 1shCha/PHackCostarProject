@@ -1,0 +1,1412 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/4H2JSnQ3wSj",
+    "width": 2478,
+    "height": 1659
+  },
+  "rooms": [
+    {
+      "id": "0fb52oqom5j",
+      "label": "other",
+      "display": "Open area: other, commercial kitchen",
+      "confidence": 0.62,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 1508,
+      "polygon": [
+        [
+          2079,
+          1515
+        ],
+        [
+          2105,
+          1502
+        ],
+        [
+          2102,
+          889
+        ],
+        [
+          2059,
+          889
+        ],
+        [
+          2059,
+          825
+        ],
+        [
+          2101,
+          825
+        ],
+        [
+          2099,
+          404
+        ],
+        [
+          2064,
+          404
+        ],
+        [
+          2062,
+          64
+        ],
+        [
+          1345,
+          68
+        ],
+        [
+          1348,
+          618
+        ],
+        [
+          1180,
+          619
+        ],
+        [
+          758,
+          621
+        ],
+        [
+          573,
+          622
+        ],
+        [
+          573,
+          748
+        ],
+        [
+          574,
+          838
+        ],
+        [
+          909,
+          836
+        ],
+        [
+          911,
+          1206
+        ],
+        [
+          993,
+          1259
+        ],
+        [
+          1458,
+          1258
+        ],
+        [
+          1459,
+          1519
+        ]
+      ],
+      "features": [
+        {
+          "type": "kitchen_hood",
+          "x": 1865,
+          "y": 720,
+          "pano_url": "",
+          "note": "stainless steel hood over open kitchen line",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1881,
+          "y": 720,
+          "pano_url": "",
+          "note": "exposed black ducting and round diffusers on ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 1897,
+          "y": 720,
+          "pano_url": "",
+          "note": "Pepsi glass-door beverage cooler by bar",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1865,
+          "y": 720,
+          "pano_url": "",
+          "note": "built-in wood display shelving with skulls and figurines",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1881,
+          "y": 720,
+          "pano_url": "",
+          "note": "long bar counter with back bar and liquor shelves",
+          "seen_in": 1
+        },
+        {
+          "type": "kitchen_hood",
+          "x": 1456,
+          "y": 1240,
+          "pano_url": "",
+          "note": "stainless exhaust hood over open kitchen line",
+          "seen_in": 3
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1424,
+          "y": 1240,
+          "pano_url": "",
+          "note": "exposed ducts and diffusers on ceiling",
+          "seen_in": 3
+        },
+        {
+          "type": "appliances",
+          "x": 1440,
+          "y": 1240,
+          "pano_url": "",
+          "note": "Pepsi glass-door beverage cooler and under-bar fridges",
+          "seen_in": 3
+        },
+        {
+          "type": "sink",
+          "x": 1456,
+          "y": 1240,
+          "pano_url": "",
+          "note": "three-compartment stainless bar sink",
+          "seen_in": 3
+        },
+        {
+          "type": "floor_drain",
+          "x": 1516,
+          "y": 1408,
+          "pano_url": "",
+          "note": "floor drain in tiled kitchen aisle",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1440,
+          "y": 1240,
+          "pano_url": "",
+          "note": "stone-topped bar counter with back bar and liquor shelf",
+          "seen_in": 3
+        },
+        {
+          "type": "shelving",
+          "x": 1456,
+          "y": 1240,
+          "pano_url": "",
+          "note": "wall of shelves displaying tequila bottles",
+          "seen_in": 3
+        },
+        {
+          "type": "cabinets",
+          "x": 1518,
+          "y": 1294,
+          "pano_url": "",
+          "note": "built-in shelving unit with lighting",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 1532,
+          "y": 1408,
+          "pano_url": "",
+          "note": "storefront glass wall along the dining area",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1591,
+          "y": 235,
+          "pano_url": "",
+          "note": "exposed black ducting with round diffusers on ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1559,
+          "y": 235,
+          "pano_url": "",
+          "note": "light wood host/service counter at left near entrance",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1575,
+          "y": 235,
+          "pano_url": "",
+          "note": "built-in wooden display shelving with sugar skull decor and bread baskets",
+          "seen_in": 1
+        },
+        {
+          "type": "kitchen_hood",
+          "x": 1004,
+          "y": 1140,
+          "pano_url": "",
+          "note": "stainless exhaust hood over open cooking line",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 972,
+          "y": 1140,
+          "pano_url": "",
+          "note": "glass-door reach-in refrigerators and flat-top grill",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 988,
+          "y": 1140,
+          "pano_url": "",
+          "note": "stainless open shelves stacked with dishware",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1004,
+          "y": 1140,
+          "pano_url": "",
+          "note": "stone-top service counter with tiled front and POS",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 972,
+          "y": 1140,
+          "pano_url": "",
+          "note": "exposed black ducting and diffusers overhead",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 988,
+          "y": 1140,
+          "pano_url": "",
+          "note": "electrical panel on kitchen back wall",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1004,
+          "y": 1140,
+          "pano_url": "",
+          "note": "bar sink with faucet beside cooler",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 972,
+          "y": 1140,
+          "pano_url": "",
+          "note": "storefront glazing and large factory-style windows",
+          "seen_in": 1
+        },
+        {
+          "type": "kitchen_hood",
+          "x": 1133,
+          "y": 713,
+          "pano_url": "",
+          "note": "stainless exhaust hood over open kitchen line",
+          "seen_in": 4
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1149,
+          "y": 713,
+          "pano_url": "",
+          "note": "exposed ducting with round diffusers on ceiling",
+          "seen_in": 4
+        },
+        {
+          "type": "counter",
+          "x": 1117,
+          "y": 713,
+          "pano_url": "",
+          "note": "bar counter along back wall with stools",
+          "seen_in": 4
+        },
+        {
+          "type": "appliances",
+          "x": 1133,
+          "y": 713,
+          "pano_url": "",
+          "note": "Pepsi cooler and reach-in refrigerators",
+          "seen_in": 4
+        },
+        {
+          "type": "shelving",
+          "x": 1149,
+          "y": 713,
+          "pano_url": "",
+          "note": "open stainless shelves with stacked dishes",
+          "seen_in": 4
+        },
+        {
+          "type": "cabinets",
+          "x": 1257,
+          "y": 723,
+          "pano_url": "",
+          "note": "small base cabinet in restroom corridor",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1273,
+          "y": 723,
+          "pano_url": "",
+          "note": "large interior-facing windows along dining room walls",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 1526,
+          "y": 696,
+          "pano_url": "",
+          "note": "host stand near entrance doors",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1888,
+          "y": 1189,
+          "pano_url": "",
+          "note": "exposed black ducts with round diffusers on ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "kitchen_hood",
+          "x": 1904,
+          "y": 1189,
+          "pano_url": "",
+          "note": "stainless hood over open kitchen line",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 1920,
+          "y": 1189,
+          "pano_url": "",
+          "note": "Pepsi glass-door cooler and back-bar refrigerator",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1888,
+          "y": 1189,
+          "pano_url": "",
+          "note": "bar counter with stone top and back bar shelf",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1904,
+          "y": 1189,
+          "pano_url": "",
+          "note": "built-in display shelving unit with lights and figurines",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 1920,
+          "y": 1189,
+          "pano_url": "",
+          "note": "host stand counter near entrance at back",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1871,
+          "y": 318,
+          "pano_url": "",
+          "note": "exposed black ducted ventilation on ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 1887,
+          "y": 318,
+          "pano_url": "",
+          "note": "Pepsi glass-door refrigerator behind bar",
+          "seen_in": 1
+        },
+        {
+          "type": "kitchen_hood",
+          "x": 1903,
+          "y": 318,
+          "pano_url": "",
+          "note": "stainless hood over open kitchen in background",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1871,
+          "y": 318,
+          "pano_url": "",
+          "note": "built-in wood display shelving with skulls and bread",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1887,
+          "y": 318,
+          "pano_url": "",
+          "note": "host stand counter near entrance with toothpick holder",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 1903,
+          "y": 318,
+          "pano_url": "",
+          "note": "host stand with raised ledge by entrance doors",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "This is a restaurant dining room with booths, wood tables, a bar, an open kitchen with a hood, and a Mezcal Houston sign.",
+        "This is a restaurant/bar dining room with an open kitchen, a hood, a stone bar, a stage, and tables and booths.",
+        "A restaurant dining room with wood tables, chairs, booths, a bar in the back and Mexican-themed decor (Mezcal Houston mat and signage)."
+      ],
+      "zones": [
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1865,
+          "y": 720,
+          "features": [
+            "kitchen_hood",
+            "ventilation_exhaust",
+            "appliances",
+            "shelving",
+            "counter"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.8,
+          "x": 1516,
+          "y": 1408,
+          "features": [
+            "kitchen_hood",
+            "ventilation_exhaust",
+            "appliances",
+            "sink",
+            "floor_drain",
+            "counter",
+            "shelving",
+            "cabinets",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1559,
+          "y": 235,
+          "features": [
+            "ventilation_exhaust",
+            "counter",
+            "shelving"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 972,
+          "y": 1140,
+          "features": [
+            "kitchen_hood",
+            "appliances",
+            "shelving",
+            "counter",
+            "ventilation_exhaust",
+            "heavy_power",
+            "sink",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1519,
+          "y": 1180,
+          "features": [
+            "kitchen_hood",
+            "ventilation_exhaust",
+            "appliances",
+            "shelving",
+            "sink",
+            "counter",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1236,
+          "y": 1133,
+          "features": [
+            "kitchen_hood",
+            "ventilation_exhaust",
+            "appliances",
+            "shelving",
+            "sink",
+            "counter"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1257,
+          "y": 723,
+          "features": [
+            "kitchen_hood",
+            "ventilation_exhaust",
+            "counter",
+            "appliances",
+            "shelving",
+            "cabinets",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1494,
+          "y": 696,
+          "features": [
+            "kitchen_hood",
+            "ventilation_exhaust",
+            "reception_desk",
+            "appliances",
+            "shelving",
+            "counter"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1888,
+          "y": 1189,
+          "features": [
+            "ventilation_exhaust",
+            "kitchen_hood",
+            "appliances",
+            "counter",
+            "shelving",
+            "reception_desk"
+          ]
+        },
+        {
+          "label": "kitchen",
+          "display": "Commercial kitchen",
+          "confidence": 0.6,
+          "x": 969,
+          "y": 729,
+          "features": [
+            "kitchen_hood",
+            "appliances",
+            "counter",
+            "shelving",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 746,
+          "y": 704,
+          "features": [
+            "kitchen_hood",
+            "appliances",
+            "counter",
+            "shelving",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.6,
+          "x": 1871,
+          "y": 318,
+          "features": [
+            "ventilation_exhaust",
+            "appliances",
+            "kitchen_hood",
+            "shelving",
+            "counter",
+            "reception_desk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bbfxt7kloti",
+      "label": "kitchen",
+      "display": "Commercial kitchen",
+      "confidence": 0.78,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 417,
+      "polygon": [
+        [
+          857,
+          1537
+        ],
+        [
+          577,
+          1538
+        ],
+        [
+          576,
+          1334
+        ],
+        [
+          574,
+          895
+        ],
+        [
+          574,
+          838
+        ],
+        [
+          909,
+          836
+        ],
+        [
+          911,
+          1206
+        ],
+        [
+          993,
+          1259
+        ],
+        [
+          1458,
+          1258
+        ],
+        [
+          1459,
+          1519
+        ],
+        [
+          1459,
+          1533
+        ],
+        [
+          881,
+          1536
+        ],
+        [
+          881,
+          1508
+        ],
+        [
+          856,
+          1508
+        ]
+      ],
+      "features": [
+        {
+          "type": "kitchen_hood",
+          "x": 1119,
+          "y": 1399,
+          "pano_url": "",
+          "note": "stainless exhaust hood over flat-top griddle",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1135,
+          "y": 1399,
+          "pano_url": "",
+          "note": "exposed ducting and diffusers on dark ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 1151,
+          "y": 1399,
+          "pano_url": "",
+          "note": "black reach-in refrigerator and under-counter fridge",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1119,
+          "y": 1399,
+          "pano_url": "",
+          "note": "stainless three-compartment sink with faucet at bar",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1135,
+          "y": 1399,
+          "pano_url": "",
+          "note": "stainless prep table along wall",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1151,
+          "y": 1399,
+          "pano_url": "",
+          "note": "open rack holding plates and bowls",
+          "seen_in": 1
+        },
+        {
+          "type": "kitchen_hood",
+          "x": 734,
+          "y": 1211,
+          "pano_url": "",
+          "note": "stainless exhaust hood with grease filters over range",
+          "seen_in": 2
+        },
+        {
+          "type": "appliances",
+          "x": 750,
+          "y": 1211,
+          "pano_url": "",
+          "note": "6-burner gas range with oven and griddle",
+          "seen_in": 2
+        },
+        {
+          "type": "sink",
+          "x": 766,
+          "y": 1211,
+          "pano_url": "",
+          "note": "hand wash sink on wall",
+          "seen_in": 2
+        },
+        {
+          "type": "shelving",
+          "x": 734,
+          "y": 1211,
+          "pano_url": "",
+          "note": "stainless shelves holding dishes and takeout containers",
+          "seen_in": 2
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 750,
+          "y": 1211,
+          "pano_url": "",
+          "note": "exposed round ducts and diffusers on ceiling",
+          "seen_in": 2
+        },
+        {
+          "type": "counter",
+          "x": 766,
+          "y": 1211,
+          "pano_url": "",
+          "note": "built-in white counter along wall with bottle display above",
+          "seen_in": 2
+        },
+        {
+          "type": "floor_drain",
+          "x": 742,
+          "y": 1360,
+          "pano_url": "",
+          "note": "floor drains in tile floor by bar",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 758,
+          "y": 1360,
+          "pano_url": "",
+          "note": "electrical panel and transformer by back exit",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Back-of-house area of a restaurant with a griddle under a hood, a stainless prep table, a bar sink and bottle coolers, opening onto the dining room.",
+        "Commercial cooking line with hoods, gas range, griddles, charbroiler, fire suppression piping, reach-in refrigerators and hand sink in a restaurant kitchen.",
+        "Commercial cooking line with griddle, grill and hood, plus bar area with sinks, coolers, and tiled floor drains in a restaurant."
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "wash_area",
+      "display": "Wash / shampoo area",
+      "confidence": 0.88,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 143,
+      "polygon": [
+        [
+          401,
+          1161
+        ],
+        [
+          400,
+          1136
+        ],
+        [
+          282,
+          1137
+        ],
+        [
+          281,
+          985
+        ],
+        [
+          351,
+          984
+        ],
+        [
+          351,
+          896
+        ],
+        [
+          389,
+          896
+        ],
+        [
+          388,
+          749
+        ],
+        [
+          424,
+          749
+        ],
+        [
+          573,
+          748
+        ],
+        [
+          574,
+          838
+        ],
+        [
+          574,
+          895
+        ],
+        [
+          576,
+          1334
+        ],
+        [
+          401,
+          1335
+        ],
+        [
+          400,
+          1308
+        ],
+        [
+          355,
+          1308
+        ],
+        [
+          354,
+          1161
+        ]
+      ],
+      "features": [
+        {
+          "type": "sink",
+          "x": 449,
+          "y": 1056,
+          "pano_url": "",
+          "note": "stainless sink with faucet, wash basin",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 465,
+          "y": 1056,
+          "pano_url": "",
+          "note": "Ecolab commercial dishwasher",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 481,
+          "y": 1056,
+          "pano_url": "",
+          "note": "stainless wall shelf holding boxes and bowls",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 449,
+          "y": 1056,
+          "pano_url": "",
+          "note": "electrical panels and transformer in back room",
+          "seen_in": 1
+        },
+        {
+          "type": "floor_drain",
+          "x": 465,
+          "y": 1056,
+          "pano_url": "",
+          "note": "floor drain near mop bucket",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 481,
+          "y": 1056,
+          "pano_url": "",
+          "note": "white duct/hood housing above dish machine",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Commercial dishmachine, three-compartment sink, chemical dispensers, and ice machine indicate a restaurant dish washing area."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.7,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 99,
+      "polygon": [
+        [
+          1348,
+          618
+        ],
+        [
+          1180,
+          619
+        ],
+        [
+          1179,
+          346
+        ],
+        [
+          1177,
+          69
+        ],
+        [
+          1345,
+          68
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1255,
+          "y": 539,
+          "pano_url": "",
+          "note": "glazed door and glass panel along vestibule to restrooms",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1271,
+          "y": 539,
+          "pano_url": "",
+          "note": "low wood base cabinet unit in the restroom corridor",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1287,
+          "y": 539,
+          "pano_url": "",
+          "note": "exposed black ducts and round diffusers on ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1261,
+          "y": 138,
+          "pano_url": "",
+          "note": "light wood base cabinets along right wall",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1277,
+          "y": 138,
+          "pano_url": "",
+          "note": "red square ceiling air diffuser",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1293,
+          "y": 138,
+          "pano_url": "",
+          "note": "frosted glass restroom door panel",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "The camera is in a short corridor with a restroom sign, a push door and a ledge counter, leading to a bar and restaurant seating area.",
+        "A narrow corridor with a lit wall mirror and ledge, a cabinet, restroom doors with signs, and an exit leading to a bar/restaurant area."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "restroom",
+      "display": "Restroom",
+      "confidence": 0.87,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 91,
+      "polygon": [
+        [
+          987,
+          198
+        ],
+        [
+          988,
+          347
+        ],
+        [
+          1179,
+          346
+        ],
+        [
+          1177,
+          69
+        ],
+        [
+          740,
+          71
+        ],
+        [
+          741,
+          200
+        ],
+        [
+          756,
+          200
+        ],
+        [
+          871,
+          199
+        ]
+      ],
+      "features": [
+        {
+          "type": "sink",
+          "x": 1081,
+          "y": 150,
+          "pano_url": "",
+          "note": "wide trough sink with two faucets under lit mirror in restroom",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 991,
+          "y": 142,
+          "pano_url": "",
+          "note": "ceiling air vent reflected in mirror and ceiling vent in view 1",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 1113,
+          "y": 150,
+          "pano_url": "",
+          "note": "frosted glass door/panel at entry",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A shared trough sink with soap and towel dispensers, a women's restroom accessibility sign, stall doors and tiled walls show this is a restroom.",
+        "Restroom entry vestibule with vacant/occupied door indicator, towel dispenser, trash bin, and an accessible restroom sign and lit mirror beyond."
+      ]
+    },
+    {
+      "id": "a1xrctogsol",
+      "label": "restroom",
+      "display": "Restroom",
+      "confidence": 0.77,
+      "status": "likely",
+      "source": "doorway_view",
+      "area_sqft": 54,
+      "polygon": [
+        [
+          573,
+          350
+        ],
+        [
+          756,
+          348
+        ],
+        [
+          757,
+          487
+        ],
+        [
+          758,
+          621
+        ],
+        [
+          573,
+          622
+        ],
+        [
+          574,
+          488
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Two wall-mounted urinals with automatic flush valves, urinal mats and tiled wainscot show this is a men's restroom."
+      ]
+    },
+    {
+      "id": "xzpt2hte3ey",
+      "label": "restroom",
+      "display": "Restroom",
+      "confidence": 0.48,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 53,
+      "polygon": [
+        [
+          756,
+          348
+        ],
+        [
+          756,
+          200
+        ],
+        [
+          741,
+          200
+        ],
+        [
+          740,
+          71
+        ],
+        [
+          571,
+          72
+        ],
+        [
+          573,
+          350
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 690,
+          "y": 207,
+          "pano_url": "",
+          "note": "glass panel in open metal-framed door",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 690,
+          "y": 207,
+          "pano_url": "",
+          "note": "ceiling air diffuser in the vestibule",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Seen through the doorway: Through the doorway there is a backlit mirror, a small counter and a wood-paneled door, with a paper towel dispenser, trash bin and tiled wainscot in the vestibule, so this looks like a restroom."
+      ]
+    },
+    {
+      "id": "6s3zrf2l0rq",
+      "label": "kitchen",
+      "display": "Commercial kitchen",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 44,
+      "polygon": [
+        [
+          576,
+          1334
+        ],
+        [
+          577,
+          1538
+        ],
+        [
+          378,
+          1539
+        ],
+        [
+          378,
+          1335
+        ],
+        [
+          401,
+          1335
+        ]
+      ],
+      "features": [
+        {
+          "type": "heavy_power",
+          "x": 472,
+          "y": 1425,
+          "pano_url": "",
+          "note": "large gray electrical panel on wall",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 488,
+          "y": 1425,
+          "pano_url": "",
+          "note": "three-compartment stainless sink",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 504,
+          "y": 1425,
+          "pano_url": "",
+          "note": "commercial dishwasher and ice machine",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 472,
+          "y": 1425,
+          "pano_url": "",
+          "note": "wire shelving with plates and wall shelf above sink",
+          "seen_in": 1
+        },
+        {
+          "type": "kitchen_hood",
+          "x": 488,
+          "y": 1425,
+          "pano_url": "",
+          "note": "exhaust hood over cooking line",
+          "seen_in": 1
+        },
+        {
+          "type": "floor_drain",
+          "x": 504,
+          "y": 1425,
+          "pano_url": "",
+          "note": "floor drain near bar area",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Back-of-house restaurant area with a dish room, three-compartment sink, commercial dishwasher, ice machine, reach-in coolers, hood, and electrical panels."
+      ]
+    },
+    {
+      "id": "4klkd8k2df2",
+      "label": "storage",
+      "display": "Storage",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 42,
+      "polygon": [
+        [
+          573,
+          748
+        ],
+        [
+          573,
+          622
+        ],
+        [
+          574,
+          488
+        ],
+        [
+          423,
+          489
+        ],
+        [
+          424,
+          749
+        ]
+      ],
+      "features": [
+        {
+          "type": "server_rack",
+          "x": 550,
+          "y": 679,
+          "pano_url": "",
+          "note": "wall-mounted black network rack with cables",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 566,
+          "y": 679,
+          "pano_url": "",
+          "note": "wooden wine rack holding bottles and supplies",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 582,
+          "y": 679,
+          "pano_url": "",
+          "note": "microwave on prep counter and small poppi cooler",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 550,
+          "y": 679,
+          "pano_url": "",
+          "note": "prep counter with shelf above",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "The camera is in a small back-of-house alcove of a restaurant, with a wine rack, takeout containers, a small office desk, a network rack and a stacked chair, next to the dining room."
+      ]
+    }
+  ],
+  "counts": {
+    "other": 1,
+    "kitchen_hood": 9,
+    "ventilation_exhaust": 13,
+    "appliances": 11,
+    "shelving": 12,
+    "counter": 10,
+    "sink": 7,
+    "floor_drain": 4,
+    "cabinets": 4,
+    "glass_partition": 6,
+    "heavy_power": 4,
+    "reception_desk": 3,
+    "kitchen": 2,
+    "wash_area": 1,
+    "hallway": 1,
+    "restroom": 2,
+    "storage": 1,
+    "server_rack": 1
+  },
+  "measured": {
+    "rooms": 9,
+    "scans": 24,
+    "area_sqft": 2451,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 9 rooms, 22 photos inside them, 2 rooms with no photo inside",
+    "Second look at photo gaf0r0 (55% sure): now other at 80%",
+    "Second look at photo wbigic (55% sure): now other at 60%",
+    "Second look at photo fza0fr (50% sure): now kitchen at 60%",
+    "Second look at photo y9p0db (50% sure): now other at 60%",
+    "Room a1xrct (5 m²): looked in from photo 3z0cse, view 4 → restroom at 96%",
+    "Room xzpt2h (5 m²): looked in from photo 3z0cse, view 1 → restroom at 60%"
+  ]
+}

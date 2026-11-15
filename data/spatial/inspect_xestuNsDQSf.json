@@ -1,0 +1,952 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/xestuNsDQSf",
+    "width": 2913,
+    "height": 1664
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "open_workspace",
+      "display": "Open workspace",
+      "confidence": 0.5,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 552,
+      "polygon": [
+        [
+          1691,
+          1043
+        ],
+        [
+          1547,
+          1043
+        ],
+        [
+          1547,
+          725
+        ],
+        [
+          1159,
+          725
+        ],
+        [
+          849,
+          725
+        ],
+        [
+          821,
+          725
+        ],
+        [
+          680,
+          725
+        ],
+        [
+          680,
+          594
+        ],
+        [
+          1024,
+          594
+        ],
+        [
+          1024,
+          86
+        ],
+        [
+          1612,
+          87
+        ],
+        [
+          1612,
+          597
+        ],
+        [
+          1753,
+          597
+        ],
+        [
+          1753,
+          686
+        ],
+        [
+          1934,
+          686
+        ],
+        [
+          1934,
+          815
+        ],
+        [
+          1691,
+          815
+        ]
+      ],
+      "features": [
+        {
+          "type": "workstation",
+          "x": 1533,
+          "y": 654,
+          "pano_url": "",
+          "note": "cubicles with partitions, desks, drawers and overhead shelves",
+          "seen_in": 5
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1348,
+          "y": 597,
+          "pano_url": "",
+          "note": "ceiling air diffuser/vent",
+          "seen_in": 2
+        },
+        {
+          "type": "workstation",
+          "x": 939,
+          "y": 614,
+          "pano_url": "",
+          "note": "cubicle with low partitions, drawers and wall map along corridor",
+          "seen_in": 3
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 907,
+          "y": 614,
+          "pano_url": "",
+          "note": "ceiling return grille in hallway",
+          "seen_in": 3
+        },
+        {
+          "type": "shelving",
+          "x": 1612,
+          "y": 713,
+          "pano_url": "",
+          "note": "chrome wire shelving unit holding stacks of bound booklets and office supplies",
+          "seen_in": 3
+        },
+        {
+          "type": "workstation",
+          "x": 1633,
+          "y": 814,
+          "pano_url": "",
+          "note": "cubicle partitions with desks visible in open office beyond the wall",
+          "seen_in": 1
+        },
+        {
+          "type": "desks",
+          "x": 1652,
+          "y": 668,
+          "pano_url": "",
+          "note": "white desk with iMac and task chair in the private office",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 750,
+          "y": 647,
+          "pano_url": "",
+          "note": "built-in open cubby shelving in a small room",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 766,
+          "y": 647,
+          "pano_url": "",
+          "note": "glass-topped cubicle panels",
+          "seen_in": 1
+        },
+        {
+          "type": "desks",
+          "x": 734,
+          "y": 647,
+          "pano_url": "",
+          "note": "white desk with chair and calculator in a cubicle",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 1828,
+          "y": 750,
+          "pano_url": "",
+          "note": "dark wood reception desk with raised ledge in distant lobby",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Rows of cubicle workstations with partitions, desk drawers, task chairs and drop-ceiling lighting.",
+        "The camera stands in a narrow carpeted corridor between a long blank wall and open cubicles, with small offices opening off it.",
+        "Rows of partitioned cubicles with desks and office chairs sit under a drop ceiling with carpet flooring."
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.28,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 331,
+      "polygon": [
+        [
+          1934,
+          597
+        ],
+        [
+          2032,
+          597
+        ],
+        [
+          2112,
+          597
+        ],
+        [
+          2112,
+          686
+        ],
+        [
+          2195,
+          585
+        ],
+        [
+          2194,
+          686
+        ],
+        [
+          2194,
+          815
+        ],
+        [
+          2332,
+          815
+        ],
+        [
+          2332,
+          937
+        ],
+        [
+          2838,
+          937
+        ],
+        [
+          2839,
+          587
+        ],
+        [
+          2330,
+          586
+        ],
+        [
+          2330,
+          362
+        ],
+        [
+          1918,
+          362
+        ],
+        [
+          1918,
+          597
+        ]
+      ],
+      "features": [
+        {
+          "type": "reception_desk",
+          "x": 2259,
+          "y": 609,
+          "pano_url": "",
+          "note": "dark wood-look front desk facing entry and seating area",
+          "seen_in": 1
+        },
+        {
+          "type": "conference_table",
+          "x": 2402,
+          "y": 582,
+          "pano_url": "",
+          "note": "large oval wood table with six chairs and wall TV",
+          "seen_in": 3
+        },
+        {
+          "type": "glass_partition",
+          "x": 2384,
+          "y": 550,
+          "pano_url": "",
+          "note": "black-framed glass double doors beside the lobby",
+          "seen_in": 4
+        },
+        {
+          "type": "cabinets",
+          "x": 2314,
+          "y": 513,
+          "pano_url": "",
+          "note": "base cabinet under beverage console table",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 2330,
+          "y": 513,
+          "pano_url": "",
+          "note": "ceiling HVAC diffuser",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 2575,
+          "y": 710,
+          "pano_url": "",
+          "note": "dark wood-grain desk with raised transaction ledge, business cards displayed",
+          "seen_in": 2
+        },
+        {
+          "type": "conference_table",
+          "x": 2499,
+          "y": 797,
+          "pano_url": "",
+          "note": "oval wood table with mesh chairs in adjoining room",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 2515,
+          "y": 797,
+          "pano_url": "",
+          "note": "glass-paneled sliding door into conference room",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 2531,
+          "y": 797,
+          "pano_url": "",
+          "note": "ceiling-mounted ducted vent grille",
+          "seen_in": 1
+        },
+        {
+          "type": "desks",
+          "x": 2251,
+          "y": 455,
+          "pano_url": "",
+          "note": "gray office desks with chairs and monitor in small offices",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A short carpeted corridor with doors opening to a conference room, private offices and a storage room, near a lobby with a reception desk.",
+        "A large oval wood table with rolling chairs, a wall-mounted TV, a coffee/beverage station and a company banner indicate a conference room.",
+        "A staffed front desk with a raised ledge sits by the entrance glass door, with a Berkshire Hathaway HomeServices logo and a conference room next to it."
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "open_workspace",
+      "display": "Open workspace",
+      "confidence": 0.87,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 297,
+      "polygon": [
+        [
+          65,
+          594
+        ],
+        [
+          680,
+          594
+        ],
+        [
+          680,
+          725
+        ],
+        [
+          680,
+          1043
+        ],
+        [
+          65,
+          1043
+        ]
+      ],
+      "features": [
+        {
+          "type": "workstation",
+          "x": 420,
+          "y": 785,
+          "pano_url": "",
+          "note": "cubicles with partitions, L-shaped desks, overhead bins, pedestal drawers",
+          "seen_in": 3
+        },
+        {
+          "type": "glass_partition",
+          "x": 436,
+          "y": 785,
+          "pano_url": "",
+          "note": "glazed panels at top of cubicle partitions",
+          "seen_in": 3
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 366,
+          "y": 822,
+          "pano_url": "",
+          "note": "ceiling air diffuser",
+          "seen_in": 2
+        }
+      ],
+      "evidence": [
+        "Rows of empty cubicle workstations with L-shaped desks, overhead storage bins and cable bundles under a drop ceiling with fluorescent panels.",
+        "Several fabric-panel cubicles with L-shaped desks, overhead bins and drawer pedestals on carpet under a drop ceiling.",
+        "Carpeted room with drop ceiling and multiple cubicle workstations with partitions and pedestal drawers."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "conference",
+      "display": "Conference room",
+      "confidence": 0.93,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 263,
+      "polygon": [
+        [
+          2839,
+          420
+        ],
+        [
+          2839,
+          587
+        ],
+        [
+          2330,
+          586
+        ],
+        [
+          2330,
+          362
+        ],
+        [
+          2330,
+          87
+        ],
+        [
+          2808,
+          87
+        ],
+        [
+          2808,
+          420
+        ]
+      ],
+      "features": [
+        {
+          "type": "conference_table",
+          "x": 2455,
+          "y": 443,
+          "pano_url": "",
+          "note": "large wood oval table with mesh chairs",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 2471,
+          "y": 443,
+          "pano_url": "",
+          "note": "base cabinet under coffee station table",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 2487,
+          "y": 443,
+          "pano_url": "",
+          "note": "glass doors/windows into adjacent room",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 2455,
+          "y": 443,
+          "pano_url": "",
+          "note": "raised-ledge dark wood desk with business cards in adjacent room",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A large wood conference table with chairs, wall-mounted TV with camera, a coffee station and a small round bistro table fill the room."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "storage",
+      "display": "Storage",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 188,
+      "polygon": [
+        [
+          680,
+          594
+        ],
+        [
+          681,
+          86
+        ],
+        [
+          1024,
+          86
+        ],
+        [
+          1024,
+          594
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 783,
+          "y": 501,
+          "pano_url": "",
+          "note": "ceiling HVAC diffuser vent",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 799,
+          "y": 501,
+          "pano_url": "",
+          "note": "built-in white cubby shelves in adjoining small room",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small room used to store stacked folding chairs and tables plus leaning furniture panels and a spare office chair, with a narrow window and carpet tile floor."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.85,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 168,
+      "polygon": [
+        [
+          1918,
+          87
+        ],
+        [
+          1918,
+          362
+        ],
+        [
+          1918,
+          597
+        ],
+        [
+          1753,
+          597
+        ],
+        [
+          1612,
+          597
+        ],
+        [
+          1612,
+          87
+        ]
+      ],
+      "features": [
+        {
+          "type": "desks",
+          "x": 1685,
+          "y": 487,
+          "pano_url": "",
+          "note": "white desk with computer and task chairs",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1701,
+          "y": 487,
+          "pano_url": "",
+          "note": "white cube bookcase with decor and awards",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1717,
+          "y": 487,
+          "pano_url": "",
+          "note": "ceiling diffuser vents in drop ceiling",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small room with a desk, computer, office chairs, cube bookcase, leather loveseat and wall art, plus a copier closet seen through the doorway."
+      ]
+    },
+    {
+      "id": "2qdmc5i9byxi79ry1pxdkqzea",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.88,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 122,
+      "polygon": [
+        [
+          1918,
+          87
+        ],
+        [
+          2330,
+          87
+        ],
+        [
+          2330,
+          362
+        ],
+        [
+          1918,
+          362
+        ]
+      ],
+      "features": [
+        {
+          "type": "desks",
+          "x": 2236,
+          "y": 314,
+          "pano_url": "",
+          "note": "wooden executive desk with drawers, keyboard and laptop",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 2252,
+          "y": 314,
+          "pano_url": "",
+          "note": "glass sidelight window beside office door facing hallway",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 2268,
+          "y": 314,
+          "pano_url": "",
+          "note": "ceiling air diffuser above window",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small room with a wooden executive desk, a tufted chair, a guest chair and a Berkshire Hathaway folder, with the hallway visible through the doorway."
+      ]
+    },
+    {
+      "id": "a5f9age4zzxewres6iqux2emc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.55,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 113,
+      "polygon": [
+        [
+          1159,
+          725
+        ],
+        [
+          1159,
+          1044
+        ],
+        [
+          821,
+          1044
+        ],
+        [
+          821,
+          815
+        ],
+        [
+          849,
+          816
+        ],
+        [
+          849,
+          725
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "A small empty room with drop-ceiling tiles, carpet, plain walls, data and power outlets, a light switch, a door, and a freestanding wooden credenza."
+      ]
+    },
+    {
+      "id": "19ab05tns5h6y4qm42esqqpea",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.7,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 79,
+      "polygon": [
+        [
+          2332,
+          1044
+        ],
+        [
+          2011,
+          1043
+        ],
+        [
+          2011,
+          815
+        ],
+        [
+          2194,
+          815
+        ],
+        [
+          2332,
+          815
+        ],
+        [
+          2332,
+          937
+        ]
+      ],
+      "features": [
+        {
+          "type": "desks",
+          "x": 2187,
+          "y": 892,
+          "pano_url": "",
+          "note": "corner desk with Dell monitor, keyboard, computer tower, lamp",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 2203,
+          "y": 892,
+          "pano_url": "",
+          "note": "small Frigidaire mini fridge with water bottles on top",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small enclosed room with a corner desk, computer, lamp, brochure holders, bulletin board, and a mini fridge, which looks like a small agent office at a real estate brokerage."
+      ]
+    },
+    {
+      "id": "m8npxsuk79xy21dd09x9wtped",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.55,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 78,
+      "polygon": [
+        [
+          1934,
+          815
+        ],
+        [
+          2011,
+          815
+        ],
+        [
+          2011,
+          1043
+        ],
+        [
+          1691,
+          1043
+        ],
+        [
+          1691,
+          815
+        ]
+      ],
+      "features": [
+        {
+          "type": "counter",
+          "x": 1829,
+          "y": 901,
+          "pano_url": "",
+          "note": "built-in desk-height counter along wall with monitor and lamp",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1845,
+          "y": 901,
+          "pano_url": "",
+          "note": "wall-mounted shelf with dividers holding binders and brochures above counter",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small cubicle-like office nook with a built-in desktop counter, wall shelf, monitor, real estate brochures and a door."
+      ]
+    },
+    {
+      "id": "b4qtykzcazp4iumkamm7y7h2b",
+      "label": "storage",
+      "display": "Storage",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 48,
+      "polygon": [
+        [
+          821,
+          1044
+        ],
+        [
+          680,
+          1043
+        ],
+        [
+          680,
+          725
+        ],
+        [
+          821,
+          725
+        ],
+        [
+          821,
+          815
+        ]
+      ],
+      "features": [
+        {
+          "type": "shelving",
+          "x": 743,
+          "y": 803,
+          "pano_url": "",
+          "note": "built-in white cubby shelving units on walls, with a water-stained ceiling above",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small carpeted room with built-in white cubby shelving on the walls and a doorway leading to an office, so it is most likely a storage or supply room."
+      ]
+    },
+    {
+      "id": "ediidma5zg15dufx3n0qyq21a",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.73,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 46,
+      "polygon": [
+        [
+          1934,
+          597
+        ],
+        [
+          2032,
+          597
+        ],
+        [
+          2032,
+          686
+        ],
+        [
+          2112,
+          686
+        ],
+        [
+          2194,
+          686
+        ],
+        [
+          2194,
+          815
+        ],
+        [
+          2011,
+          815
+        ],
+        [
+          1934,
+          815
+        ],
+        [
+          1934,
+          686
+        ]
+      ],
+      "features": [
+        {
+          "type": "reception_desk",
+          "x": 2054,
+          "y": 745,
+          "pano_url": "",
+          "note": "dark wood reception desk with raised ledge at end of hallway",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 2070,
+          "y": 745,
+          "pano_url": "",
+          "note": "glass storefront window and glass-paneled door near reception",
+          "seen_in": 2
+        },
+        {
+          "type": "appliances",
+          "x": 2180,
+          "y": 736,
+          "pano_url": "",
+          "note": "black mini fridge in the small room on the right",
+          "seen_in": 1
+        },
+        {
+          "type": "desks",
+          "x": 2148,
+          "y": 736,
+          "pano_url": "",
+          "note": "L-shaped office desk with chair and computer in a small office",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Narrow carpeted corridor with drop ceiling and several office doors, with a reception desk visible at the far end.",
+        "The camera stands in a short corridor with walls on both sides, a reception desk visible at the far end, and small offices and glass-walled rooms opening off it."
+      ]
+    }
+  ],
+  "counts": {
+    "open_workspace": 2,
+    "workstation": 4,
+    "ventilation_exhaust": 6,
+    "shelving": 6,
+    "desks": 6,
+    "glass_partition": 5,
+    "reception_desk": 3,
+    "conference": 1,
+    "conference_table": 1,
+    "cabinets": 1,
+    "storage": 2,
+    "private_office": 5,
+    "appliances": 2,
+    "counter": 1,
+    "hallway": 1
+  },
+  "measured": {
+    "rooms": 12,
+    "scans": 27,
+    "area_sqft": 2286,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 12 rooms, 27 photos inside them, 0 rooms with no photo inside",
+    "Second look at photo 07yzaw (55% sure): now open_workspace at 70%",
+    "Second look at photo 8r0i5m (55% sure): now open_workspace at 60%",
+    "Second look at photo 32whrq (50% sure): now hallway at 60%"
+  ]
+}

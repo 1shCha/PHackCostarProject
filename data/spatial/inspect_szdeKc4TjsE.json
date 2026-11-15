@@ -1,0 +1,956 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/szdeKc4TjsE",
+    "width": 2159,
+    "height": 1625
+  },
+  "rooms": [
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.63,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 406,
+      "polygon": [
+        [
+          1422,
+          976
+        ],
+        [
+          1422,
+          1556
+        ],
+        [
+          769,
+          1556
+        ],
+        [
+          769,
+          1410
+        ],
+        [
+          815,
+          1410
+        ],
+        [
+          815,
+          1375
+        ],
+        [
+          769,
+          1375
+        ],
+        [
+          769,
+          1258
+        ],
+        [
+          769,
+          976
+        ],
+        [
+          1099,
+          976
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1336,
+          "y": 1066,
+          "pano_url": "",
+          "note": "glazed sidelight with blinds beside the wood door",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1194,
+          "y": 1440,
+          "pano_url": "",
+          "note": "glass wall with blinds facing the open area",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 986,
+          "y": 1142,
+          "pano_url": "",
+          "note": "window with blinds on right side wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "The suite is an empty carpeted room with white walls, a drop ceiling, a wood door and a sidelight window, and no fixtures or furniture. It could be an open office or a larger private office.",
+        "Small empty carpeted room with plain white walls, a wood door, a glass wall with blinds and a drop ceiling, which fits a private office.",
+        "Small empty carpeted room with a wood door, drop ceiling, and bare white walls, consistent with a vacant private office."
+      ]
+    },
+    {
+      "id": "5yms5n9507q",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.56,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 403,
+      "polygon": [
+        [
+          917,
+          480
+        ],
+        [
+          1284,
+          481
+        ],
+        [
+          1615,
+          481
+        ],
+        [
+          1638,
+          481
+        ],
+        [
+          1738,
+          481
+        ],
+        [
+          1738,
+          652
+        ],
+        [
+          1553,
+          652
+        ],
+        [
+          1553,
+          976
+        ],
+        [
+          1553,
+          1272
+        ],
+        [
+          1553,
+          1538
+        ],
+        [
+          1553,
+          1556
+        ],
+        [
+          1422,
+          1556
+        ],
+        [
+          1422,
+          976
+        ],
+        [
+          1422,
+          652
+        ],
+        [
+          1099,
+          652
+        ],
+        [
+          897,
+          652
+        ],
+        [
+          770,
+          652
+        ],
+        [
+          547,
+          652
+        ],
+        [
+          547,
+          826
+        ],
+        [
+          399,
+          826
+        ],
+        [
+          399,
+          480
+        ],
+        [
+          553,
+          480
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 1494,
+          "y": 1347,
+          "pano_url": "",
+          "note": "perforated ceiling air diffuser/vent in the corridor ceiling",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 577,
+          "y": 632,
+          "pano_url": "",
+          "note": "glass sidelight with blinds next to wood door in first photo",
+          "seen_in": 3
+        },
+        {
+          "type": "counter",
+          "x": 509,
+          "y": 762,
+          "pano_url": "",
+          "note": "small counter and base cabinet at right edge of the vinyl-floored room in first photo",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 477,
+          "y": 762,
+          "pano_url": "",
+          "note": "base cabinet beneath the counter at the room's right edge",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1496,
+          "y": 571,
+          "pano_url": "",
+          "note": "perforated ducted air grille in ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 743,
+          "y": 571,
+          "pano_url": "",
+          "note": "perforated ceiling air diffuser/vent",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1392,
+          "y": 645,
+          "pano_url": "",
+          "note": "window in far office visible through open doorway",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 1503,
+          "y": 1036,
+          "pano_url": "",
+          "note": "sidelight window with blinds beside wood door in far wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A narrow carpeted corridor with white partition walls lines up several wood doors opening into small empty perimeter offices with windows, and there is no furniture or other built-ins.",
+        "A carpeted corridor with an exit sign runs past several empty wood-door rooms, which are private offices and a small room with a counter, all with bare white walls and no furnishings.",
+        "A long carpeted corridor with white walls, dark door frames, wood doors to empty offices on both sides, and an exit sign."
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.77,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 220,
+      "polygon": [
+        [
+          547,
+          826
+        ],
+        [
+          399,
+          826
+        ],
+        [
+          73,
+          826
+        ],
+        [
+          73,
+          1257
+        ],
+        [
+          547,
+          1258
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 169,
+          "y": 1033,
+          "pano_url": "",
+          "note": "glass sidelight with blinds next to the door",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 488,
+          "y": 899,
+          "pano_url": "",
+          "note": "sidelight window with blinds beside door to corridor",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 504,
+          "y": 899,
+          "pano_url": "",
+          "note": "perforated ceiling air diffuser/vent grille",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "The room is small, empty and carpeted, with a wood door, a glass sidelight with blinds, and plain white walls, which fits a private office.",
+        "A small empty carpeted room with a wood door, a glass wall with blinds, a thermostat and a light switch, which suggests a private office.",
+        "Small empty carpeted room with a wood door, a glass sidelight with blinds facing the corridor, and a drop ceiling, which suggests an office."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 194,
+      "polygon": [
+        [
+          553,
+          480
+        ],
+        [
+          399,
+          480
+        ],
+        [
+          73,
+          480
+        ],
+        [
+          73,
+          104
+        ],
+        [
+          553,
+          105
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 180,
+          "y": 209,
+          "pano_url": "",
+          "note": "glass wall with dark frame on right side of the room, next to the wood door",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty room with carpet tiles, a wood door, a window with blinds and a glass partition to the adjoining space looks like a private office.",
+        "Small empty carpeted room with a window and a wood-veneer door opening onto a corridor, with no fixtures or built-ins."
+      ]
+    },
+    {
+      "id": "tx2gws7yuhq",
+      "label": "other",
+      "display": "Other",
+      "confidence": 0.24,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 184,
+      "polygon": [
+        [
+          1738,
+          976
+        ],
+        [
+          1738,
+          652
+        ],
+        [
+          1738,
+          481
+        ],
+        [
+          2084,
+          481
+        ],
+        [
+          2083,
+          976
+        ],
+        [
+          1947,
+          976
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Through the opening only an empty carpeted space with bare white walls and ceiling lights is visible, with no furnishings or fixtures to show the room's function."
+      ]
+    },
+    {
+      "id": "egk053xbvci",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.7,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 182,
+      "polygon": [
+        [
+          1638,
+          481
+        ],
+        [
+          1615,
+          481
+        ],
+        [
+          1616,
+          390
+        ],
+        [
+          1616,
+          103
+        ],
+        [
+          1988,
+          103
+        ],
+        [
+          1988,
+          185
+        ],
+        [
+          2085,
+          185
+        ],
+        [
+          2084,
+          481
+        ],
+        [
+          1738,
+          481
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 1689,
+          "y": 409,
+          "pano_url": "",
+          "note": "perforated ceiling air diffuser/vent grille",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted room with drop ceiling, perimeter windows with mini blinds, a wood door and partition walls, and no fixed equipment or furniture.",
+        "Empty small corner room with carpet, window blinds, drop ceiling, and wood-veneer door, typical of an unfurnished private office."
+      ]
+    },
+    {
+      "id": "e5hvvg0nftm",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.32,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 168,
+      "polygon": [
+        [
+          1738,
+          976
+        ],
+        [
+          1553,
+          976
+        ],
+        [
+          1553,
+          1272
+        ],
+        [
+          2083,
+          1272
+        ],
+        [
+          2083,
+          976
+        ],
+        [
+          1947,
+          976
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Through the doorway I can see only an empty carpeted corner with a window and blinds, and no furniture or fixtures that would show the room's use."
+      ]
+    },
+    {
+      "id": "jidf3fcv23d",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.65,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 161,
+      "polygon": [
+        [
+          2083,
+          1557
+        ],
+        [
+          1642,
+          1557
+        ],
+        [
+          1642,
+          1538
+        ],
+        [
+          1553,
+          1538
+        ],
+        [
+          1553,
+          1272
+        ],
+        [
+          2083,
+          1272
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Small empty carpeted room with drop ceiling, a wood door, and a single window with blinds, with no fixtures or built-ins visible.",
+        "Small empty carpeted room with drop ceiling, windows with blinds, a wood-veneer door and a thermostat, with no fixtures or built-ins visible."
+      ]
+    },
+    {
+      "id": "t1taphhwblw",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.56,
+      "status": "likely",
+      "source": "doorway_view",
+      "area_sqft": 148,
+      "polygon": [
+        [
+          917,
+          480
+        ],
+        [
+          1284,
+          481
+        ],
+        [
+          1284,
+          332
+        ],
+        [
+          1284,
+          105
+        ],
+        [
+          917,
+          105
+        ],
+        [
+          917,
+          429
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Through the open doorway on the left there is an empty carpeted room with an exterior window and blinds, and no furniture or fixtures, which fits a private office."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.4,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 145,
+      "polygon": [
+        [
+          547,
+          652
+        ],
+        [
+          770,
+          652
+        ],
+        [
+          769,
+          872
+        ],
+        [
+          769,
+          976
+        ],
+        [
+          769,
+          1258
+        ],
+        [
+          547,
+          1258
+        ],
+        [
+          547,
+          826
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 694,
+          "y": 809,
+          "pano_url": "",
+          "note": "narrow glass sidelight beside the wood door at the end of the hall, with blinds",
+          "seen_in": 2
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 710,
+          "y": 809,
+          "pano_url": "",
+          "note": "ceiling air diffuser grille in the hallway",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 710,
+          "y": 1118,
+          "pano_url": "",
+          "note": "glass sidelight with mini blinds next to the wood door",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A long narrow corridor with vinyl plank flooring, a wood door and exit sign at the end, and an open doorway to an empty carpeted office.",
+        "Several small empty rooms with carpet or vinyl plank flooring, wood doors, and a glass sidelight with blinds open off a short hallway, which looks like a row of small private offices.",
+        "A small empty room with white walls, wood-look flooring, a glass sidelight and a wood door, and similar adjoining offices with carpet."
+      ]
+    },
+    {
+      "id": "a5f9age4zzxewres6iqux2emc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.32,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 142,
+      "polygon": [
+        [
+          917,
+          429
+        ],
+        [
+          917,
+          480
+        ],
+        [
+          553,
+          480
+        ],
+        [
+          553,
+          105
+        ],
+        [
+          753,
+          105
+        ],
+        [
+          753,
+          186
+        ],
+        [
+          814,
+          186
+        ],
+        [
+          814,
+          105
+        ],
+        [
+          917,
+          105
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: An open wood door shows a small empty room with carpet and a drop ceiling, but there is too little of the interior visible to identify its use or any fixtures."
+      ]
+    },
+    {
+      "id": "7hvcwdjeuah",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.48,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 135,
+      "polygon": [
+        [
+          1616,
+          103
+        ],
+        [
+          1284,
+          105
+        ],
+        [
+          1284,
+          332
+        ],
+        [
+          1284,
+          481
+        ],
+        [
+          1615,
+          481
+        ],
+        [
+          1616,
+          390
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Two open doorways show small empty carpeted rooms with exterior windows and blinds, and no fixtures or furniture, which is typical of private offices."
+      ]
+    },
+    {
+      "id": "2qdmc5i9byxi79ry1pxdkqzea",
+      "label": "exam_room",
+      "display": "Exam room",
+      "confidence": 0.55,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 121,
+      "polygon": [
+        [
+          399,
+          480
+        ],
+        [
+          399,
+          826
+        ],
+        [
+          73,
+          826
+        ],
+        [
+          73,
+          480
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 261,
+          "y": 677,
+          "pano_url": "",
+          "note": "wall-mounted laminate upper cabinets with pulls",
+          "seen_in": 2
+        },
+        {
+          "type": "sink",
+          "x": 277,
+          "y": 677,
+          "pano_url": "",
+          "note": "small stainless hand sink with faucet in counter",
+          "seen_in": 2
+        },
+        {
+          "type": "counter",
+          "x": 293,
+          "y": 677,
+          "pano_url": "",
+          "note": "laminate counter with backsplash along wall",
+          "seen_in": 2
+        }
+      ],
+      "evidence": [
+        "Small enclosed room with a single door, a cabinet and counter run with a small hand sink, a recessed water supply box on the wall and a clear floor area, which is typical of a medical exam or consult room.",
+        "A small closed room with a solid wood door, vinyl plank flooring, a single built-in sink counter with upper and base cabinets, and an accessible knee space, which is typical of a clinical exam or consult room."
+      ]
+    },
+    {
+      "id": "m8npxsuk79xy21dd09x9wtped",
+      "label": "other",
+      "display": "Other",
+      "confidence": 0.24,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 115,
+      "polygon": [
+        [
+          1099,
+          976
+        ],
+        [
+          1099,
+          788
+        ],
+        [
+          1099,
+          652
+        ],
+        [
+          897,
+          652
+        ],
+        [
+          770,
+          652
+        ],
+        [
+          769,
+          872
+        ],
+        [
+          769,
+          976
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Only a narrow slice of the room is visible through the open sliding-door doorway: empty walls, light wood-look flooring and a ceiling sprinkler, with no furniture or fixtures to show its use."
+      ]
+    },
+    {
+      "id": "19ab05tns5h6y4qm42esqqpea",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.4,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 113,
+      "polygon": [
+        [
+          1422,
+          652
+        ],
+        [
+          1099,
+          652
+        ],
+        [
+          1099,
+          788
+        ],
+        [
+          1099,
+          976
+        ],
+        [
+          1422,
+          976
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 1228,
+          "y": 809,
+          "pano_url": "",
+          "note": "perforated ceiling air diffuser vent",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Seen through the doorway: Through the open wooden door is an empty small carpeted room with plain white walls, a ceiling vent and no fixtures, which most likely makes it an unfurnished private office."
+      ]
+    },
+    {
+      "id": "mvjcxe543c8",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.32,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 64,
+      "polygon": [
+        [
+          1738,
+          976
+        ],
+        [
+          1738,
+          652
+        ],
+        [
+          1553,
+          652
+        ],
+        [
+          1553,
+          976
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Through the open doorway on the right is an empty carpeted room with white walls, a drop ceiling and one wall outlet, and no fixtures or furniture that would indicate a specific use."
+      ]
+    }
+  ],
+  "counts": {
+    "private_office": 6,
+    "glass_partition": 9,
+    "hallway": 1,
+    "ventilation_exhaust": 5,
+    "counter": 2,
+    "cabinets": 2,
+    "exam_room": 1,
+    "sink": 1
+  },
+  "measured": {
+    "rooms": 16,
+    "scans": 29,
+    "area_sqft": 2902,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 16 rooms, 29 photos inside them, 8 rooms with no photo inside",
+    "Second look at photo m3r10m (40% sure): now private_office at 50%",
+    "Second look at photo aai3b3 (55% sure): now hallway at 60%",
+    "Second look at photo aara3b (50% sure): now hallway at 55%",
+    "Second look at photo wwhd6i (55% sure): now private_office at 80%",
+    "Second look at photo zhf398 (55% sure): now private_office at 60%",
+    "Second look at photo szs4me (55% sure): now private_office at 60%",
+    "Second look at photo h4ds9z (50% sure): now exam_room at 55%",
+    "Second look at photo znxz0g (50% sure): now exam_room at 55%",
+    "Room tx2gws (17 m²): looked in from photo 7wfn1z, view 3 → other at 30%",
+    "Room e5hvvg (16 m²): looked in from photo 4d8zxx, view 1 → private_office at 40%",
+    "Room t1taph (14 m²): looked in from photo xyx9hm, view 1 → private_office at 70%",
+    "Room a5f9ag (13 m²): looked in from photo cfgwkm, view 1 → private_office at 40%",
+    "Room 7hvcwd (12 m²): looked in from photo gyxwha, view 4 → private_office at 60%",
+    "Room m8npxs (11 m²): looked in from photo nn455h, view 3 → other at 30%",
+    "Room 19ab05 (10 m²): looked in from photo zhf398, view 3 → private_office at 50%",
+    "Room mvjcxe (6 m²): looked in from photo zhf398, view 2 → private_office at 40%"
+  ]
+}

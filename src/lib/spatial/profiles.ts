@@ -99,6 +99,12 @@ export const PROFILES: Profile[] = [
     { element: "ventilation", min: 1, why: "color and chemical fumes" },
     { element: "restrooms", min: 1, why: "client restroom" },
   ] },
+  { key: "barber", name: "Barbershop", category: "beauty", wants_open_floor: true, max_private_rooms: 2, needs: [
+    { element: "open_floor", min: 1, why: "chairs along an open floor" },
+    { element: "shampoo_bowls", min: 1, why: "a plumbed wash station" },
+    { element: "waiting", min: 1, why: "walk-in waiting" },
+    { element: "restrooms", min: 1, why: "client restroom" },
+  ] },
   { key: "nails", name: "Nail salon", category: "beauty", wants_open_floor: true, max_private_rooms: 1, needs: [
     { element: "reception", min: 1, why: "front desk" },
     { element: "open_floor", min: 1, why: "nail floor" },
@@ -153,7 +159,8 @@ const KEYWORDS: Record<string, string[]> = {
   dental: ["dental", "dentist*", "orthodont*"],
   medspa: ["med spa", "medspa", "esthetic*", "esthetician*", "aesthetic*", "laser", "facial*", "cosmetic*", "spa", "massage"],
   medical: ["medical", "doctor*", "physician*", "clinic*", "dermatolog*", "pediatric*", "urgent care", "physical therap*", "chiropract*"],
-  salon: ["hair", "salon*", "barber*", "stylist*"],
+  barber: ["barber*"],
+  salon: ["hair", "salon*", "stylist*"],
   legal: ["law", "legal", "attorney*", "lawyer*"],
   construction: ["construction", "contractor*", "builder*", "roofing", "plumbing company", "electrician*"],
   food: ["cafe", "café", "coffee", "restaurant*", "bakery", "food", "kitchen"],
