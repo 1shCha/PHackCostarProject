@@ -27,6 +27,29 @@ export const INDUSTRIES: Record<string, string[]> = {
   retail: ["RetailersOrWholesalers"],
   fitness: ["ArtsEntertainmentAndRecreation", "PersonalServices"],
 };
+/** Company-name hints for categories whose CoStar industry label is broad (e.g. law firms are "professional services"). */
+/** How to describe a matching past tenant per category ("Past law firm tenant: …"). */
+const CATEGORY_WORD: Record<string, string> = { legal: "law firm", beauty: "salon or spa", food: "restaurant or café", dental: "dental", fitness: "fitness" };
+
+export const NAME_HINTS: Record<string, RegExp> = {
+  legal: /\b(llp|l\.l\.p|p\.?c\.?|pllc|law|legal|attorneys?|lawyers?|esq)\b/i,
+  dental: /\b(dental|dentist(ry)?|orthodont\w*|endodont\w*|periodont\w*|dds|smiles?)\b/i,
+  beauty: /\b(salon|nails?|spa|beauty|barber\w*|hair|lash\w*|brow\w*|esthetic\w*)\b/i,
+  food: /\b(cafe|caf\u00e9|restaurant|grill|kitchen|pizza|coffee|bakery|taqueria|bistro|bar)\b/i,
+  fitness: /\b(fitness|gym|yoga|pilates|crossfit|barre|martial|boxing|training)\b/i,
+};
+
+/** Names that look like the category but aren't (a "CPA PLLC" is an accounting firm, not a law firm). */
+const NAME_EXCLUDE: Record<string, RegExp> = {
+  legal: /\b(cpas?|accounting|accountants?|engineer\w*|architect\w*|consult\w*|surveying)\b/i,
+};
+/** Does this company name fit the category? (true when the category has no name hints) */
+export function nameFits(category: string, company: string | null): boolean {
+  const hint = NAME_HINTS[category];
+  if (!hint) return true;
+  return !!company && hint.test(company) && !NAME_EXCLUDE[category]?.test(company);
+}
+
 /** Building types that suit a category before we've seen inside. */
 const GOOD_BUILDINGS: Record<string, string[]> = {
   beauty: ["GeneralRetail"], food: ["GeneralRetail"], retail: ["GeneralRetail"], fitness: ["GeneralRetail", "Flex"],
@@ -137,8 +160,13 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
     }
   }
   const past = [...merged.values()].sort((a, b) => (a.from ?? "").localeCompare(b.from ?? ""));
-  const same = past.filter((p) => p.industry && want.includes(p.industry)).reverse(); // most recent first
-  const history = same.length ? 30 : past.some((p) => p.industry) ? 5 : 10; // unknown history is better than a mismatch
+  const hint = NAME_HINTS[profile.category];
+  const industryMatch = past.filter((p) => p.industry && want.includes(p.industry)).reverse(); // most recent first
+  // Where names tell us more than the broad industry label, a tenant whose name fits (a law firm "LLP") ranks first.
+  const named = hint ? industryMatch.filter((p) => nameFits(profile.category, p.company)) : industryMatch;
+  const same = named.length ? named : industryMatch;
+  // Broad labels: an industry match whose name doesn't fit (a church under "personal services") counts like unknown history.
+  const history = named.length ? 30 : industryMatch.length ? (hint ? 10 : 30) : past.some((p) => p.industry) ? 5 : 10;
   // A suite can have several scans with the same name: prefer one we've labeled.
   const modelId = (r.model_ids ?? []).find((m) => savedInspection(m)) ?? r.model_ids?.[0] ?? null;
   const inspection = savedInspection(modelId);
@@ -149,7 +177,7 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
   const score = sizeScore(r.sqft, q) + history + built;
 
   const reasons: string[] = [];
-  if (same.length) reasons.push(`Past ${readable(same[0].industry).toLowerCase()} tenant: ${same[0].company ?? "name not recorded"}${same[0].from ? ` (${same[0].from.slice(0, 4)}${same[0].to ? `–${same[0].to.slice(0, 4)}` : ""})` : ""}`);
+  if (same.length) reasons.push(`Past ${named.length && hint ? CATEGORY_WORD[profile.category] ?? profile.name.toLowerCase() : readable(same[0].industry).toLowerCase()} tenant: ${same[0].company ?? "name not recorded"}${same[0].from ? ` (${same[0].from.slice(0, 4)}${same[0].to ? `–${same[0].to.slice(0, 4)}` : ""})` : ""}`);
   if (fit) {
     const passed = fit.checks.filter((c) => c.status === "pass").length;
     reasons.push(`${passed} of ${fit.checks.length} ${profile.name.toLowerCase()} needs already in the scan`);

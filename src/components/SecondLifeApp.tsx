@@ -934,7 +934,7 @@ function SpaceCard({
               </span>
               <span>
                 <b>
-                  {pricing.buildout_savings
+                  {pricing.buildout_savings && pricing.buildout_savings.high > 0
                     ? `$${Math.round(pricing.buildout_savings.low / 1000)}K–$${Math.round(pricing.buildout_savings.high / 1000)}K`
                     : "—"}
                 </b>

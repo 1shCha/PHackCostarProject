@@ -3,7 +3,7 @@
 
 import "server-only";
 import { callBackendTool, usesRemoteBackend } from "./backend";
-import { INDUSTRIES } from "./search";
+import { INDUSTRIES, nameFits } from "./search";
 
 type Tenant = { company_name: string; industry: string | null; suite: string | null; occupied_sqft: number | null; lease_expiration: string | null };
 type Deal = { rent_kind: string; rent_psf_yr: number; service_type: string | null; signed_date: string | null; free_months: number | null; ti_psf: number | null };
@@ -40,7 +40,8 @@ export async function suiteDetails(input: SuiteDetailsInput) {
     const key = readableIndustry(t.industry);
     groups.set(key, [...(groups.get(key) ?? []), t]);
   }
-  const sameKind = tenants.tenants.filter((t) => t.industry && industries.includes(t.industry));
+  // Same kind of business: industry match, and for broad labels (law firms are "professional services") a name match too.
+  const sameKind = tenants.tenants.filter((t) => t.industry && industries.includes(t.industry) && nameFits(input.category, t.company_name));
   const tenant_mix = {
     as_of: "CoStar current tenants",
     total_current: tenants.tenants.length,
@@ -71,7 +72,8 @@ export async function suiteDetails(input: SuiteDetailsInput) {
 
   // Who should lease next: nearby same-kind companies with leases ending in the next 24 months.
   const prospects = {
-    companies: expiring.companies.map((c) => ({
+    // Companies whose names clearly fit the business (a law firm "LLP") first, then soonest lease end.
+    companies: [...expiring.companies].sort((a, b) => Number(nameFits(input.category, b.company_name)) - Number(nameFits(input.category, a.company_name))).map((c) => ({
       name: c.company_name,
       industry: readableIndustry(c.industry),
       category: input.category,
