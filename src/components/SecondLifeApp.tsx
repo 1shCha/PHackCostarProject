@@ -352,6 +352,9 @@ function LiveRibbon({ r }: { r: SearchResult }) {
   );
 }
 
+/** Progress of the AI room labeler for one scan (POST /api/label-scan). */
+type Labeling = { status: "running" | "done" | "error"; message: string; inspect?: unknown; fit?: unknown };
+
 /** Turns a search result into the Space Card's data: real suite, history, rooms and fit; the rest from the base card. */
 function cardFor(r: SearchResult | null, base: Card, details: SuiteDetails | null = null): Card {
   if (!r) return base;
@@ -504,8 +507,10 @@ function Results({
               <div className={`build-proof ${unknown ? "unknown-box" : ""}`}>
                 <Icon name={unknown ? "eye" : "scan"} />
                 <span>
-                  {r.scan === "labeled" ? buildReason : r.scan === "scanned" ? "3D scan available, rooms not labeled yet" : "No 3D scan for this space yet"}
-                  <Source source="Matterport scan" confidence={r.scan === "labeled" ? "Confirmed" : "Unknown"} />
+                  {r.scan_scope === "building"
+                    ? `3D scan in this building${r.scan_name ? ` (${r.scan_name})` : ""}, not this exact suite`
+                    : r.scan === "labeled" ? buildReason : r.scan === "scanned" ? "3D scan available; AI labels the rooms when you open it" : "No 3D scan for this space yet"}
+                  <Source source="Matterport scan" confidence={r.scan === "labeled" && r.scan_scope !== "building" ? "Confirmed" : r.scan_scope === "building" ? "Likely" : "Unknown"} />
                 </span>
               </div>
               <div className="result-numbers">
@@ -681,11 +686,15 @@ function SpaceCard({
   back,
   offer,
   match = "Match",
+  scan = null,
+  labeling,
 }: {
   card: Card;
   back: () => void;
   offer: () => void;
   match?: string;
+  scan?: { scope: "suite" | "building"; name: string | null } | null;
+  labeling?: Labeling;
 }) {
   const [pin, setPin] = useState<string | null>(null);
   const [compared, setCompared] = useState(false);
@@ -699,6 +708,10 @@ function SpaceCard({
   const longest = [...timeline].sort((a, b) => yearsBetween(b.from, b.to) - yearsBetween(a.from, a.to))[0];
   const hasProcedure = inspect.rooms.some((r) => r.label === "procedure");
   const hasScan = Boolean(s.matterport_model_id) || inspect.rooms.length > 0;
+  const hasRooms = inspect.rooms.length > 0;
+  const buildingScan = scan?.scope === "building";
+  const scanConfidence = buildingScan ? "Likely" : "Confirmed";
+  const scanWhere = buildingScan ? `a scan elsewhere in this building${scan?.name ? ` (“${scan.name}”)` : ""}` : "this suite’s scan";
   const bestNextUse = mix.complements[0]?.category;
   const totalSqft = inspect.rooms.reduce((sum, r) => sum + (r.area_sqft ?? 0), 0);
   const freeMonths = pricing.comps.map((c) => c.free_months).filter((m): m is number => typeof m === "number");
@@ -746,7 +759,7 @@ function SpaceCard({
         <p className="space-summary">{s.listing_notes[0] ?? "Listing notes not recorded."}</p>
         <div className="hero-sources">
           <Source source="CoStar" dark />
-          {s.matterport_model_id && <Source source="Matterport scan" dark />}
+          {s.matterport_model_id && <Source source={buildingScan ? "Building scan" : "Matterport scan"} confidence={scanConfidence} dark />}
         </div>
       </section>
 
@@ -819,11 +832,23 @@ function SpaceCard({
           title={
             !hasScan
               ? "No 3D scan of this suite yet."
-              : hasProcedure
-                ? "The procedure room is still here."
-                : `${inspect.rooms.length} rooms are already built in.`
+              : !hasRooms
+                ? labeling?.status === "error"
+                  ? buildingScan ? "This building has a 3D scan." : "This suite has a 3D scan."
+                  : "AI is labeling the rooms in this scan."
+                : hasProcedure
+                  ? "The procedure room is still here."
+                  : buildingScan
+                    ? `The building scan shows ${inspect.rooms.length} rooms.`
+                    : `${inspect.rooms.length} rooms are already built in.`
           }
-          text={hasScan ? "A scan turns every room into evidence you can act on." : "What we know comes from CoStar: size, rent and who was here before."}
+          text={
+            !hasScan
+              ? "What we know comes from CoStar: size, rent and who was here before."
+              : buildingScan
+                ? `No scan is matched to this suite, so this is ${scanWhere}. It shows the building’s finishes and layout style, but may not be this exact suite.`
+                : "A scan turns every room into evidence you can act on."
+          }
         />
         {!hasScan && (
           <div className="content-card">
@@ -837,7 +862,25 @@ function SpaceCard({
         )}
         {hasScan && (<>
         <div className="content-card">
-          <EvidenceTitle source="Matterport scan">What’s built in</EvidenceTitle>
+          <EvidenceTitle source="Matterport scan">{buildingScan ? "What’s built in nearby" : "What’s built in"}</EvidenceTitle>
+          {!hasRooms ? (
+            <div className="labeling-status" role="status" aria-live="polite">
+              {labeling?.status === "error" ? (
+                <p>{labeling.message} You can still walk the scan below.</p>
+              ) : (
+                <>
+                  <span className="labeling-dot" aria-hidden="true" />
+                  <p>
+                    <b>{labeling?.message || "Starting the AI room labeler"}</b>
+                    <small>
+                      Gemini (with Claude as backup) looks at every 360° photo in {scanWhere}, names each room and pins
+                      built-in features like sinks, cabinets and offices. This takes a minute or two the first time; after that it’s saved.
+                    </small>
+                  </p>
+                </>
+              )}
+            </div>
+          ) : (
           <div className="plan-layout">
             <FloorPlanLive inspect={inspect} selectPin={setPin} />
             <div className="room-list">
@@ -854,23 +897,29 @@ function SpaceCard({
                   : `Room labels from the 3D scan. ${Object.entries(inspect.counts)
                       .map(([k, v]) => `${v} ${titleCase(k).toLowerCase()}`)
                       .join(" · ")}`}
+                {buildingScan && " From a scan elsewhere in this building, not this suite."}
               </small>
             </div>
           </div>
+          )}
         </div>
         <div className="tour-card">
           <div className="tour-visual tour-live">
-            <Tour3D modelId={card.suite.matterport_model_id} title={`Suite ${card.suite.suite}`} />
+            <Tour3D modelId={card.suite.matterport_model_id} title={buildingScan ? scan?.name ?? "Building scan" : `Suite ${card.suite.suite}`} />
           </div>
           <div>
-            <EvidenceTitle source="Matterport scan">Walk it yourself</EvidenceTitle>
-            <p>Drag inside the scan to look around, or say “show me inside” and walk it room by room by voice.</p>
-            <Source source="Matterport scan" confidence="Confirmed" />
+            <EvidenceTitle source="Matterport scan">{buildingScan ? "Walk the building’s scan" : "Walk it yourself"}</EvidenceTitle>
+            <p>
+              {buildingScan
+                ? `This walkthrough is ${scanWhere}, not Suite ${s.suite}. Drag to look around, or say “show me inside” to walk it by voice.`
+                : "Drag inside the scan to look around, or say “show me inside” and walk it room by room by voice."}
+            </p>
+            <Source source="Matterport scan" confidence={scanConfidence} />
           </div>
         </div>
         </>)}
         <div className="split-grid">
-          {hasScan && (
+          {hasScan && fit.checks.length + fit.accessibility.length > 0 && (
           <div className="content-card fit-card">
             <EvidenceTitle source="Matterport scan">Does it fit your business</EvidenceTitle>
             {[...fit.checks, ...fit.accessibility].map((c) => {
@@ -1189,9 +1238,52 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       live = false;
     };
   }, [picked, profileCategory]);
+  // Scans nobody has labeled yet: the Space Inspector agent labels them while the suite page is open.
+  const [labels, setLabels] = useState<Record<string, Labeling>>({});
+  const labelsRef = useRef(labels);
+  labelsRef.current = labels;
+  useEffect(() => {
+    const id = picked?.model_id;
+    if (!picked || !id || picked.inspect || labelsRef.current[id]) return;
+    const update = (l: Labeling) => setLabels((all) => ({ ...all, [id]: l }));
+    update({ status: "running", message: "Starting the AI room labeler" });
+    const qs = new URLSearchParams({ scope: picked.scan_scope ?? "building" });
+    if (search.status === "done") qs.set("profile", search.data.profile.key);
+    fetch(`/api/label-scan/${id}?${qs}`, { method: "POST" })
+      .then(async (res) => {
+        if (!res.ok || !res.body) throw new Error();
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        for (;;) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop() ?? "";
+          for (const line of lines.filter(Boolean)) {
+            const m = JSON.parse(line);
+            if (m.type === "progress") update({ status: "running", message: m.message });
+            else if (m.type === "done" && !m.inspect?.rooms?.length) return update({ status: "error", message: "This scan has no rooms to label." });
+            else if (m.type === "done") return update({ status: "done", message: "", inspect: m.inspect, fit: m.fit });
+            else if (m.type === "error") return update({ status: "error", message: m.message });
+          }
+        }
+        throw new Error();
+      })
+      .catch(() => update({ status: "error", message: "The AI room labeler stopped before it finished. Reopen the suite to try again." }));
+  }, [picked, search]);
+  const pickedLabeling = picked?.model_id && !picked.inspect ? labels[picked.model_id] : undefined;
+  const pickedWithLabels = useMemo(
+    () =>
+      picked && pickedLabeling?.status === "done"
+        ? { ...picked, scan: "labeled" as const, inspect: pickedLabeling.inspect, fit: (pickedLabeling.fit ?? null) as SearchResult["fit"] }
+        : picked,
+    [picked, pickedLabeling],
+  );
   const spaceCard = useMemo(
-    () => cardFor(picked, card, details && picked && details.id === picked.suite_id ? details.data : null),
-    [picked, card, details],
+    () => cardFor(pickedWithLabels, card, details && picked && details.id === picked.suite_id ? details.data : null),
+    [pickedWithLabels, picked, card, details],
   );
   const searchRef = useRef(search);
   const pendingOpen = useRef<{ rank?: number; suite?: string } | null>(null);
@@ -1344,7 +1436,14 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       {screen === "agents" && <AgentRoom mode={mode} done={finishAgents} back={() => go("home")} />}
       {screen === "results" && <Results search={search} back={() => go("home")} open={openResult} />}
       {screen === "space" && (
-        <SpaceCard card={spaceCard} match={matchLabel} back={() => go("results")} offer={() => go("offer")} />
+        <SpaceCard
+          card={spaceCard}
+          match={matchLabel}
+          back={() => go("results")}
+          offer={() => go("offer")}
+          scan={picked?.model_id ? { scope: picked.scan_scope ?? "suite", name: picked.scan_name } : null}
+          labeling={pickedLabeling}
+        />
       )}
       {screen === "offer" && (
         <OfferDraft back={() => go("space")} card={spaceCard} business={search.status === "done" ? search.data.profile.name : "Tenant"} />

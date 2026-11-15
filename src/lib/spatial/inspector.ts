@@ -105,9 +105,11 @@ export async function inspectModel(modelId: string, log: (msg: string) => void =
   note(`Plan: ${rooms.length} rooms, ${inside.length} photos inside them, ${rooms.filter((r) => !r.panoIds.length).length} rooms with no photo inside`);
   const files = await downloadPanos(modelId, inside);
   const answers = new Map<string, Answer>();
-  for (const [i, id] of inside.entries()) {
-    if (!files[id]?.length) continue;
-    log(`Labeling photo ${i + 1} of ${inside.length}`);
+  // Four photos at a time, so a scan labeled on demand finishes while the person is still on the page.
+  let next = 0;
+  let done = 0;
+  const labelPhoto = async (id: string) => {
+    if (!files[id]?.length) return;
     try {
       answers.set(id, await askVisionJSON<Answer>(files[id], PHOTO_PROMPT));
     } catch (e) {
@@ -119,7 +121,14 @@ export async function inspectModel(modelId: string, log: (msg: string) => void =
         note(`Skipped photo ${id.slice(0, 6)}: ${(e as Error).message.split("\n")[0].slice(0, 120)}`);
       }
     }
-  }
+  };
+  await Promise.all([0, 1, 2, 3].map(async () => {
+    while (next < inside.length) {
+      const id = inside[next++];
+      await labelPhoto(id);
+      log(`Labeling photo ${++done} of ${inside.length}`);
+    }
+  }));
 
   // 2. Second look where the first answer was unsure, using a nearby photo in the same room.
   for (const room of rooms) {

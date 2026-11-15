@@ -1,9 +1,8 @@
 // GET /api/tour-places/{modelId}: named spots inside a scan for the voice tour ("take me to the exam room").
-// Names come from our own room labels (data/spatial/inspect_<modelId>.json); floor-plan pixels are converted
+// Names come from our own room labels (see src/lib/spatial/saved-inspections.ts); floor-plan pixels are converted
 // to Matterport model metres so the browser can line them up with the 3D photo spots.
 
-import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
+import { loadInspection } from "@/lib/spatial/saved-inspections";
 import { getModel, pickFloorplan, type Floorplan } from "@/lib/spatial/matterport";
 
 export const runtime = "nodejs";
@@ -20,11 +19,10 @@ const toModel = (fp: Floorplan, px: number, py: number) => ({
 export async function GET(_req: Request, { params }: { params: Promise<{ modelId: string }> }) {
   const { modelId } = await params;
   if (!/^[A-Za-z0-9]{6,20}$/.test(modelId)) return Response.json({ error: "Bad model id" }, { status: 400 });
-  const file = path.join(process.cwd(), "data", "spatial", `inspect_${modelId}.json`);
-  if (!existsSync(file)) return Response.json({ places: [], panos: [] });
+  const inspect: Inspect | null = loadInspection(modelId);
+  if (!inspect) return Response.json({ places: [], panos: [] });
 
   try {
-    const inspect: Inspect = JSON.parse(readFileSync(file, "utf8"));
     const model = await getModel(modelId);
     // Use the floor plan whose size matches the one the labels were drawn on.
     const candidates = [pickFloorplan(model), pickFloorplan(model, { measurements: true })].filter((f): f is Floorplan => !!f);

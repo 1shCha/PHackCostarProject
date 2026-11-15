@@ -6,12 +6,13 @@
 // Suites without room labels get a neutral built-in score from their building type, and say so.
 
 import "server-only";
-import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
 import { queryDuckDB } from "./duckdb";
 import { callBackendTool, usesRemoteBackend } from "./backend";
 import { fitFor } from "./spatial/buildout";
 import { profileFor, type Profile } from "./spatial/profiles";
+import { loadInspection } from "./spatial/saved-inspections";
+import { get_tenant_history } from "./tools/costar";
+import { get_spatial_context } from "./tools/spatial-context";
 
 /** Profile category → CoStar industry labels that count as "the same kind of business". */
 export const INDUSTRIES: Record<string, string[]> = {
@@ -84,11 +85,7 @@ export function parseQuery(text: string): SearchQuery {
   return { business: text, sqft_min, sqft_max, city };
 }
 
-function savedInspection(modelId: string | null) {
-  if (!modelId || !/^[A-Za-z0-9]{6,20}$/.test(modelId)) return null;
-  const file = path.join(process.cwd(), "data", "spatial", `inspect_${modelId}.json`);
-  return existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : null;
-}
+const savedInspection = (modelId: string | null) => loadInspection(modelId);
 
 type Row = {
   suite_id: string; suite: string; city: string; sqft: number; building_name: string | null; street: string | null;
@@ -190,6 +187,8 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
     suite_id: r.suite_id,
     property_id: r.property_id != null ? String(r.property_id) : null, // building, for suite details
     model_id: modelId,
+    scan_scope: (modelId ? "suite" : null) as "suite" | "building" | null, // building = a scan elsewhere in the building
+    scan_name: null as string | null, // the scan's own name in Matterport, for building scans
     address: r.street || r.building_name || "Address not recorded",
     building: r.building_name,
     suite: `Suite ${r.suite}`,
@@ -214,6 +213,73 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
 
 const SCAN_ORDER = { labeled: 0, scanned: 1, none: 2 } as const;
 
+// Building scans that are probably not a leasable suite, shown only when the building has nothing better.
+const COMMON_AREA = /\b(lobby|lobbies|tunnel|conference|fitness|gym|amenit\w*|parking|garage|roof\w*|skywalk|mezzanine|exterior|drone)\b/i;
+const SUITE_LIKE = /\b(suite|ste|unit|space|shell|sf|sq)\b/i;
+
+type Ranked = ReturnType<typeof rank>;
+type BuildingModel = { model_id: string; name: string | null };
+
+/**
+ * Fills in each result's building (the hosted search doesn't return it; suite details need it) and, for suites
+ * with no scan of their own, the best other scan recorded for the same building. A building scan is shown as
+ * "a scan in this building", never as this suite, and doesn't change the score. Failures leave the result as it was.
+ */
+async function withBuildingScans(results: Ranked[]): Promise<Ranked[]> {
+  const byProperty = new Map<string, Promise<BuildingModel[]>>();
+  const modelsFor = (propertyId: string) => {
+    if (!byProperty.has(propertyId)) {
+      byProperty.set(propertyId, get_spatial_context({ property_id: propertyId })
+        .then((c) => ("models" in c && Array.isArray(c.models) ? (c.models as BuildingModel[]) : []))
+        .catch(() => []));
+    }
+    return byProperty.get(propertyId)!;
+  };
+  const pick = (models: BuildingModel[]) => {
+    const rankOf = (m: BuildingModel) => (savedInspection(m.model_id) ? 0 : 2) + (COMMON_AREA.test(m.name ?? "") ? 4 : SUITE_LIKE.test(m.name ?? "") ? 0 : 1);
+    return [...models].sort((a, b) => rankOf(a) - rankOf(b) || a.model_id.localeCompare(b.model_id))[0] ?? null;
+  };
+
+  const one = async (r: Ranked): Promise<Ranked> => {
+    try {
+      let propertyId = r.property_id;
+      if (!propertyId) {
+        const h = await get_tenant_history({ suite_id: r.suite_id });
+        if (h.status === "ok") propertyId = String(h.suite.property_id);
+      }
+      if (!propertyId) return r;
+      if (r.model_id) return { ...r, property_id: propertyId };
+      const m = pick(await modelsFor(propertyId));
+      if (!m) return { ...r, property_id: propertyId };
+      const inspection = savedInspection(m.model_id);
+      const name = m.name?.trim() || null;
+      return {
+        ...r,
+        property_id: propertyId,
+        model_id: m.model_id,
+        scan_scope: "building",
+        scan_name: name,
+        scan: inspection ? "labeled" : "scanned",
+        inspect: inspection,
+        reasons: r.reasons.map((x) => (x === "No 3D scan for this suite" ? `3D scan in this building${name ? ` (${name})` : ""}, not matched to this suite` : x)),
+      };
+    } catch {
+      return r;
+    }
+  };
+
+  // Two at a time: the hosted database rate-limits bursts of parallel requests.
+  const out: Ranked[] = new Array(results.length);
+  let next = 0;
+  await Promise.all([0, 1].map(async () => {
+    while (next < results.length) {
+      const i = next++;
+      out[i] = await one(results[i]);
+    }
+  }));
+  return out;
+}
+
 export type SearchResponse = Awaited<ReturnType<typeof searchSpaces>>;
 export type SearchResult = SearchResponse["results"][number];
 
@@ -226,7 +292,7 @@ export async function searchSpaces(text: string, limit = 8) {
     query: q,
     profile: { key: profile.key, name: profile.name, category: profile.category },
     total: ranked.length,
-    results: ranked.slice(0, limit).map((r, i) => ({
+    results: (await withBuildingScans(ranked.slice(0, limit))).map((r, i) => ({
       ...r,
       badge: i === 0 ? "Best match" : r.score >= 70 ? "Good fit" : "Possible",
     })),
