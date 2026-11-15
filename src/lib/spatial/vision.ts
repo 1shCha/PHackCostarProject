@@ -6,8 +6,9 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { cacheDir } from "../paths";
 
-const CACHE = path.join(process.cwd(), "cache", "vision");
+const CACHE = cacheDir("vision"); // ./cache locally, /tmp/cache on Vercel
 const MODELS = [process.env.GEMINI_MODEL, "gemini-3.5-flash", "gemini-3.8-flash"].filter(Boolean) as string[];
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const outOfQuota = new Set<string>(); // models that hit their daily limit during this run: skip them right away

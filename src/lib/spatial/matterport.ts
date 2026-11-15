@@ -3,9 +3,10 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { cacheDir } from "../paths";
 
 const API = "https://api.matterport.com/api/models/graph";
-const CACHE = path.join(process.cwd(), "cache", "matterport");
+const CACHE = cacheDir("matterport"); // ./cache locally, /tmp/cache on Vercel
 
 export type Vec2 = { x: number; y: number };
 export type Vec3 = Vec2 & { z: number };
