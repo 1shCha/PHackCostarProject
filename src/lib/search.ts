@@ -68,7 +68,7 @@ function savedInspection(modelId: string | null) {
 
 type Row = {
   suite_id: string; suite: string; city: string; sqft: number; building_name: string | null; street: string | null;
-  property_type: string | null; model_ids: string[] | null;
+  property_type: string | null; model_ids: string[] | null; latitude: number | null; longitude: number | null;
   asking: number | null; signed: number | null; n_signed: string | number | null; past: { company: string | null; industry: string | null; from: string | null; to: string | null }[] | null;
 };
 
@@ -82,6 +82,7 @@ async function candidates(q: SearchQuery): Promise<Row[]> {
       FROM suite_listing_links GROUP BY suite_id),
     picked AS (
       SELECT s.suite_id, s.suite_normalized AS suite, s.city, l.sqft, s.property_id, p.building_name, p.property_type_label AS property_type,
+        p.latitude, p.longitude,
         trim(concat_ws(' ', json_extract_string(p.address, '$.streetNumber'), json_extract_string(p.address, '$.streetDirection'),
           json_extract_string(p.address, '$.streetName'), json_extract_string(p.address, '$.streetType'))) AS street
       FROM listed l JOIN suites s USING (suite_id) JOIN properties p USING (property_id)
@@ -102,7 +103,7 @@ async function candidates(q: SearchQuery): Promise<Row[]> {
       SELECT suite_id, list({company: company_name, industry: resolved_industry_label,
         "from": strftime(timeline_start, '%Y-%m-%d'), "to": strftime(to_date, '%Y-%m-%d')} ORDER BY timeline_start) AS past
       FROM suite_history GROUP BY suite_id)
-    SELECT pk.suite_id, pk.suite, pk.city, pk.sqft, pk.building_name, pk.street, pk.property_type,
+    SELECT pk.suite_id, pk.suite, pk.city, pk.sqft, pk.building_name, pk.street, pk.property_type, pk.latitude, pk.longitude,
       sc.model_ids, a.asking, sg.signed, sg.n_signed, ps.past
     FROM picked pk LEFT JOIN scan sc USING (suite_id) LEFT JOIN asking a USING (suite_id)
       LEFT JOIN signed sg ON sg.property_id = pk.property_id LEFT JOIN past ps USING (suite_id)`,
@@ -159,6 +160,8 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
     building: r.building_name,
     suite: `Suite ${r.suite}`,
     city: r.city,
+    latitude: r.latitude === null ? null : Number(r.latitude), // building location, for the aerial map
+    longitude: r.longitude === null ? null : Number(r.longitude),
     sqft: Math.round(r.sqft),
     property_type: r.property_type,
     asking_rent: r.asking !== null ? Math.round(r.asking * 100) / 100 : null, // $/sf/yr
