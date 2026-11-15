@@ -17,7 +17,7 @@ export type Command =
   | { kind: "tour.inside" }
   | { kind: "tour.where" }
   | { kind: "nav.search"; text: string }
-  | { kind: "nav.open" }
+  | { kind: "nav.open"; rank?: number; suite?: string }
   | { kind: "nav.offer" }
   | { kind: "nav.back" }
   | { kind: "nav.home" }
@@ -59,6 +59,23 @@ export const ROOM_NAMES: Record<RoomKey, string> = {
   conference: "conference room",
   lab: "lab",
 };
+
+const ORDINALS: Record<string, number> = {
+  first: 1, "1st": 1, one: 1, top: 1, best: 1,
+  second: 2, "2nd": 2, two: 2,
+  third: 3, "3rd": 3, three: 3,
+  fourth: 4, "4th": 4, four: 4,
+  fifth: 5, "5th": 5, five: 5,
+};
+
+// "open the second match" -> 2, "open suite 800" -> "800"
+function openTarget(t: string): { rank?: number; suite?: string } {
+  const suite = t.match(/\b(?:suite|unit|number|#)\s?(\d{1,4}[a-z]?)\b/)?.[1];
+  if (suite && !/^number (one|two|three|four|five)$/.test(t)) return { suite };
+  const ord = t.match(/\b(first|1st|second|2nd|third|3rd|fourth|4th|fifth|5th|top|best)\b/)?.[1] ??
+    t.match(/\bnumber (one|two|three|four|five)\b/)?.[1];
+  return ord ? { rank: ORDINALS[ord] } : {};
+}
 
 const NUMBER_WORDS: Record<string, string> = {
   "three sixty": "360",
@@ -198,11 +215,11 @@ export function parseCommand(raw: string, ctx: { inTour: boolean }): Command {
     return { kind: "tour.goto", room };
 
   // Opening a listing comes after tour moves, so "give me a 360 of Suite 900" moves the tour.
-  if (has(/\b(open|show|explore|see|view|pull up|check out|go to|take me to|look at)( me)?( the)? (best|top|first|number one|1st|#1)( match| one| option| space| result| pick)?\b/) ||
-      has(/\b(open|show|explore|see|view|pull up|bring up|take me to|go to|let'?s see|let me see|look at|check out)( me)?( the)? ((suite|unit|space|number) )?\d{2,4}\b/) ||
+  if (has(/\b(open|show|explore|see|view|pull up|bring up|check out|go to|take me to|look at|let'?s see|let me see)( me)?( the)? (best|top|first|second|third|fourth|fifth|1st|2nd|3rd|4th|5th|number (one|two|three|four|five)|#\d)( match| one| option| space| result| pick| suite| listing)?\b/) ||
+      has(/\b(open|show|explore|see|view|pull up|bring up|take me to|go to|let'?s see|let me see|look at|check out)( me)?( the)? (((suite|unit|space|number) )\d{1,4}[a-z]?|\d{2,4}[a-z]?)\b/) ||
       has(/\b(open|show|explore|pull up|bring up|take me to|go to|let me see|look at|check out)( me)?( that| this| the)? (space|suite|listing|unit|match|property|building)\b/) ||
-      has(/\b(suite|unit) \d{2,4}\b/) && has(/\b(open|show|see|view|explore|pull|bring|take|go)\b/) || has(/\btravis\b/))
-    return { kind: "nav.open" };
+      (has(/\b(suite|unit) \d{1,4}[a-z]?\b/) && has(/\b(open|show|see|view|explore|pull|bring|take|go)\b/)) || has(/\btravis\b/))
+    return { kind: "nav.open", ...openTarget(t) };
   if (has(/^(go )?back$/) || has(/\b(previous page|go back|back to (the )?(results|matches|list))\b/)) return { kind: "nav.back" };
 
   return { kind: "ask", question: raw.trim() };

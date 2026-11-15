@@ -1502,6 +1502,10 @@ export default function SecondLifeApp({ card }: { card: Card }) {
     go("space");
   };
   const spaceCard = useMemo(() => cardFor(picked, card), [picked, card]);
+  const searchRef = useRef(search);
+  useEffect(() => {
+    searchRef.current = search;
+  }, [search]);
   const matchLabel = picked
     ? `${search.status === "done" && search.data.results[0]?.suite_id === picked.suite_id ? "Your best match" : "Match"} · ${picked.score}% fit`
     : undefined;
@@ -1516,9 +1520,9 @@ export default function SecondLifeApp({ card }: { card: Card }) {
     screenRef.current = screen;
   }, [mode, screen]);
 
-  // Voice commands that move around the app.
+  // Voice commands that move around the app. Returns what the voice should say, when it has something specific.
   const onNav = useCallback(
-    (c: NavCommand) => {
+    (c: NavCommand): string | void => {
       const sections: Partial<Record<string, string>> = {
         history: "space-then",
         fit: "space-now",
@@ -1533,9 +1537,26 @@ export default function SecondLifeApp({ card }: { card: Card }) {
           runSearch(c.text);
           go("agents");
           return;
-        case "nav.open":
-          go(modeRef.current === "tenant" ? "space" : "landlord");
-          return;
+        case "nav.open": {
+          if (modeRef.current !== "tenant") {
+            go("landlord");
+            return "Opening your best prospects.";
+          }
+          const s = searchRef.current;
+          const results = s.status === "done" ? s.data.results : [];
+          const bare = (x: string) => x.toLowerCase().replace(/^suite\s*/, "").replace(/\s+/g, "");
+          let r: SearchResult | null = null;
+          if (c.suite) {
+            r = results.find((x) => bare(x.suite) === bare(c.suite!)) ?? null;
+            if (!r && results.length) return `I don't see Suite ${c.suite.toUpperCase()} in these matches. Say "open the best match" or "open the second match".`;
+            if (!r && bare(c.suite) !== bare(card.suite.suite)) return "Tell me what kind of space you need first, then I can open that suite.";
+          } else if (results.length) {
+            r = results[(c.rank ?? 1) - 1] ?? null;
+            if (!r) return `There are only ${results.length} matches.`;
+          }
+          openResult(r);
+          return r ? `Opening ${r.suite} at ${r.address}.` : `Opening Suite ${card.suite.suite}.`;
+        }
         case "nav.offer":
           setModeState("tenant");
           go("offer");
@@ -1560,7 +1581,8 @@ export default function SecondLifeApp({ card }: { card: Card }) {
         }
       }
     },
-    [backScreen, runSearch],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- openResult and go only call state setters
+    [backScreen, runSearch, card],
   );
   return (
     <div className="app-shell">
@@ -1584,7 +1606,7 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       {screen === "outreach" && <Outreach name={prospect} back={() => go("landlord")} />}
       {screen !== "home" && <Footer />}
       {screen === "home" && <Footer />}
-      <VoiceLayer card={card} mode={mode} onNav={onNav} />
+      <VoiceLayer card={screen === "space" || screen === "offer" ? spaceCard : picked ? spaceCard : card} mode={mode} onNav={onNav} />
       <button className="floating-back" onClick={() => go(backScreen[screen])} aria-label="Go back">
         <Icon name="arrow" />
       </button>

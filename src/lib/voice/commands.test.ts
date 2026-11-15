@@ -33,6 +33,13 @@ test("navigation", () => {
   assert.deepEqual(parseCommand("I have a space to lease", out), { kind: "nav.mode", mode: "landlord" });
   assert.deepEqual(parseCommand("switch to tenant mode", out), { kind: "nav.mode", mode: "tenant" });
   assert.equal(kind("draft an offer"), "nav.offer");
+  assert.deepEqual(parseCommand("open the best match", out), { kind: "nav.open", rank: 1 });
+  assert.deepEqual(parseCommand("open the second match", out), { kind: "nav.open", rank: 2 });
+  assert.deepEqual(parseCommand("show me the third one", out), { kind: "nav.open", rank: 3 });
+  assert.deepEqual(parseCommand("open number two", out), { kind: "nav.open", rank: 2 });
+  assert.deepEqual(parseCommand("open suite 800", out), { kind: "nav.open", suite: "800" });
+  assert.deepEqual(parseCommand("show me suite 3A", out), { kind: "nav.open", suite: "3a" });
+  assert.deepEqual(parseCommand("show me that space", out), { kind: "nav.open" });
   assert.equal(kind("write my letter of intent"), "nav.offer");
 });
 
