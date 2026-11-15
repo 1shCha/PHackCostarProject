@@ -3,12 +3,35 @@
 // Retries when Google is busy, falls back to another model, and caches every answer under cache/vision.
 
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const CACHE = path.join(process.cwd(), "cache", "vision");
 const MODELS = [process.env.GEMINI_MODEL, "gemini-3.5-flash", "gemini-3.8-flash"].filter(Boolean) as string[];
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const outOfQuota = new Set<string>(); // models that hit their daily limit during this run: skip them right away
+
+/**
+ * The most recent saved answer for exactly these images, from any earlier prompt.
+ * Used as a fallback when Gemini is unavailable (quota or outage), so a re-run never loses labels.
+ */
+export function earlierAnswer<T>(imagePaths: string[]): T | null {
+  if (!existsSync(CACHE)) return null;
+  const want = imagePaths.map((p) => path.basename(p)).join("|");
+  let best: { t: number; answer: T } | null = null;
+  for (const f of readdirSync(CACHE)) {
+    const full = path.join(CACHE, f);
+    try {
+      const d = JSON.parse(readFileSync(full, "utf8"));
+      if ((d.images ?? []).join("|") !== want) continue;
+      const t = statSync(full).mtimeMs;
+      if (!best || t > best.t) best = { t, answer: d.answer as T };
+    } catch {
+      /* ignore unreadable cache files */
+    }
+  }
+  return best?.answer ?? null;
+}
 
 /** Sends images + a prompt, returns the model's JSON answer. Same images + prompt → cached answer. */
 export async function askVisionJSON<T>(imagePaths: string[], prompt: string): Promise<T> {
@@ -24,7 +47,7 @@ export async function askVisionJSON<T>(imagePaths: string[], prompt: string): Pr
   ];
 
   let lastError = "";
-  for (const model of [...new Set(MODELS)]) {
+  for (const model of [...new Set(MODELS)].filter((m) => !outOfQuota.has(m))) {
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
@@ -42,6 +65,10 @@ export async function askVisionJSON<T>(imagePaths: string[], prompt: string): Pr
           return answer;
         }
         lastError = `${model} ${res.status}: ${body.error?.message ?? "unknown error"}`;
+        if (res.status === 429 && /per day|PerDay/i.test(lastError)) {
+          outOfQuota.add(model); // daily limit: retrying won't help until tomorrow
+          break;
+        }
         if (res.status === 429 || res.status >= 500) {
           await sleep(4_000 * 2 ** attempt); // busy or rate-limited: wait and retry
           continue;
@@ -53,5 +80,5 @@ export async function askVisionJSON<T>(imagePaths: string[], prompt: string): Pr
       }
     }
   }
-  throw new Error(`Gemini failed: ${lastError}`);
+  throw new Error(`Gemini failed: ${lastError || "every model is out of daily quota"}`);
 }
