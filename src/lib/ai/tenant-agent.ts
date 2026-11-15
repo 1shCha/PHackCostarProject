@@ -14,14 +14,14 @@ export function runTenantAgent(question: string, options: LoopOptions & { genera
 }
 
 type Attempt = (question: string, signal: AbortSignal) => Promise<TenantAnswer>;
-export interface FallbackOptions { primary: Attempt; secondary?: Attempt; signal?: AbortSignal }
+export interface FallbackOptions { primary: Attempt; secondary?: Attempt; signal?: AbortSignal; primaryTimeoutMs?: number }
 
 export async function runWithFallback(question: string, options: FallbackOptions): Promise<TenantAnswer> {
   validateQuestion(question);
   const signal = AbortSignal.any([AbortSignal.timeout(110_000), ...(options.signal ? [options.signal] : [])]);
   if (signal.aborted) throw new AgentError("TIMEOUT", "The request was cancelled.");
   try {
-    return await options.primary(question, AbortSignal.any([signal, AbortSignal.timeout(30_000)]));
+    return await options.primary(question, AbortSignal.any([signal, AbortSignal.timeout(options.primaryTimeoutMs ?? 30_000)]));
   } catch (error) {
     // A cancelled client or expired overall budget must never start another API call.
     if (signal.aborted) throw new AgentError("TIMEOUT", "The request timed out or was cancelled.");
@@ -47,6 +47,8 @@ export async function answerTenantQuestion(question: string, signal?: AbortSigna
     return runWithFallback(question, {
       signal,
       primary: (input, attemptSignal) => runAgentLoop(input, claudeSessionFromEnv(input), { signal: attemptSignal }),
+      // No second provider to fall back to, so allow slow tools (panorama inspection) the full budget.
+      primaryTimeoutMs: 105_000,
     });
   }
   const apiKey = process.env.GEMINI_API_KEY?.trim();

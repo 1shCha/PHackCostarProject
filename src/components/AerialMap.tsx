@@ -61,11 +61,13 @@ export default function AerialMap({
         pitch,
         bearing: -20,
         maxPitch: 70,
-        scrollZoom: false, // the page scrolls; zoom with the buttons, pinch or double-click
+        // Ctrl/Cmd + scroll (or pinch) zooms; plain scroll keeps scrolling the page. Shows a hint when needed.
+        cooperativeGestures: true,
         attributionControl: { compact: true },
       });
       m.addControl(new ml.NavigationControl({ visualizePitch: true }), "bottom-right");
       map.current = m;
+      if (process.env.NODE_ENV !== "production") (window as unknown as { slMaps?: MlMap[] }).slMaps = [...((window as unknown as { slMaps?: MlMap[] }).slMaps ?? []), m];
 
       // Slow orbit; pause while someone drags, resume after a quiet moment.
       let last = performance.now();
