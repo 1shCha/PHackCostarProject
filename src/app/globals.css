@@ -2628,3 +2628,33 @@ footer .brand svg {
 .space-hero.has-aerial button, .space-hero.has-aerial a { pointer-events: auto; }
 .space-hero.has-aerial .space-aerial { cursor: grab; }
 .home-aerial .maplibregl-canvas-container, .results-aerial .maplibregl-canvas-container { cursor: grab; }
+
+/* ---------- One full-screen Vexcel aerial behind every page ---------- */
+.app-shell { position: relative; }
+.app-bg { position: fixed; inset: 0; z-index: 0; }
+.app-veil { position: fixed; inset: 0; z-index: 1; pointer-events: none; transition: background .6s ease; }
+.app-shell > main, .app-shell > footer { position: relative; z-index: 2; }
+.app-hint { position: fixed; z-index: 3; left: 16px; bottom: 16px; }
+/* Drags reach the map wherever there's no content */
+.app-shell > main { pointer-events: none; }
+.app-shell > main * { pointer-events: auto; }
+.app-shell > main .results-window { pointer-events: none; }
+.home .hero, .home .hero * { pointer-events: none; }
+.home .hero .search-card, .home .hero .search-card *, .home .hero button, .home .hero a, .home .hero input { pointer-events: auto; }
+
+/* Readability: fade the imagery where text sits, keep it clear around the edges */
+.app-veil { background:
+  linear-gradient(180deg, rgba(247, 241, 234, .85) 0, rgba(247, 241, 234, 0) 120px),
+  linear-gradient(90deg, rgba(247, 241, 234, .25) 0%, rgba(247, 241, 234, .9) 14%, rgba(247, 241, 234, .9) 86%, rgba(247, 241, 234, .25) 100%); }
+.screen-home .app-veil, .screen-agents .app-veil { background:
+  linear-gradient(180deg, rgba(247, 241, 234, .8) 0, rgba(247, 241, 234, 0) 110px),
+  radial-gradient(ellipse 58% 52% at 50% 42%, rgba(247, 241, 234, .9) 0%, rgba(247, 241, 234, .78) 48%, rgba(247, 241, 234, .2) 80%, rgba(247, 241, 234, .05) 100%); }
+.screen-results .app-veil { background:
+  linear-gradient(180deg, rgba(247, 241, 234, .9) 0, rgba(247, 241, 234, .75) 230px, rgba(247, 241, 234, 0) 340px, rgba(247, 241, 234, 0) 62%, rgba(247, 241, 234, .55) 100%); }
+.results-window { height: 46vh; min-height: 300px; }
+.space-hero.glass { background: rgba(94, 43, 53, .86); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.home { background: transparent; }
+@media (max-width: 760px) {
+  .app-veil { background: rgba(247, 241, 234, .86); }
+  .results-window { height: 34vh; }
+}
