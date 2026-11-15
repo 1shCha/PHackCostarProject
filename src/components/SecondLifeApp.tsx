@@ -8,6 +8,7 @@ import VoiceLayer, { type NavCommand } from "@/components/VoiceLayer";
 import AerialMap, { SUITE_900, type AerialPin } from "@/components/AerialMap";
 import { Tour3D } from "./Tour3D";
 import type { SearchResponse, SearchResult } from "@/lib/search";
+import type { SuiteDetails } from "@/lib/suite-details";
 
 type Mode = "tenant" | "landlord";
 type Screen = "home" | "agents" | "results" | "space" | "offer" | "landlord" | "outreach";
@@ -352,7 +353,7 @@ function LiveRibbon({ r }: { r: SearchResult }) {
 }
 
 /** Turns a search result into the Space Card's data: real suite, history, rooms and fit; the rest from the base card. */
-function cardFor(r: SearchResult | null, base: Card): Card {
+function cardFor(r: SearchResult | null, base: Card, details: SuiteDetails | null = null): Card {
   if (!r) return base;
   const rent = r.asking_rent ?? r.signed_rent_in_building;
   return {
@@ -393,22 +394,25 @@ function cardFor(r: SearchResult | null, base: Card): Card {
     },
     // No labeled scan: no room checks (never Suite 900's medical checklist).
     fit: (r.fit as unknown as Card["fit"]) ?? ({ checks: [], accessibility: [] }),
-    prospects: { companies: [], coverage_note: "Next-tenant ranking is only computed for Suite 900 so far." },
+    prospects: details?.prospects ?? { companies: [], coverage_note: "Nearby companies with leases ending soon aren't available right now." },
     site: { ...base.site, parking_stalls: null as unknown as number, notes: [], frontage: "" },
     pricing: {
           ...base.pricing,
           target_rent_psf_yr: (rent ?? base.pricing.target_rent_psf_yr) as number,
-          range_psf_yr: [r.signed_rent_in_building ?? rent ?? 0, r.asking_rent ?? rent ?? 0].sort((a, b) => a - b) as [number, number],
-          basis: "this building",
-          n_deals: r.signed_deals_in_building,
-          comps: [],
+          range_psf_yr: (() => {
+            const pts = [details?.signed_median, r.signed_rent_in_building, r.asking_rent, rent].filter((n): n is number => typeof n === "number" && n > 0);
+            return (pts.length ? [Math.min(...pts), Math.max(...pts)] : [0, 0]) as [number, number];
+          })(),
+          basis: details ? "and around this building (2 mi)" : "this building",
+          n_deals: details ? details.signed_count : r.signed_deals_in_building,
+          comps: (details?.comps ?? []) as unknown as Card["pricing"]["comps"],
           buildout_savings: r.fit
             ? { ...base.pricing.buildout_savings, low: r.fit.buildout.already_in_place.low, high: r.fit.buildout.already_in_place.high,
                 assumption: "Build-out already in place for this business, from the scan (rough assumed unit costs)" }
             : { low: 0, high: 0, assumption: "No labeled scan for this suite, so built-in value isn't estimated." },
         },
     // Building neighbors and the letter are Suite 900 samples until Role 1 / Role 3 fill them for every suite.
-    tenant_mix: { ...base.tenant_mix, by_category: [], conflicts: [], complements: [], total_current: 0, unknown_tenants: 0 },
+    tenant_mix: details?.tenant_mix ?? { ...base.tenant_mix, by_category: [], conflicts: [], complements: [], total_current: 0, unknown_tenants: 0 },
     negotiate: {
           ...base.negotiate,
           subject: `Letter of intent: ${r.suite}`,
@@ -900,7 +904,7 @@ function SpaceCard({
         <ChapterHeading
           number="03"
           time="NEXT"
-          title={bestNextUse ? `Perfect for a ${titleCase(bestNextUse).toLowerCase()} practice.` : "Find the right next tenant."}
+          title={bestNextUse ? "It already sits among businesses like yours." : "Find the right next tenant."}
           text="The best next use builds on the work the space has already done."
         />
         <div className="pricing-grid">
@@ -921,7 +925,7 @@ function SpaceCard({
             </div>
             <p className="muted">
               {pricing.n_deals
-                ? `Based on ${pricing.n_deals} signed deals in ${pricing.basis || "this building"}.`
+                ? `Based on ${pricing.n_deals} signed deals ${pricing.basis.startsWith("and") ? `in ${pricing.basis.replace(/^and /, "")}` : `in ${pricing.basis || "this building"}`}.`.replace("in around", "in and around")
                 : "No signed deals recorded in this building, so this is the listing's asking rent."}
             </p>
             <div className="price-details">
@@ -962,7 +966,9 @@ function SpaceCard({
             <h3>Good neighbors</h3>
             <p>
               {mix.conflicts[0]?.reason ??
-                (mix.total_current ? "No direct competitor in the building." : "The building’s current tenant list isn’t connected yet.")}
+                (mix.total_current
+                  ? `${mix.total_current} current tenant${mix.total_current > 1 ? "s" : ""} in the building, from CoStar.`
+                  : "The building’s current tenant list isn’t connected yet.")}
             </p>
             <ul>
               {mix.complements.slice(0, 3).map((c) => (
@@ -1164,7 +1170,29 @@ export default function SecondLifeApp({ card }: { card: Card }) {
     setPicked(r);
     go("space");
   };
-  const spaceCard = useMemo(() => cardFor(picked, card), [picked, card]);
+  // Neighbors, rent comps and nearby expiring leases for the open suite (hosted database).
+  const [details, setDetails] = useState<{ id: string; data: SuiteDetails | null } | null>(null);
+  const profileCategory = search.status === "done" ? search.data.profile.category : "";
+  useEffect(() => {
+    if (!picked?.property_id) return;
+    let live = true;
+    const qs = new URLSearchParams({ property_id: picked.property_id, category: profileCategory, sqft: String(picked.sqft) });
+    if (picked.latitude !== null && picked.longitude !== null) {
+      qs.set("lat", String(picked.latitude));
+      qs.set("lon", String(picked.longitude));
+    }
+    fetch(`/api/suite-details?${qs}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: SuiteDetails | null) => live && setDetails({ id: picked.suite_id, data }))
+      .catch(() => live && setDetails({ id: picked.suite_id, data: null }));
+    return () => {
+      live = false;
+    };
+  }, [picked, profileCategory]);
+  const spaceCard = useMemo(
+    () => cardFor(picked, card, details && picked && details.id === picked.suite_id ? details.data : null),
+    [picked, card, details],
+  );
   const searchRef = useRef(search);
   const pendingOpen = useRef<{ rank?: number; suite?: string } | null>(null);
   useEffect(() => {

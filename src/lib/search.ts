@@ -14,7 +14,7 @@ import { fitFor } from "./spatial/buildout";
 import { profileFor, type Profile } from "./spatial/profiles";
 
 /** Profile category → CoStar industry labels that count as "the same kind of business". */
-const INDUSTRIES: Record<string, string[]> = {
+export const INDUSTRIES: Record<string, string[]> = {
   medical: ["HealthCareAndSocialAssistance"],
   dental: ["HealthCareAndSocialAssistance"],
   beauty: ["PersonalServices"],
@@ -70,6 +70,7 @@ function savedInspection(modelId: string | null) {
 type Row = {
   suite_id: string; suite: string; city: string; sqft: number; building_name: string | null; street: string | null;
   property_type: string | null; model_ids: string[] | null; latitude: number | null; longitude: number | null;
+  property_id?: string | number | null;
   asking: number | null; signed: number | null; n_signed: string | number | null; past: { company: string | null; industry: string | null; from: string | null; to: string | null }[] | null;
 };
 
@@ -107,7 +108,7 @@ async function candidates(q: SearchQuery): Promise<Row[]> {
       SELECT suite_id, list({company: company_name, industry: resolved_industry_label,
         "from": strftime(timeline_start, '%Y-%m-%d'), "to": strftime(to_date, '%Y-%m-%d')} ORDER BY timeline_start) AS past
       FROM suite_history GROUP BY suite_id)
-    SELECT pk.suite_id, pk.suite, pk.city, pk.sqft, pk.building_name, pk.street, pk.property_type, pk.latitude, pk.longitude,
+    SELECT pk.suite_id, pk.property_id, pk.suite, pk.city, pk.sqft, pk.building_name, pk.street, pk.property_type, pk.latitude, pk.longitude,
       sc.model_ids, a.asking, sg.signed, sg.n_signed, ps.past
     FROM picked pk LEFT JOIN scan sc USING (suite_id) LEFT JOIN asking a USING (suite_id)
       LEFT JOIN signed sg ON sg.property_id = pk.property_id LEFT JOIN past ps USING (suite_id)`,
@@ -159,6 +160,7 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
 
   return {
     suite_id: r.suite_id,
+    property_id: r.property_id != null ? String(r.property_id) : null, // building, for suite details
     model_id: modelId,
     address: r.street || r.building_name || "Address not recorded",
     building: r.building_name,
