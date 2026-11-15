@@ -1,8 +1,10 @@
 "use client";
 
 // SecondLife app screens (design from Figma). Real data arrives through the `card` prop.
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Card } from "@/agents";
+import AskSpace from "@/components/AskSpace";
+import VoiceLayer, { type NavCommand } from "@/components/VoiceLayer";
 import { Tour3D } from "./Tour3D";
 
 type Mode = "tenant" | "landlord";
@@ -199,7 +201,17 @@ function LayersStrip() {
   );
 }
 
-function Home({ mode, start }: { mode: Mode; start: () => void }) {
+function Home({
+  mode,
+  start,
+  query,
+  setQuery,
+}: {
+  mode: Mode;
+  start: () => void;
+  query: string;
+  setQuery: (q: string) => void;
+}) {
   return (
     <main className="home">
       <section className="hero">
@@ -219,7 +231,9 @@ function Home({ mode, start }: { mode: Mode; start: () => void }) {
               <div>
                 <label>Describe your ideal space</label>
                 <input
-                  defaultValue="I'm a dermatologist looking for 5,000–7,000 sq ft in Houston"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && start()}
                   aria-label="Describe your ideal space"
                 />
               </div>
@@ -652,7 +666,9 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         </div>
       </section>
 
-      <section className="chapter">
+      <AskSpace card={card} />
+
+      <section className="chapter" id="space-then">
         <ChapterHeading
           number="01"
           time="THEN"
@@ -712,7 +728,7 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         </div>
       </section>
 
-      <section className="chapter">
+      <section className="chapter" id="space-now">
         <ChapterHeading
           number="02"
           time="NOW"
@@ -808,7 +824,7 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
         </div>
       </section>
 
-      <section className="chapter next-chapter">
+      <section className="chapter next-chapter" id="space-next">
         <ChapterHeading
           number="03"
           time="NEXT"
@@ -1235,6 +1251,7 @@ export default function SecondLifeApp({ card }: { card: Card }) {
   const [mode, setModeState] = useState<Mode>("tenant");
   const [screen, setScreen] = useState<Screen>("home");
   const [prospect, setProspect] = useState(prospects[0][0]);
+  const [query, setQuery] = useState("I'm a dermatologist looking for 5,000–7,000 sq ft in Houston");
   const go = (next: Screen) => {
     setScreen(next);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1257,11 +1274,66 @@ export default function SecondLifeApp({ card }: { card: Card }) {
     [],
   );
   const start = () => go("agents");
-  const finishAgents = () => go(mode === "tenant" ? "results" : "landlord");
+  const finishAgents = useCallback(() => {
+    setScreen((current) => (current === "agents" ? (modeRef.current === "tenant" ? "results" : "landlord") : current));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+  const modeRef = useRef(mode);
+  const screenRef = useRef(screen);
+  useEffect(() => {
+    modeRef.current = mode;
+    screenRef.current = screen;
+  }, [mode, screen]);
+
+  // Voice commands that move around the app.
+  const onNav = useCallback(
+    (c: NavCommand) => {
+      const sections: Partial<Record<string, string>> = {
+        history: "space-then",
+        fit: "space-now",
+        pricing: "space-next",
+        neighbors: "space-next",
+      };
+      switch (c.kind) {
+        case "nav.search":
+          setQuery(c.text);
+          setModeState("tenant");
+          modeRef.current = "tenant";
+          go("agents");
+          return;
+        case "nav.open":
+          go(modeRef.current === "tenant" ? "space" : "landlord");
+          return;
+        case "nav.offer":
+          setModeState("tenant");
+          go("offer");
+          return;
+        case "nav.back":
+          go(backScreen[screenRef.current]);
+          return;
+        case "nav.home":
+          go("home");
+          return;
+        case "nav.mode":
+          setModeState(c.mode);
+          modeRef.current = c.mode;
+          go("home");
+          return;
+        case "nav.scroll": {
+          const id = sections[c.topic];
+          if (screenRef.current === "space" && id) {
+            window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+          }
+          return;
+        }
+      }
+    },
+    [backScreen],
+  );
   return (
     <div className="app-shell">
       <Header mode={mode} setMode={setMode} goHome={() => go("home")} />
-      {screen === "home" && <Home mode={mode} start={start} />}
+      {screen === "home" && <Home mode={mode} start={start} query={query} setQuery={setQuery} />}
       {screen === "agents" && <AgentRoom mode={mode} done={finishAgents} back={() => go("home")} />}
       {screen === "results" && <Results back={() => go("home")} open={() => go("space")} />}
       {screen === "space" && <SpaceCard card={card} back={() => go("results")} offer={() => go("offer")} />}
@@ -1278,6 +1350,7 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       {screen === "outreach" && <Outreach name={prospect} back={() => go("landlord")} />}
       {screen !== "home" && <Footer />}
       {screen === "home" && <Footer />}
+      <VoiceLayer card={card} mode={mode} onNav={onNav} />
       <button className="floating-back" onClick={() => go(backScreen[screen])} aria-label="Go back">
         <Icon name="arrow" />
       </button>
