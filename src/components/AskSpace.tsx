@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import type { Card } from "@/agents";
 import { parseCommand } from "@/lib/voice/commands";
+import { stopSpeaking } from "@/lib/voice/speaker";
 
 export type Topic = "history" | "fit" | "pricing" | "neighbors" | "prospects" | "general";
 
@@ -301,7 +302,7 @@ export default function AskSpace({ card }: { card: Card }) {
   const [loading, setLoading] = useState(false);
   const [answer, setAnswer] = useState<Answer | null>(null);
 
-  useEffect(() => () => window.speechSynthesis?.cancel(), []);
+  useEffect(() => () => stopSpeaking(), []);
 
   async function ask(q: string) {
     const clean = q.trim();

@@ -11,7 +11,7 @@ export class SpatialError extends Error {
   }
 }
 export const hash = (value: string | Uint8Array) => createHash("sha256").update(value).digest("hex");
-export const cacheDirectory = () => path.resolve(process.env.SPATIAL_CACHE_DIR || "cache/spatial-tools");
+export const cacheDirectory = () => path.resolve(process.env.SPATIAL_CACHE_DIR || (process.env.VERCEL ? "/tmp/cache/spatial-tools" : "cache/spatial-tools"));
 export function sourceReference(source: SpatialSource, record_id: string, details: Partial<SourceReference> = {}): SourceReference {
   return { dataset: source, source_line: null, source_file: source === "matterport" ? "https://api.matterport.com/api/models/graph" : "https://api.vexcelgroup.com/v2/ortho/extract",
     record_id, field_path: null, source_type: source, retrieved_at: new Date().toISOString(), captured_at: null, ...details };
