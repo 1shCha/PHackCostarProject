@@ -409,7 +409,9 @@ export default function VoiceLayer({
       setAnswer(null);
       setHelp(false);
       if (!card.suite.matterport_model_id) {
-        say(`Suite ${card.suite.suite} doesn't have a 3D scan yet. Suite 900 at 6655 Travis does.`);
+        say(card.suite.suite
+          ? `Suite ${card.suite.suite} doesn't have a 3D scan yet. Suite 900 at 6655 Travis does.`
+          : "Open a suite first, then I can take you inside.");
         return;
       }
       pending.current = then ?? null;
@@ -567,8 +569,10 @@ export default function VoiceLayer({
         case "nav.mode":
           closeTour();
           setAnswer(null);
-          onNav(cmd);
-          say(cmd.mode === "landlord" ? "Landlord mode. Tell me about your space." : "Tenant mode. What kind of space do you need?");
+          {
+            const msg = onNav(cmd);
+            say(typeof msg === "string" ? msg : "Tenant mode. What kind of space do you need?");
+          }
           return;
         case "ask": {
           busy.current = true;

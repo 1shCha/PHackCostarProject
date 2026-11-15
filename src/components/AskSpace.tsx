@@ -272,8 +272,7 @@ export async function fetchAnswer(card: Card, question: string, suiteOpen = true
   if (topic !== "history" && topic !== "general") {
     return { question: clean, text: offlineAnswer(card, topic), topic, live: false };
   }
-  // Until Role 1's real suite data lands, the card still has the sample address; ask about the real demo suite.
-  const address = /example/i.test(s.address) ? "6655 Travis St" : s.address;
+  const address = s.address;
   try {
     const res = await fetch("/api/chat", {
       method: "POST",

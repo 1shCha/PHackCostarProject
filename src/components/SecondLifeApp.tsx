@@ -141,9 +141,6 @@ function Header({
         <button className={mode === "tenant" ? "active" : ""} onClick={() => setMode("tenant")}>
           I’m looking for space
         </button>
-        <button className={mode === "landlord" ? "active" : ""} onClick={() => setMode("landlord")}>
-          I have space to lease
-        </button>
       </div>
     </header>
   );
@@ -220,8 +217,7 @@ function Home({
         <div className="eyebrow">
           <Icon name="spark" size={16} /> Space intelligence, not just listings
         </div>
-        {mode === "tenant" ? (
-          <>
+
             <h1>
               Every commercial space remembers <em>who was there.</em>
             </h1>
@@ -243,28 +239,7 @@ function Home({
                 Find my space <Icon name="chevron" />
               </button>
             </div>
-          </>
-        ) : (
-          <>
-            <h1>
-              Your empty suite has a history. <em>Let’s use it.</em>
-            </h1>
-            <p className="hero-sub">
-              We read the space you already have, then find the businesses most likely to value it.
-            </p>
-            <div className="search-card">
-              <div>
-                <label>Choose your space</label>
-                <div className="picker">
-                  2000 Dairy Ashford Rd · Suite 550 · 6,303 sq ft · Houston <span>⌄</span>
-                </div>
-              </div>
-              <button className="primary" onClick={start}>
-                Find my next tenant <Icon name="chevron" />
-              </button>
-            </div>
-          </>
-        )}
+          
         <p className="broker-note">
           <span>
             <Icon name="check" size={14} />
@@ -282,11 +257,11 @@ function Home({
 }
 
 const agents = [
-  ["History agent", "Found 2 past tenants for Suite 900", "clock"],
-  ["Space Inspector", "Labeling room 4 of 8 from 33 scans", "scan"],
-  ["Fit agent", "Checking exam rooms, sinks and reception", "check"],
-  ["Site agent", "Counting parking from aerial imagery", "map"],
-  ["Pricing agent", "Comparing signed deals in the building and area", "layers"],
+  ["History agent", "Reading CoStar tenant history for each suite", "clock"],
+  ["Space Inspector", "Checking which suites have 3D scans and room labels", "scan"],
+  ["Fit agent", "Matching labeled rooms to what your business needs", "check"],
+  ["Site agent", "Loading Vexcel aerial imagery", "map"],
+  ["Pricing agent", "Reading asking and signed rents from CoStar", "layers"],
 ] as const;
 
 function AgentRoom({ mode, done, back }: { mode: Mode; done: () => void; back: () => void }) {
@@ -311,7 +286,7 @@ function AgentRoom({ mode, done, back }: { mode: Mode; done: () => void; back: (
           <h1>
             {mode === "tenant"
               ? "Reading between the listings."
-              : "Finding the next life for Suite 550."}
+              : "Finding the next life for your space."}
           </h1>
         </div>
       </div>
@@ -355,74 +330,6 @@ function AgentRoom({ mode, done, back }: { mode: Mode; done: () => void; back: (
   );
 }
 
-const resultCards = [
-  {
-    badge: "✦ Best match",
-    level: "best",
-    address: "6655 Travis St",
-    suite: "Suite 900",
-    size: "6,692",
-    rent: "$28",
-    signed: "$26.50–$29",
-    detail: "Former plastic surgery suite · operating room still in place",
-    build: "5 rooms with sinks",
-    score: "94%",
-    reason: "Saves a full medical build-out",
-    unknown: false,
-  },
-  {
-    badge: "Good fit",
-    level: "good",
-    address: "Medical office",
-    suite: "Suite 410",
-    size: "3,100",
-    rent: "$26",
-    signed: "$24–$27",
-    detail: "Former dental office · plumbing in every room",
-    build: "4 rooms with sinks",
-    score: "86%",
-    reason: "Plumbing is already distributed",
-    unknown: false,
-  },
-  {
-    badge: "Good fit",
-    level: "good",
-    address: "Medical plaza",
-    suite: "Suite 220",
-    size: "2,450",
-    rent: "$24",
-    signed: "$23–$25",
-    detail: "Former physical therapy clinic",
-    build: "Open treatment floor",
-    score: "79%",
-    reason: "Strong medical adjacency",
-    unknown: false,
-  },
-  {
-    badge: "Possible",
-    level: "possible",
-    address: "Office tower",
-    suite: "Suite 1500",
-    size: "5,200",
-    rent: "$31",
-    signed: "Not recorded",
-    detail: "Standard office · needs full build-out",
-    build: "No 3D scan for this space yet",
-    score: "61%",
-    reason: "Right size, costly conversion",
-    unknown: true,
-  },
-];
-
-function HistoryRibbon({ simple = false }: { simple?: boolean }) {
-  return (
-    <div className="history-ribbon" title="Space history by industry">
-      <span className="medical" style={{ width: simple ? "58%" : "68%" }} />
-      <span className="office" style={{ width: "22%" }} />
-      <span className="vacant" />
-    </div>
-  );
-}
 
 // ---------- Live search (GET /api/search, see src/lib/search.ts) ----------
 type SearchState =
@@ -447,7 +354,6 @@ function LiveRibbon({ r }: { r: SearchResult }) {
 /** Turns a search result into the Space Card's data: real suite, history, rooms and fit; the rest from the base card. */
 function cardFor(r: SearchResult | null, base: Card): Card {
   if (!r) return base;
-  const isBase = r.model_id === base.suite.matterport_model_id;
   const rent = r.asking_rent ?? r.signed_rent_in_building;
   return {
     ...base,
@@ -477,7 +383,7 @@ function cardFor(r: SearchResult | null, base: Card): Card {
         why_matched: "",
         why_ended: "",
       })),
-      likely_buildout: isBase ? base.history.likely_buildout : [],
+      likely_buildout: [],
     },
     inspect: (r.inspect as Card["inspect"]) ?? {
       ...base.inspect,
@@ -486,12 +392,10 @@ function cardFor(r: SearchResult | null, base: Card): Card {
       counts: {} as Card["inspect"]["counts"],
     },
     // No labeled scan: no room checks (never Suite 900's medical checklist).
-    fit: (r.fit as unknown as Card["fit"]) ?? (isBase ? base.fit : { checks: [], accessibility: [] }),
-    prospects: isBase ? base.prospects : { companies: [], coverage_note: "Next-tenant ranking is only computed for Suite 900 so far." },
-    site: isBase ? base.site : { ...base.site, parking_stalls: null as unknown as number, notes: [], frontage: "" },
-    pricing: isBase
-      ? base.pricing
-      : {
+    fit: (r.fit as unknown as Card["fit"]) ?? ({ checks: [], accessibility: [] }),
+    prospects: { companies: [], coverage_note: "Next-tenant ranking is only computed for Suite 900 so far." },
+    site: { ...base.site, parking_stalls: null as unknown as number, notes: [], frontage: "" },
+    pricing: {
           ...base.pricing,
           target_rent_psf_yr: (rent ?? base.pricing.target_rent_psf_yr) as number,
           range_psf_yr: [r.signed_rent_in_building ?? rent ?? 0, r.asking_rent ?? rent ?? 0].sort((a, b) => a - b) as [number, number],
@@ -504,10 +408,8 @@ function cardFor(r: SearchResult | null, base: Card): Card {
             : { low: 0, high: 0, assumption: "No labeled scan for this suite, so built-in value isn't estimated." },
         },
     // Building neighbors and the letter are Suite 900 samples until Role 1 / Role 3 fill them for every suite.
-    tenant_mix: isBase ? base.tenant_mix : { ...base.tenant_mix, by_category: [], conflicts: [], complements: [], total_current: 0, unknown_tenants: 0 },
-    negotiate: isBase
-      ? base.negotiate
-      : {
+    tenant_mix: { ...base.tenant_mix, by_category: [], conflicts: [], complements: [], total_current: 0, unknown_tenants: 0 },
+    negotiate: {
           ...base.negotiate,
           subject: `Letter of intent: ${r.suite}`,
           asks: [
@@ -536,7 +438,16 @@ function Results({
       </main>
     );
   }
-  if (search.status === "error") return <SampleResults back={back} open={() => open(null)} error={search.error} />;
+  if (search.status === "error") {
+    return (
+      <main className="page results-page">
+        <Back onClick={back} label="Change search" />
+        <p className="kicker">Search unavailable</p>
+        <h1>We couldn’t reach the CoStar database.</h1>
+        <p>{search.error} Try again in a moment.</p>
+      </main>
+    );
+  }
   const { data } = search;
   const range = data.query.sqft_min !== null ? `${data.query.sqft_min.toLocaleString()}–${data.query.sqft_max?.toLocaleString()} sq ft` : "any size";
   return (
@@ -625,76 +536,29 @@ function Results({
   );
 }
 
-/** The original sample cards, shown only when the live search is unavailable. */
-function SampleResults({ back, open, error }: { back: () => void; open: () => void; error: string }) {
+
+/** 3×3 live Vexcel tiles centered on a building, with a pin. */
+function VexcelTiles({ lat, lon, label }: { lat: number; lon: number; label: string }) {
+  if (!lat || !lon) return <div className="vexcel-tiles empty">No coordinates for this building.</div>;
+  const z = 18;
+  const n = 2 ** z;
+  const fx = ((lon + 180) / 360) * n;
+  const r = (lat * Math.PI) / 180;
+  const fy = ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * n;
+  const x0 = Math.floor(fx) - 1;
+  const y0 = Math.floor(fy) - 1;
+  const pinX = ((fx - x0) / 3) * 100;
+  const pinY = ((fy - y0) / 3) * 100;
   return (
-    <main className="page results-page">
-      <Back onClick={back} label="Change search" />
-      <p className="kicker">Live search unavailable ({error}). Showing sample results.</p>
-      <div className="page-title-row">
-        <div>
-          <p className="kicker">4 spaces worth a closer look</p>
-          <h1>Built for care, not just available.</h1>
-          <p>
-            Ranked by what is already there, what similar tenants paid, and how patients arrive.
-          </p>
-        </div>
-        <div className="filter-button">Houston · 2,000–7,000 sq ft</div>
-      </div>
-      <div className="result-grid">
-        {resultCards.map((card, i) => (
-          <article className={`result-card ${card.level}`} key={card.suite} onClick={open}>
-            <div className="card-top">
-              <span className="match-badge">{card.badge}</span>
-              <span className="score">{card.score} fit</span>
-            </div>
-            <h2>{card.address}</h2>
-            <p className="suite">{card.suite} · Houston</p>
-            <HistoryRibbon simple={i > 0} />
-            <div className="ribbon-key">
-              <span>Medical</span>
-              <span>Office</span>
-              <span>Vacant</span>
-            </div>
-            <p className="result-detail">{card.detail}</p>
-            <div className={`build-proof ${card.unknown ? "unknown-box" : ""}`}>
-              <Icon name={card.unknown ? "eye" : "scan"} />
-              <span>
-                {card.build}
-                <Source
-                  source="Matterport scan"
-                  confidence={card.unknown ? "Unknown" : i === 0 ? "Confirmed" : "Likely"}
-                />
-              </span>
-            </div>
-            <div className="result-numbers">
-              <div>
-                <b>{card.size}</b>
-                <small>sq ft</small>
-              </div>
-              <div>
-                <b>{card.rent}</b>
-                <small>/sf/yr asking</small>
-              </div>
-            </div>
-            <p className="deal-line">
-              Similar tenants signed <b>{card.signed}/sf/yr</b>
-            </p>
-            <Source source="CoStar" confidence={card.unknown ? "Unknown" : "Confirmed"} />
-            <div className="top-reason">
-              <Icon name="spark" size={15} />
-              <span>
-                <b>Why it fits</b>
-                {card.reason}
-              </span>
-            </div>
-            <button className={i === 0 ? "primary full" : "secondary full"} onClick={open}>
-              {i === 0 ? "Explore this space" : "View evidence"} <Icon name="chevron" />
-            </button>
-          </article>
-        ))}
-      </div>
-    </main>
+    <div className="vexcel-tiles" role="img" aria-label={`Vexcel aerial around ${label}`}>
+      {[0, 1, 2].flatMap((dy) =>
+        [0, 1, 2].map((dx) => (
+          // eslint-disable-next-line @next/next/no-img-element -- server-proxied map tiles
+          <img key={`${dx}-${dy}`} src={`/api/aerial/${z}/${x0 + dx}/${y0 + dy}`} alt="" loading="lazy" />
+        )),
+      )}
+      <span className="vexcel-pin" style={{ left: `${pinX}%`, top: `${pinY}%` }} />
+    </div>
   );
 }
 
@@ -812,7 +676,7 @@ function SpaceCard({
   card,
   back,
   offer,
-  match = "Your best match · 94% fit",
+  match = "Match",
 }: {
   card: Card;
   back: () => void;
@@ -826,7 +690,7 @@ function SpaceCard({
   const [showDeals, setShowDeals] = useState(false);
   const [activeAsks, setActiveAsks] = useState([true, true, true]);
 
-  const { suite: s, history, inspect, pricing, tenant_mix: mix, fit, site, negotiate } = card;
+  const { suite: s, history, inspect, pricing, tenant_mix: mix, fit, negotiate } = card;
   const { sorted: timeline, vacantSince } = timelineWithVacancy(history.timeline);
   const longest = [...timeline].sort((a, b) => yearsBetween(b.from, b.to) - yearsBetween(a.from, a.to))[0];
   const hasProcedure = inspect.rooms.some((r) => r.label === "procedure");
@@ -1026,29 +890,8 @@ function SpaceCard({
           )}
           <div className="content-card access-card">
             <EvidenceTitle source="Vexcel aerial">Getting there</EvidenceTitle>
-            <div className="aerial">
-              <span className="road r1" />
-              <span className="road r2" />
-              <span className="building-shape">{s.address.split(" ")[0]}</span>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
-                <i key={n} />
-              ))}
-              <span className="placeholder-label">Vexcel aerial</span>
-            </div>
-            <div className="access-stats">
-              <div>
-                <b>{site.parking_stalls ?? "—"}</b>
-                <span>parking spaces</span>
-              </div>
-              <div>
-                <b>2</b>
-                <span>street frontages</span>
-              </div>
-              <div>
-                <b>1</b>
-                <span>covered drop-off</span>
-              </div>
-            </div>
+            <VexcelTiles lat={s.lat} lon={s.lon} label={s.address} />
+            <p className="muted">Live Vexcel aerial around {s.address || "the building"}. Parking and access aren’t counted yet.</p>
           </div>
         </div>
       </section>
@@ -1077,7 +920,9 @@ function SpaceCard({
               </div>
             </div>
             <p className="muted">
-              Based on {pricing.n_deals} signed deals ({pricing.basis}, {titleCase(pricing.service_type)}).
+              {pricing.n_deals
+                ? `Based on ${pricing.n_deals} signed deals in ${pricing.basis || "this building"}.`
+                : "No signed deals recorded in this building, so this is the listing's asking rent."}
             </p>
             <div className="price-details">
               <span>
@@ -1115,7 +960,10 @@ function SpaceCard({
               <Icon name="spark" />
             </span>
             <h3>Good neighbors</h3>
-            <p>{mix.conflicts[0]?.reason ?? "No direct competitor in the building."}</p>
+            <p>
+              {mix.conflicts[0]?.reason ??
+                (mix.total_current ? "No direct competitor in the building." : "The building’s current tenant list isn’t connected yet.")}
+            </p>
             <ul>
               {mix.complements.slice(0, 3).map((c) => (
                 <li key={c.category}>{c.reason}</li>
@@ -1165,8 +1013,8 @@ function SpaceCard({
             <div className="counter-suggestion">
               <Icon name="spark" />
               <span>
-                <b>Suggested counter</b>Hold $26.75 rent, reduce free rent to 4 months, and request
-                the operating-room equipment remain.
+                <b>Suggested counter</b>Hold at {money(Math.min(pricing.target_rent_psf_yr || s.asking_rent_psf_yr, s.asking_rent_psf_yr || pricing.target_rent_psf_yr))}/sf/yr
+                and ask that the existing improvements stay with the space.
               </span>
             </div>
           )}
@@ -1188,7 +1036,7 @@ function SpaceCard({
             <div>
               <p className="kicker">Scan evidence</p>
               <h3>{pin}</h3>
-              <p>Visible in scan 18 of 33. AI-labeled and ready for broker review.</p>
+              <p>Labeled by AI from the Matterport scan photos. Ready for broker review.</p>
               <Source source="Matterport scan" confidence="Confirmed" />
             </div>
           </div>
@@ -1198,9 +1046,14 @@ function SpaceCard({
   );
 }
 
-function OfferDraft({ back }: { back: () => void }) {
+function OfferDraft({ back, card, business }: { back: () => void; card: Card; business: string }) {
+  const s = card.suite;
+  const p = card.pricing;
+  const signed = p.range_psf_yr[0] || p.target_rent_psf_yr;
+  const opening = Math.min(...[signed, s.asking_rent_psf_yr].filter((n) => n > 0));
   const [sent, setSent] = useState(false);
-  const [rent, setRent] = useState("$26.75/sf/yr");
+  const [rent, setRent] = useState(Number.isFinite(opening) ? `${money(opening)}/sf/yr` : "");
+  const pastSame = card.history.timeline[card.history.timeline.length - 1]?.tenant;
   return (
     <main className="page narrow draft-page">
       <Back onClick={back} label="Back to space" />
@@ -1217,10 +1070,13 @@ function OfferDraft({ back }: { back: () => void }) {
           <Logo />
           <span>Letter of intent · Draft</span>
         </div>
-        <p>Re: 6655 Travis St, Suite 900, Houston, TX</p>
         <p>
-          On behalf of a dermatology practice, we are pleased to submit the following non-binding
-          proposal for the premises:
+          Re: {s.address}, Suite {s.suite}, {s.city}
+          {s.sqft ? ` (${Math.round(s.sqft).toLocaleString()} sq ft)` : ""}
+        </p>
+        <p>
+          On behalf of a {business.toLowerCase()}, we are pleased to submit the following non-binding proposal for the
+          premises:
         </p>
         <label>
           Base rent
@@ -1228,15 +1084,16 @@ function OfferDraft({ back }: { back: () => void }) {
         </label>
         <label>
           Free rent
-          <input defaultValue="5 months following commencement" />
+          <input defaultValue="" placeholder="To negotiate (no comparable free-rent data yet)" />
         </label>
         <label>
           Existing improvements
-          <input defaultValue="Operating room, sinks, reception and millwork to remain" />
+          <input defaultValue={card.inspect.rooms.length ? "Existing rooms and fixtures to remain, as shown in the scan" : "Existing improvements to remain, subject to inspection"} />
         </label>
         <p>
-          The existing medical build-out is central to this proposal and should be delivered in its
-          current condition, subject to inspection.
+          {s.asking_rent_psf_yr ? `The listing asks ${money(s.asking_rent_psf_yr)}/sf/yr` : "The listing's asking rent isn't recorded"}
+          {p.n_deals ? `; ${p.n_deals} signed deals in the building support the opening rent above` : ""}.
+          {pastSame ? ` The suite was previously occupied by ${pastSame}.` : ""}
         </p>
         <p>
           Sincerely,
@@ -1261,227 +1118,9 @@ function OfferDraft({ back }: { back: () => void }) {
   );
 }
 
-const prospects = [
-  [
-    "Blue Ridge Engineering",
-    "Civil engineering",
-    "5,800–6,500 sq ft",
-    "Mar 2026",
-    "1.2 mi",
-    "Growing team + similar floor plan",
-  ],
-  [
-    "Horizon Infrastructure",
-    "Project consulting",
-    "6,100 sq ft",
-    "Aug 2025",
-    "3.4 mi",
-    "Lease timing and parking needs align",
-  ],
-  [
-    "Fieldstone Public Affairs",
-    "Public administration",
-    "5,500–7,000 sq ft",
-    "Jan 2026",
-    "4.1 mi",
-    "Past use proves space fit",
-  ],
-];
-
-function LandlordView({ back, outreach }: { back: () => void; outreach: (name: string) => void }) {
-  return (
-    <main className="page landlord-page">
-      <Back onClick={back} label="Choose another space" />
-      <div className="landlord-hero">
-        <div>
-          <p className="kicker">2000 Dairy Ashford Rd · Houston</p>
-          <h1>Who should lease Suite 550?</h1>
-          <p>6,303 sq ft · asking $17.50/sf/yr</p>
-        </div>
-        <Source source="CoStar" confidence="Confirmed" />
-      </div>
-      <section>
-        <div className="section-heading">
-          <div>
-            <p className="kicker">What the market remembers</p>
-            <h2>Suite history and rent trail</h2>
-          </div>
-          <Source source="CoStar" />
-        </div>
-        <div className="rent-trail">
-          <div>
-            <small>2016–2018</small>
-            <h3>Construction firm</h3>
-            <b>$18.45</b>
-            <span>signed rent</span>
-            <Source source="CoStar" />
-          </div>
-          <div>
-            <small>2019–2025</small>
-            <h3>Public administration</h3>
-            <b>$18.00</b>
-            <span>asking rent</span>
-            <Source source="CoStar" confidence="Likely" />
-          </div>
-          <div>
-            <small>2025 listing</small>
-            <h3>Available</h3>
-            <b>$19.00</b>
-            <span>asking rent</span>
-            <Source source="CoStar" confidence="Likely" />
-          </div>
-          <div className="now">
-            <small>Now</small>
-            <h3>Ready for its next life</h3>
-            <b>$17.50</b>
-            <span>asking rent</span>
-            <Source source="CoStar" />
-          </div>
-        </div>
-      </section>
-      <section className="best-use">
-        <div className="best-use-copy">
-          <span className="mini-spark">
-            <Icon name="spark" />
-          </span>
-          <p className="kicker">Best next use</p>
-          <h2>Project teams that need room to gather.</h2>
-          <p>
-            Engineering, infrastructure and public-sector consulting teams can reuse the existing
-            mix of private offices and collaboration rooms.
-          </p>
-          <ol>
-            <li>
-              <span>01</span>Prior tenants validate the floor plan
-            </li>
-            <li>
-              <span>02</span>Parking supports field teams
-            </li>
-            <li>
-              <span>03</span>Below-market asking rent creates urgency
-            </li>
-          </ol>
-        </div>
-        <div className="industry-rents">
-          <p>Expected rent by industry</p>
-          <div>
-            <span>Engineering</span>
-            <b>$18.10</b>
-          </div>
-          <div>
-            <span>Public affairs</span>
-            <b>$17.80</b>
-          </div>
-          <div>
-            <span>General office</span>
-            <b>$17.20</b>
-          </div>
-          <small>
-            /sf/yr estimate · <Source source="CoStar" confidence="Likely" />
-          </small>
-        </div>
-      </section>
-      <section>
-        <div className="section-heading">
-          <div>
-            <p className="kicker">Leases ending soon, nearby</p>
-            <h2>Who’d love this space next</h2>
-          </div>
-          <p>Prospects are suggestions—not contacts.</p>
-        </div>
-        <div className="prospect-grid">
-          {prospects.map(([name, industry, size, end, distance, why], i) => (
-            <article className="prospect-card" key={name}>
-              <div className="prospect-index">0{i + 1}</div>
-              <h3>{name}</h3>
-              <p>{industry}</p>
-              <div className="prospect-meta">
-                <span>
-                  <b>{size}</b>current need
-                </span>
-                <span>
-                  <b>{end}</b>lease end
-                </span>
-                <span>
-                  <b>{distance}</b>away
-                </span>
-              </div>
-              <div className="why-match">
-                <Icon name="spark" size={15} />
-                <span>
-                  <b>Why they match</b>
-                  {why}
-                </span>
-              </div>
-              <Source source="CoStar" confidence={i === 0 ? "Confirmed" : "Likely"} />
-              <button className="primary full" onClick={() => outreach(name)}>
-                Draft outreach <Icon name="chevron" />
-              </button>
-            </article>
-          ))}
-        </div>
-      </section>
-      <div className="unknown-state">
-        <span>?</span>
-        <div>
-          <b>One data gap</b>
-          <p>
-            No 3D scan for Suite 550 yet. Physical fit is inferred from prior use and listing plans.
-          </p>
-        </div>
-        <Source source="Matterport scan" confidence="Unknown" />
-      </div>
-    </main>
-  );
-}
-
-function Outreach({ name, back }: { name: string; back: () => void }) {
-  const [sent, setSent] = useState(false);
-  return (
-    <main className="page narrow draft-page">
-      <Back onClick={back} label="Back to prospects" />
-      <p className="kicker">Outreach draft</p>
-      <h1>A specific reason to look, not another blast.</h1>
-      <div className="review-banner">
-        <Icon name="eye" />
-        <span>
-          <b>Draft for your broker to review</b>SecondLife never contacts prospects on its own.
-        </span>
-      </div>
-      <div className="email-card">
-        <div>
-          <span>To</span>
-          <b>{name}</b>
-        </div>
-        <div>
-          <span>Subject</span>
-          <b>A space that already works like your team does</b>
-        </div>
-        <textarea
-          defaultValue={`Hi ${name} team,\n\nYour current lease may be approaching a decision point, and we thought Suite 550 at 2000 Dairy Ashford might be worth a look.\n\nThe 6,303 sq ft suite was previously used by project-based teams, with a mix of private offices and collaboration space, strong parking, and an asking rent of $17.50/sf/yr.\n\nWould a short walkthrough be useful?\n\nBest,\nYour broker`}
-        />
-      </div>
-      <div className="draft-actions">
-        <button className="secondary" onClick={back}>
-          Save for later
-        </button>
-        <button className="primary" onClick={() => setSent(true)}>
-          {sent ? "Ready for broker" : "Send to broker for review"} <Icon name="chevron" />
-        </button>
-      </div>
-      {sent && (
-        <div className="success-message">
-          <Icon name="check" /> Added to your broker’s review queue.
-        </div>
-      )}
-    </main>
-  );
-}
-
 export default function SecondLifeApp({ card }: { card: Card }) {
   const [mode, setModeState] = useState<Mode>("tenant");
   const [screen, setScreen] = useState<Screen>("home");
-  const [prospect, setProspect] = useState(prospects[0][0]);
   const [query, setQuery] = useState("I'm a dermatologist looking for 5,000–7,000 sq ft in Houston");
   const go = (next: Screen) => {
     setScreen(next);
@@ -1610,8 +1249,9 @@ export default function SecondLifeApp({ card }: { card: Card }) {
           go("home");
           return;
         case "nav.mode":
-          setModeState(c.mode);
-          modeRef.current = c.mode;
+          if (c.mode === "landlord") return "Landlord mode isn't connected to real data yet, so it's switched off for now.";
+          setModeState("tenant");
+          modeRef.current = "tenant";
           go("home");
           return;
         case "nav.scroll": {
@@ -1643,7 +1283,7 @@ export default function SecondLifeApp({ card }: { card: Card }) {
         : [],
     [search],
   );
-  const suiteSpot = spaceCard.suite.key === "travis_900" ? SUITE_900 : { lat: spaceCard.suite.lat, lon: spaceCard.suite.lon };
+  const suiteSpot = spaceCard.suite.lat ? { lat: spaceCard.suite.lat, lon: spaceCard.suite.lon } : SUITE_900;
   const bg =
     screen === "results" && resultPins.length
       ? { key: `results-${resultPins.map((p) => p.id).join(",")}`, pins: resultPins, center: SUITE_900, zoom: 12, pitch: 50, spin: 1.2 }
@@ -1678,17 +1318,9 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       {screen === "space" && (
         <SpaceCard card={spaceCard} match={matchLabel} back={() => go("results")} offer={() => go("offer")} />
       )}
-      {screen === "offer" && <OfferDraft back={() => go("space")} />}
-      {screen === "landlord" && (
-        <LandlordView
-          back={() => go("home")}
-          outreach={(name) => {
-            setProspect(name);
-            go("outreach");
-          }}
-        />
+      {screen === "offer" && (
+        <OfferDraft back={() => go("space")} card={spaceCard} business={search.status === "done" ? search.data.profile.name : "Tenant"} />
       )}
-      {screen === "outreach" && <Outreach name={prospect} back={() => go("landlord")} />}
       {screen !== "home" && <Footer />}
       {screen === "home" && <Footer />}
       <VoiceLayer
