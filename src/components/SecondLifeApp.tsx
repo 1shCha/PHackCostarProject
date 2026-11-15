@@ -485,7 +485,10 @@ function cardFor(r: SearchResult | null, base: Card): Card {
       rooms: [],
       counts: {} as Card["inspect"]["counts"],
     },
-    fit: (r.fit as unknown as Card["fit"]) ?? base.fit,
+    // No labeled scan: no room checks (never Suite 900's medical checklist).
+    fit: (r.fit as unknown as Card["fit"]) ?? (isBase ? base.fit : { checks: [], accessibility: [] }),
+    prospects: isBase ? base.prospects : { companies: [], coverage_note: "Next-tenant ranking is only computed for Suite 900 so far." },
+    site: isBase ? base.site : { ...base.site, parking_stalls: null as unknown as number, notes: [], frontage: "" },
     pricing: isBase
       ? base.pricing
       : {
@@ -498,7 +501,7 @@ function cardFor(r: SearchResult | null, base: Card): Card {
           buildout_savings: r.fit
             ? { ...base.pricing.buildout_savings, low: r.fit.buildout.already_in_place.low, high: r.fit.buildout.already_in_place.high,
                 assumption: "Build-out already in place for this business, from the scan (rough assumed unit costs)" }
-            : base.pricing.buildout_savings,
+            : { low: 0, high: 0, assumption: "No labeled scan for this suite, so built-in value isn't estimated." },
         },
     // Building neighbors and the letter are Suite 900 samples until Role 1 / Role 3 fill them for every suite.
     tenant_mix: isBase ? base.tenant_mix : { ...base.tenant_mix, by_category: [], conflicts: [], complements: [], total_current: 0, unknown_tenants: 0 },
@@ -827,6 +830,7 @@ function SpaceCard({
   const { sorted: timeline, vacantSince } = timelineWithVacancy(history.timeline);
   const longest = [...timeline].sort((a, b) => yearsBetween(b.from, b.to) - yearsBetween(a.from, a.to))[0];
   const hasProcedure = inspect.rooms.some((r) => r.label === "procedure");
+  const hasScan = Boolean(s.matterport_model_id) || inspect.rooms.length > 0;
   const bestNextUse = mix.complements[0]?.category;
   const totalSqft = inspect.rooms.reduce((sum, r) => sum + (r.area_sqft ?? 0), 0);
   const freeMonths = pricing.comps.map((c) => c.free_months).filter((m): m is number => typeof m === "number");
@@ -889,7 +893,7 @@ function SpaceCard({
               ? `${longest.tenant} shaped this space for ${Math.round(yearsBetween(longest.from, longest.to))} years.`
               : "No past tenants recorded for this space yet."
           }
-          text="The space was shaped by care long before it became a listing."
+          text="Every past tenant left something behind in the space."
         />
         <div className="content-card">
           <EvidenceTitle source="CoStar">Who was here</EvidenceTitle>
@@ -945,12 +949,25 @@ function SpaceCard({
           number="02"
           time="NOW"
           title={
-            hasProcedure
-              ? "The procedure room is still here."
-              : `${inspect.rooms.length} rooms are already built in.`
+            !hasScan
+              ? "No 3D scan of this suite yet."
+              : hasProcedure
+                ? "The procedure room is still here."
+                : `${inspect.rooms.length} rooms are already built in.`
           }
-          text="A scan turns every room into evidence you can act on."
+          text={hasScan ? "A scan turns every room into evidence you can act on." : "What we know comes from CoStar: size, rent and who was here before."}
         />
+        {!hasScan && (
+          <div className="content-card">
+            <EvidenceTitle source="CoStar">What we can and can’t see</EvidenceTitle>
+            <p>
+              This suite has no Matterport scan, so its rooms, sinks and offices can’t be checked yet. Ask the landlord for a
+              walkthrough or a scan. Size ({s.sqft ? Math.round(s.sqft).toLocaleString() : "—"} sq ft), rent and past tenants
+              above are from CoStar.
+            </p>
+          </div>
+        )}
+        {hasScan && (<>
         <div className="content-card">
           <EvidenceTitle source="Matterport scan">What’s built in</EvidenceTitle>
           <div className="plan-layout">
@@ -978,17 +995,16 @@ function SpaceCard({
             <Tour3D modelId={card.suite.matterport_model_id} title={`Suite ${card.suite.suite}`} />
           </div>
           <div>
-            <EvidenceTitle source="Matterport scan">Walk the reception</EvidenceTitle>
-            <p>
-              A glass check-in window separates the patient waiting area from staff circulation. The
-              reception desk and millwork appear intact.
-            </p>
+            <EvidenceTitle source="Matterport scan">Walk it yourself</EvidenceTitle>
+            <p>Drag inside the scan to look around, or say “show me inside” and walk it room by room by voice.</p>
             <Source source="Matterport scan" confidence="Confirmed" />
           </div>
         </div>
+        </>)}
         <div className="split-grid">
+          {hasScan && (
           <div className="content-card fit-card">
-            <EvidenceTitle source="Matterport scan">Does it fit your practice</EvidenceTitle>
+            <EvidenceTitle source="Matterport scan">Does it fit your business</EvidenceTitle>
             {[...fit.checks, ...fit.accessibility].map((c) => {
               const item = "need" in c ? c.need : c.check;
               const state = c.status === "pass" ? "Pass" : c.status === "fail" ? "Fail" : "Partial";
@@ -1007,12 +1023,13 @@ function SpaceCard({
               Accessibility screening is directional, not a compliance review.
             </p>
           </div>
+          )}
           <div className="content-card access-card">
             <EvidenceTitle source="Vexcel aerial">Getting there</EvidenceTitle>
             <div className="aerial">
               <span className="road r1" />
               <span className="road r2" />
-              <span className="building-shape">6655</span>
+              <span className="building-shape">{s.address.split(" ")[0]}</span>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
                 <i key={n} />
               ))}
@@ -1104,10 +1121,12 @@ function SpaceCard({
                 <li key={c.category}>{c.reason}</li>
               ))}
             </ul>
-            <div className="insight">
-              Medical neighbors could refer patients.
-              <Source source="CoStar" confidence="Likely" />
-            </div>
+            {mix.complements.length > 0 && (
+              <div className="insight">
+                Neighbors in related businesses could send clients your way.
+                <Source source="CoStar" confidence="Likely" />
+              </div>
+            )}
           </div>
         </div>
         <div className="content-card offer-preview">

@@ -66,6 +66,13 @@ export function offlineAnswer(card: Card, topic: Topic): string {
       }`;
     }
     case "fit": {
+      if (!fit.checks.length) {
+        const past = history.timeline.filter((e) => e.tenant && !/not recorded/i.test(e.tenant));
+        const last = past[past.length - 1];
+        return `Suite ${s.suite} doesn't have a labeled 3D scan yet, so I can't check its rooms. From CoStar, it's ${Math.round(
+          s.sqft,
+        ).toLocaleString()} square feet${last ? `, and ${last.tenant} was here before` : ""}. Ask the landlord for a walkthrough.`;
+      }
       const pass = fit.checks.filter((c) => c.status === "pass");
       const open = fit.checks.filter((c) => c.status !== "pass");
       const lead =
@@ -84,6 +91,9 @@ export function offlineAnswer(card: Card, topic: Topic): string {
       return `A fair rent is about $${pricing.target_rent_psf_yr.toFixed(2)} per square foot per year, based on ${pricing.n_deals} recent deals that ranged from $${lo} to $${hi}. The asking rent is $${s.asking_rent_psf_yr}.`;
     }
     case "neighbors": {
+      if (!mix.total_current && !mix.complements.length && !mix.conflicts.length) {
+        return `I don't have the current tenant list for ${s.address} yet, so I can't say who the neighbors are.`;
+      }
       const comp = mix.complements[0];
       const conf = mix.conflicts[0];
       return `There are ${mix.total_current} tenants in the building. ${comp ? comp.reason : ""} ${
@@ -91,6 +101,7 @@ export function offlineAnswer(card: Card, topic: Topic): string {
       }`;
     }
     case "prospects": {
+      if (!prospects.companies.length) return `I haven't ranked next tenants for Suite ${s.suite} yet. ${prospects.coverage_note}`;
       const top = prospects.companies.slice(0, 3);
       return `The best next tenants are ${top.map((c) => c.name).join(", ")}. ${top[0] ? `${top[0].name}: ${top[0].reason}.` : ""}`;
     }
@@ -115,6 +126,11 @@ export function forSpeech(text: string) {
 
 export function TopicCard({ card, topic }: { card: Card; topic: Topic }) {
   const { history, inspect, pricing, tenant_mix: mix, fit, prospects } = card;
+  // Nothing real to show for this suite: no card at all (never an empty or borrowed one).
+  if (topic === "fit" && !fit.checks.length) return null;
+  if (topic === "prospects" && !prospects.companies.length) return null;
+  if (topic === "neighbors" && !mix.complements.length && !mix.conflicts.length) return null;
+  if (topic === "history" && !history.timeline.length) return null;
 
   if (topic === "history") {
     return (
