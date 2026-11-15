@@ -131,7 +131,7 @@ export default function VoiceLayer({
 }: {
   card: Card;
   mode: Mode;
-  onNav: (c: NavCommand) => void;
+  onNav: (c: NavCommand) => string | void;
 }) {
   const [phase, setPhase] = useState<Phase>("off");
   const [supported, setSupported] = useState(true);
@@ -406,6 +406,10 @@ export default function VoiceLayer({
     (then?: Command) => {
       setAnswer(null);
       setHelp(false);
+      if (!card.suite.matterport_model_id) {
+        say(`Suite ${card.suite.suite} doesn't have a 3D scan yet. Suite 900 at 6655 Travis does.`);
+        return;
+      }
       pending.current = then ?? null;
       if (!tourOpenRef.current) {
         tourOpenRef.current = true;
@@ -416,7 +420,7 @@ export default function VoiceLayer({
       if (!then) say("Here's the 3D tour. Say next room, turn around, or give me a 360. Say exit tour when you're done.");
       else setReply("Opening the 3D tour…");
     },
-    [say],
+    [card.suite.matterport_model_id, card.suite.suite, say],
   );
 
   const closeTour = useCallback(() => {
@@ -529,12 +533,13 @@ export default function VoiceLayer({
           onNav(cmd);
           say("Searching. Your agent team is reading the listings.");
           return;
-        case "nav.open":
+        case "nav.open": {
           closeTour();
           setAnswer(null);
-          onNav(cmd);
-          say(mode === "tenant" ? `Opening Suite ${card.suite.suite}.` : "Opening your best prospects.");
+          const msg = onNav(cmd);
+          say(typeof msg === "string" ? msg : mode === "tenant" ? `Opening Suite ${card.suite.suite}.` : "Opening your best prospects.");
           return;
+        }
         case "nav.offer":
           closeTour();
           setAnswer(null);

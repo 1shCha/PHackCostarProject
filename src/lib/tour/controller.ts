@@ -91,12 +91,25 @@ export function keyForLabel(label: string | undefined): RoomKey | null {
 }
 
 type TourRoom = { id: string; label: string; key: RoomKey | null; sweeps: Sweep[]; center: Vec3 };
+/** One place to stand. Big open rooms get several stops so "next room" walks the whole suite. */
+type Stop = { room: TourRoom | null; sweep: Sweep };
+
+const STOP_SPACING_M = 2.5;
+
+// Pick photo spots inside a group that are at least STOP_SPACING_M apart.
+function spreadOut(sweeps: Sweep[]): Sweep[] {
+  const picked: Sweep[] = [];
+  for (const s of sweeps) if (picked.every((p) => dist(p.position, s.position) >= STOP_SPACING_M)) picked.push(s);
+  return picked;
+}
 
 export class TourController {
   private sdk: MpSdk;
   private sweeps: Sweep[] = [];
   private rawRooms: RoomData[] = [];
   private rooms: TourRoom[] = [];
+  private stops: Stop[] = [];
+  private stopIndex = -1;
   private currentSweep = "";
   private currentRoomIds: string[] = [];
   private mode = "";
@@ -180,12 +193,59 @@ export class TourController {
       at = r.center;
     }
     this.rooms = ordered;
+
+    // Stops: spread-out photo spots per room, plus spots that aren't inside any room (hallways, entries).
+    const inRoom = new Set(ordered.flatMap((r) => r.sweeps.map((sw) => sw.id)));
+    const raw: Stop[] = [
+      ...ordered.flatMap((r) => spreadOut(r.sweeps).map((sweep) => ({ room: r, sweep }))),
+      ...spreadOut(this.sweeps.filter((sw) => !inRoom.has(sw.id))).map((sweep) => ({ room: null, sweep })),
+    ];
+    // Walk order: start near the first photo spot, then always the nearest unvisited stop.
+    const stops: Stop[] = [];
+    const pool = [...raw];
+    let here = this.sweeps[0]?.position ?? { x: 0, y: 0, z: 0 };
+    while (pool.length) {
+      pool.sort((a, b) => dist(a.sweep.position, here) - dist(b.sweep.position, here));
+      const st = pool.shift()!;
+      stops.push(st);
+      here = st.sweep.position;
+    }
+    this.stops = stops;
     this.onChange?.();
+  }
+
+  // Where we are in the walk: the stop we moved to last, or the stop nearest the current photo spot.
+  private currentStopIndex(): number {
+    const cur = this.sweeps.find((sw) => sw.id === this.currentSweep || sw.sid === this.currentSweep);
+    if (this.stopIndex >= 0 && this.stops[this.stopIndex] && (!cur || this.stops[this.stopIndex].sweep.id === cur.id)) return this.stopIndex;
+    if (!cur) return this.stopIndex;
+    let best = -1;
+    let bestD = Infinity;
+    this.stops.forEach((st, i) => {
+      const d = dist(st.sweep.position, cur.position);
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    });
+    return best;
+  }
+
+  private async walkToStop(i: number): Promise<TourResult> {
+    const st = this.stops[i];
+    if (!st) return { ok: false, say: "I can't reach that part of the scan." };
+    if (this.mode === this.sdk.Mode.Mode.DOLLHOUSE || this.mode === this.sdk.Mode.Mode.FLOORPLAN) await this.ensureInside();
+    await this.sdk.Sweep.moveTo(st.sweep.id, { transition: this.sdk.Camera.TransitionType.FLY, transitionTime: 1500 });
+    const prev = this.stops[this.stopIndex]?.room;
+    this.stopIndex = i;
+    const name = this.roomName(st.room ?? undefined);
+    if (st.room && prev === st.room) return { ok: true, say: "" }; // same room, further in: just move
+    return { ok: true, say: name === "this area" || name === "this space" ? "" : `This is the ${name}.` };
   }
 
   /** Development check: what the SDK has reported so far. */
   debug() {
-    return { sweeps: this.sweeps.length, rooms: this.rooms.map((r) => `${r.label || "?"}:${r.sweeps.length}`), current: this.currentSweep, mode: this.mode, roomIds: this.currentRoomIds };
+    return { sweeps: this.sweeps.length, stops: this.stops.length, stop: this.stopIndex, rooms: this.rooms.map((r) => `${r.label || "?"}:${r.sweeps.length}`), current: this.currentSweep, mode: this.mode, roomIds: this.currentRoomIds };
   }
 
   get ready() {
@@ -244,22 +304,26 @@ export class TourController {
     if (!target) return { ok: false, say: "I can't reach that room in this scan." };
     if (this.mode === this.sdk.Mode.Mode.DOLLHOUSE || this.mode === this.sdk.Mode.Mode.FLOORPLAN) await this.ensureInside();
     await this.sdk.Sweep.moveTo(target.id, { transition: this.sdk.Camera.TransitionType.FLY, transitionTime: 1600 });
+    const at = this.stops.findIndex((st) => st.room === r);
+    if (at >= 0) this.stopIndex = at;
     return { ok: true, say: `This is the ${this.roomName(r)}.` };
   }
 
   next(): Promise<TourResult> {
     return this.run(async () => {
-      if (!this.rooms.length) return { ok: false, say: "The tour is still loading." };
-      const i = this.roomIndexOfCurrent();
-      return this.walkToRoom(this.rooms[(i + 1 + this.rooms.length) % this.rooms.length]);
+      if (!this.stops.length) return { ok: false, say: "The tour is still loading." };
+      const i = this.currentStopIndex();
+      const n = (i + 1) % this.stops.length;
+      const r = await this.walkToStop(n);
+      return n === 0 && i > 0 ? { ...r, say: "That's the whole suite. We're back at the start." } : r;
     });
   }
 
   previous(): Promise<TourResult> {
     return this.run(async () => {
-      if (!this.rooms.length) return { ok: false, say: "The tour is still loading." };
-      const i = Math.max(0, this.roomIndexOfCurrent());
-      return this.walkToRoom(this.rooms[(i - 1 + this.rooms.length) % this.rooms.length]);
+      if (!this.stops.length) return { ok: false, say: "The tour is still loading." };
+      const i = Math.max(0, this.currentStopIndex());
+      return this.walkToStop((i - 1 + this.stops.length) % this.stops.length);
     });
   }
 
