@@ -46,7 +46,7 @@ export function topicOf(q: string): Topic {
   if (/(next|who should|prospect|lease this|best fit|best use|tenant for|match)/.test(t)) return "prospects";
   if (/(rent|price|cost|pay|fair|deal|free month|\$)/.test(t)) return "pricing";
   if (/(neighbo|building|nearby|competit|conflict|refer)/.test(t)) return "neighbors";
-  if (/(before|history|used to|previous|past|who was|was here|occupied)/.test(t)) return "history";
+  if (/(before|history|used to|previous|past|who was|was here|occupied|empty|vacan|how long)/.test(t)) return "history";
   if (/(work for|fit|room|exam|procedure|sink|layout|floor|dermatolog|dentist|clinic|doctor|need)/.test(t)) return "fit";
   return "general";
 }
@@ -67,12 +67,17 @@ export function offlineAnswer(card: Card, topic: Topic): string {
     }
     case "fit": {
       const pass = fit.checks.filter((c) => c.status === "pass");
+      const open = fit.checks.filter((c) => c.status !== "pass");
+      const lead =
+        pass.length === fit.checks.length ? "Yes, it looks like a strong fit." :
+        pass.length * 2 >= fit.checks.length ? "Mostly." : "Only partly.";
       const rooms = Object.entries(inspect.counts)
-        .filter(([k]) => ["exam_room", "procedure", "office", "reception"].includes(k))
+        .filter(([k, n]) => n > 0 && ["exam_room", "procedure", "office", "reception"].includes(k))
         .map(([k, n]) => `${n} ${k.replace("_", " ")}${n > 1 ? "s" : ""}`);
-      return `Yes, it looks like a strong fit. ${pass.length} of ${fit.checks.length} needs are met: ${pass
-        .map((c) => c.need.toLowerCase())
-        .join(", ")}. The scan shows ${rooms.join(", ")}.`;
+      const short = (need: string) => need.replace(/\s*\(.*?\)/g, "").toLowerCase();
+      return `${lead} ${pass.length} of ${fit.checks.length} needs are met${pass.length ? `: ${pass.map((c) => short(c.need)).join(", ")}` : ""}.${
+        open.length ? ` Still to check: ${open.map((c) => short(c.need)).join(", ")}.` : ""
+      }${rooms.length ? ` The scan shows ${rooms.join(", ")}.` : ""}`;
     }
     case "pricing": {
       const [lo, hi] = pricing.range_psf_yr;
@@ -97,8 +102,13 @@ export function offlineAnswer(card: Card, topic: Topic): string {
 }
 
 // Strip markdown and keep the first few sentences so the spoken answer stays short.
+// Remove source tags like [S3] from text shown or read out loud.
+export function cleanAnswer(text: string) {
+  return text.replace(/\s*\[S\d+\](\s*\[S\d+\])*/g, "").replace(/[ \t]+([.,;:])/g, "$1").trim();
+}
+
 export function forSpeech(text: string) {
-  const plain = text.replace(/[*_#`>\[\]]/g, "").replace(/\(https?:[^)]+\)/g, "").replace(/\s+/g, " ").trim();
+  const plain = cleanAnswer(text).replace(/[*_#`>\[\]]/g, "").replace(/\(https?:[^)]+\)/g, "").replace(/\s+/g, " ").trim();
   const sentences = plain.match(/[^.!?]+[.!?]+/g) ?? [plain];
   return sentences.slice(0, 3).join(" ");
 }
@@ -219,18 +229,28 @@ export async function fetchAnswer(card: Card, question: string): Promise<Answer>
   const clean = question.trim();
   const topic = topicOf(clean);
   const s = card.suite;
+  // The live agent answers tenant-history and general questions from the CoStar database (fast, cited).
+  // Rooms/fit, rent, neighbors and prospects come from the card (instant, and the agent has no rent data yet).
+  if (topic !== "history" && topic !== "general") {
+    return { question: clean, text: offlineAnswer(card, topic), topic, live: false };
+  }
+  // Until Role 1's real suite data lands, the card still has the sample address; ask about the real demo suite.
+  const address = /example/i.test(s.address) ? "6655 Travis St" : s.address;
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        question: `About Suite ${s.suite} at ${s.address}, ${s.city}: ${clean} Answer in 2-3 short sentences.`,
+        question: `About Suite ${s.suite} at ${address}, ${s.city}: ${clean} Answer in 2-3 short sentences.`,
       }),
       signal: AbortSignal.timeout(25_000),
     });
     if (res.ok) {
       const data = (await res.json()) as { answer?: string };
-      if (data.answer?.trim()) return { question: clean, text: data.answer.trim(), topic, live: true };
+      const text = data.answer?.trim() ? cleanAnswer(data.answer) : "";
+      // If the agent says it can't answer, use the card instead of reading a refusal out loud.
+      const refused = /\b(i can'?t|i cannot|i'?m unable|don'?t support|not supported|no data|isn'?t available)\b/i.test(text.slice(0, 160));
+      if (text && !refused) return { question: clean, text, topic, live: true };
     }
   } catch {
     // Agent unavailable or too slow: use the card-based answer below.

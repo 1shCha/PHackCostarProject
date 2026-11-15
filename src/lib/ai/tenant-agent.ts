@@ -42,6 +42,13 @@ export async function runWithFallback(question: string, options: FallbackOptions
 
 export async function answerTenantQuestion(question: string, signal?: AbortSignal): Promise<TenantAnswer> {
   validateQuestion(question);
+  // CHAT_PROVIDER=anthropic: answer with Claude first (for example when the Gemini quota is used up).
+  if (process.env.CHAT_PROVIDER?.trim() === "anthropic" && process.env.ANTHROPIC_API_KEY?.trim()) {
+    return runWithFallback(question, {
+      signal,
+      primary: (input, attemptSignal) => runAgentLoop(input, claudeSessionFromEnv(input), { signal: attemptSignal }),
+    });
+  }
   const apiKey = process.env.GEMINI_API_KEY?.trim();
   if (!apiKey) throw new AgentError("NOT_CONFIGURED", "Set GEMINI_API_KEY on the server.");
   const ai = new GoogleGenAI({ apiKey });
