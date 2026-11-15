@@ -874,7 +874,7 @@ function SpaceCard({
         <p className="space-summary">{s.listing_notes[0] ?? "Listing notes not recorded."}</p>
         <div className="hero-sources">
           <Source source="CoStar" dark />
-          <Source source="Matterport scan" dark />
+          {s.matterport_model_id && <Source source="Matterport scan" dark />}
         </div>
       </section>
 
