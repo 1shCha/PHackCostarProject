@@ -20,3 +20,7 @@ data/real/
 
 # Matterport/Vexcel downloads and AI results (regenerate with scripts/)
 cache/
+
+# Local DuckDB databases and write-ahead logs
+*.duckdb
+*.duckdb.wal

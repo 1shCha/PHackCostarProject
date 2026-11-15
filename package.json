@@ -6,13 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:duckdb": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-duckdb.ts",
+    "test:costar-tools": "node --conditions=react-server --import tsx --test src/lib/tools/costar.test.ts",
+    "check:costar-tools": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-costar-tools.ts",
+    "test:tenant-agent": "node --conditions=react-server --import tsx --test src/lib/ai/*.test.ts",
+    "check:tenant-agent": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-tenant-agent.ts",
+    "check:tenant-agent:offline": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-tenant-agent.ts --offline",
+    "test:spatial": "node --conditions=react-server --import tsx --test src/lib/spatial/spatial.test.ts",
+    "check:spatial": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-spatial.ts",
+    "check:spatial-agent": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-spatial.ts --agent"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "@duckdb/node-api": "^2.0.0-r.1",
     "@google/genai": "^3.3.0",
     "next": "15.5.29",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
