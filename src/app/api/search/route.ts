@@ -1,6 +1,7 @@
 // GET /api/search?q=I'm a barber looking for 1,500–2,000 sq ft in Houston
 // Returns ranked real suites (see src/lib/search.ts for the shape and scoring).
 
+import { usesRemoteBackend } from "@/lib/backend";
 import { searchSpaces } from "@/lib/search";
 
 export const runtime = "nodejs";
@@ -17,9 +18,10 @@ export async function GET(request: Request) {
     const message = (e as Error).message;
     console.error("Search failed:", message);
     const noDb = /DUCKDB_PATH|database file/i.test(message);
+    const remote = usesRemoteBackend();
     return Response.json(
-      { error: noDb ? "Search needs the CoStar database: set DUCKDB_PATH in .env.local" : "Search failed" },
-      { status: noDb ? 503 : 500 },
+      { error: remote ? "Search database is unavailable. Check the backend connection." : noDb ? "Search needs the CoStar database: set DUCKDB_PATH in .env.local" : "Search failed" },
+      { status: remote || noDb ? 503 : 500 },
     );
   }
 }

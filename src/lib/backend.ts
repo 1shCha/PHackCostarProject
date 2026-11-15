@@ -1,7 +1,7 @@
 import "server-only";
 import { ToolValidationError } from "./tool-errors";
 
-type BackendTool = "find_properties" | "find_suites" | "get_tenant_history" | "get_spatial_context" | "database_health";
+type BackendTool = "find_properties" | "find_suites" | "get_tenant_history" | "get_spatial_context" | "database_health" | "search_candidates";
 
 // Presence of either setting selects remote mode. A configuration error must
 // never silently fall back to a laptop-only database.

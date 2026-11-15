@@ -319,3 +319,17 @@ for the real remote property → suite → history → cited-answer integration 
 That check deliberately sets the local database path to a nonexistent file and
 uses a scripted model, so it verifies remote data/citations without spending
 model API quota.
+
+### Remote database on for_ishaan_update_backend
+
+This branch retains its existing UI, voice commands, tour, saved inspection data,
+and business-fit scoring. Its search candidate query now uses the authenticated
+`search_candidates` backend operation, so both `/api/search` and chat work without
+a local database. Use the same `BACKEND_API_URL` and `BACKEND_API_KEY` as the
+other remote-database branch; no new secrets are required.
+
+`npm run test:backend` covers remote search and error handling. For a full parity
+check, run `npm run check:remote-search` with backend settings and a local
+`DUCKDB_PATH`: it compares remote/local results and scores, deliberately disabling
+the local path for every remote call. Known barber, dermatologist, and law-firm
+queries were checked against the hosted data.
