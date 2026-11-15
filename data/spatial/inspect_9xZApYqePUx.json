@@ -1,0 +1,731 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/9xZApYqePUx",
+    "width": 2216,
+    "height": 1835
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "private_office",
+      "display": "Open area: open workspace, private office, hallway",
+      "confidence": 0.58,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 744,
+      "polygon": [
+        [
+          926,
+          543
+        ],
+        [
+          1414,
+          542
+        ],
+        [
+          1757,
+          542
+        ],
+        [
+          1780,
+          542
+        ],
+        [
+          1963,
+          542
+        ],
+        [
+          1963,
+          694
+        ],
+        [
+          1572,
+          695
+        ],
+        [
+          1448,
+          695
+        ],
+        [
+          1275,
+          695
+        ],
+        [
+          1275,
+          741
+        ],
+        [
+          1350,
+          821
+        ],
+        [
+          1084,
+          1084
+        ],
+        [
+          961,
+          959
+        ],
+        [
+          823,
+          959
+        ],
+        [
+          749,
+          959
+        ],
+        [
+          731,
+          977
+        ],
+        [
+          394,
+          1313
+        ],
+        [
+          80,
+          1000
+        ],
+        [
+          116,
+          963
+        ],
+        [
+          68,
+          963
+        ],
+        [
+          68,
+          700
+        ],
+        [
+          445,
+          700
+        ],
+        [
+          445,
+          544
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 1100,
+          "y": 641,
+          "pano_url": "",
+          "note": "wall-mounted oak upper cabinets in small side room",
+          "seen_in": 1
+        },
+        {
+          "type": "server_rack",
+          "x": 1116,
+          "y": 641,
+          "pano_url": "",
+          "note": "wall-mounted black network cabinet in small room",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1132,
+          "y": 641,
+          "pano_url": "",
+          "note": "wood door with large glass lite into office",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 598,
+          "y": 874,
+          "pano_url": "",
+          "note": "wood door with tall glass lite into office",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1691,
+          "y": 615,
+          "pano_url": "",
+          "note": "light wood upper and base cabinets in kitchenette",
+          "seen_in": 3
+        },
+        {
+          "type": "counter",
+          "x": 1930,
+          "y": 613,
+          "pano_url": "",
+          "note": "laminate countertop along wall",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1898,
+          "y": 613,
+          "pano_url": "",
+          "note": "double stainless sink with faucet",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 1914,
+          "y": 613,
+          "pano_url": "",
+          "note": "stainless dishwasher",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1733,
+          "y": 612,
+          "pano_url": "",
+          "note": "wood-framed door with glass panel and glass sidelight into corner office",
+          "seen_in": 1
+        },
+        {
+          "type": "server_rack",
+          "x": 1426,
+          "y": 621,
+          "pano_url": "",
+          "note": "black wall-mounted network cabinet with fans",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted suite with a large open area, hallways, perimeter private rooms with doors, and a small utility room holding a wall-mounted network cabinet and oak cabinets.",
+        "Empty carpeted suite with partitioned rooms, wood doors (one with a glass lite) opening off hallways, and no fixtures or built-ins, so it reads as a row of private offices.",
+        "The camera stands in an office corridor with carpet and an exit sign, next to a doorway opening onto a kitchenette with cabinets, a double sink and a dishwasher."
+      ],
+      "zones": [
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.55,
+          "x": 1100,
+          "y": 641,
+          "features": [
+            "cabinets",
+            "server_rack",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.6,
+          "x": 598,
+          "y": 874,
+          "features": [
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.6,
+          "x": 1898,
+          "y": 613,
+          "features": [
+            "cabinets",
+            "counter",
+            "sink",
+            "appliances"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.6,
+          "x": 1701,
+          "y": 612,
+          "features": [
+            "glass_partition",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.55,
+          "x": 1426,
+          "y": 621,
+          "features": [
+            "cabinets",
+            "server_rack"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.5,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 463,
+      "polygon": [
+        [
+          1320,
+          1322
+        ],
+        [
+          1084,
+          1084
+        ],
+        [
+          961,
+          959
+        ],
+        [
+          823,
+          959
+        ],
+        [
+          823,
+          999
+        ],
+        [
+          731,
+          977
+        ],
+        [
+          394,
+          1313
+        ],
+        [
+          840,
+          1758
+        ],
+        [
+          865,
+          1733
+        ],
+        [
+          905,
+          1774
+        ],
+        [
+          1318,
+          1365
+        ],
+        [
+          1297,
+          1345
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 792,
+          "y": 1112,
+          "pano_url": "",
+          "note": "ceiling perforated HVAC diffuser grilles",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted room with drop ceiling, fluorescent troffers, plain walls, and a wood-grain door; there is no furniture or fixtures, so it is probably a small private office."
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 250,
+      "polygon": [
+        [
+          99,
+          135
+        ],
+        [
+          67,
+          136
+        ],
+        [
+          68,
+          700
+        ],
+        [
+          445,
+          700
+        ],
+        [
+          445,
+          544
+        ],
+        [
+          444,
+          81
+        ],
+        [
+          98,
+          81
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 399,
+          "y": 606,
+          "pano_url": "",
+          "note": "glass panel in wood-framed door/sidelight looking into the office",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 415,
+          "y": 606,
+          "pano_url": "",
+          "note": "ceiling air diffuser grilles",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "An empty carpeted corner room with windows, chair rail molding, and a glass-paneled wood door opening onto an open office area with hallway."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 244,
+      "polygon": [
+        [
+          1414,
+          79
+        ],
+        [
+          1414,
+          542
+        ],
+        [
+          926,
+          543
+        ],
+        [
+          925,
+          80
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 980,
+          "y": 527,
+          "pano_url": "",
+          "note": "glass panel in door looking into empty office",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted room with a window wall, chair rail and drop ceiling, partitioned off from a larger open suite, with no fixtures or furniture."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "open_workspace",
+      "display": "Open workspace",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 240,
+      "polygon": [
+        [
+          925,
+          80
+        ],
+        [
+          926,
+          543
+        ],
+        [
+          445,
+          544
+        ],
+        [
+          444,
+          81
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 859,
+          "y": 537,
+          "pano_url": "",
+          "note": "glass-paneled wood door and dark-framed partition walls between offices",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted office suite with drop ceiling, fluorescent troffers, partition walls and perimeter private offices with windows, but no furniture."
+      ]
+    },
+    {
+      "id": "2qdmc5i9byxi79ry1pxdkqzea",
+      "label": "break_room",
+      "display": "Break room",
+      "confidence": 0.85,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 185,
+      "polygon": [
+        [
+          1780,
+          542
+        ],
+        [
+          1963,
+          542
+        ],
+        [
+          2150,
+          541
+        ],
+        [
+          2149,
+          78
+        ],
+        [
+          1779,
+          79
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 1924,
+          "y": 349,
+          "pano_url": "",
+          "note": "light wood upper and base cabinets along right wall",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1940,
+          "y": 349,
+          "pano_url": "",
+          "note": "laminate countertop with backsplash along wall",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1956,
+          "y": 349,
+          "pano_url": "",
+          "note": "double stainless steel sink with faucet",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 1924,
+          "y": 349,
+          "pano_url": "",
+          "note": "GE stainless dishwasher under counter",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Kitchenette with upper and base cabinets, laminate counter, double sink and dishwasher, plus slate floor and empty space with window."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 169,
+      "polygon": [
+        [
+          1779,
+          79
+        ],
+        [
+          1414,
+          79
+        ],
+        [
+          1414,
+          542
+        ],
+        [
+          1757,
+          542
+        ],
+        [
+          1756,
+          440
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1701,
+          "y": 412,
+          "pano_url": "",
+          "note": "wood-framed glass door/sidelight between room and hallway",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty carpeted room with drop ceiling, chair rail, corner windows and a wood-framed glass door, typical of a private office."
+      ]
+    },
+    {
+      "id": "a5f9age4zzxewres6iqux2emc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 152,
+      "polygon": [
+        [
+          1573,
+          1003
+        ],
+        [
+          1521,
+          1003
+        ],
+        [
+          1350,
+          821
+        ],
+        [
+          1084,
+          1084
+        ],
+        [
+          1320,
+          1322
+        ],
+        [
+          1349,
+          1352
+        ],
+        [
+          1618,
+          1088
+        ],
+        [
+          1573,
+          1042
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1494,
+          "y": 1041,
+          "pano_url": "",
+          "note": "interior sidelight window with brown frame and mini blinds beside the door",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty carpeted room with a solid wood-grain door, a framed interior window with blinds, a drop ceiling and bare walls looks like a private office."
+      ]
+    },
+    {
+      "id": "19ab05tns5h6y4qm42esqqpea",
+      "label": "server_utility",
+      "display": "Server / utility room",
+      "confidence": 0.44,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 55,
+      "polygon": [
+        [
+          1275,
+          741
+        ],
+        [
+          1448,
+          695
+        ],
+        [
+          1572,
+          695
+        ],
+        [
+          1573,
+          926
+        ],
+        [
+          1520,
+          927
+        ],
+        [
+          1521,
+          1003
+        ],
+        [
+          1350,
+          821
+        ]
+      ],
+      "features": [
+        {
+          "type": "server_rack",
+          "x": 1466,
+          "y": 830,
+          "pano_url": "",
+          "note": "wall-mounted black network cabinet",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1466,
+          "y": 830,
+          "pano_url": "",
+          "note": "row of oak upper cabinets on right wall",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 1466,
+          "y": 830,
+          "pano_url": "",
+          "note": "small white wall shelf near rack",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Seen through the doorway: A small carpeted room has a wall-mounted network enclosure and upper oak cabinets, so it is likely an IT/storage closet."
+      ]
+    }
+  ],
+  "counts": {
+    "private_office": 6,
+    "cabinets": 3,
+    "server_rack": 2,
+    "glass_partition": 8,
+    "counter": 2,
+    "sink": 2,
+    "appliances": 2,
+    "ventilation_exhaust": 2,
+    "open_workspace": 1,
+    "break_room": 1
+  },
+  "measured": {
+    "rooms": 9,
+    "scans": 12,
+    "area_sqft": 2502,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 9 rooms, 12 photos inside them, 1 rooms with no photo inside",
+    "Second look at photo ta05ri (45% sure): now open_workspace at 55%",
+    "Second look at photo zedy0f (40% sure): now private_office at 60%",
+    "Second look at photo x08wdf (55% sure): kept first answer",
+    "Room 19ab05 (5 m²): looked in from photo x08wdf, view 1 → server_utility at 55%"
+  ]
+}

@@ -1,0 +1,459 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/YnZqEwSebtw",
+    "width": 1680,
+    "height": 1142
+  },
+  "rooms": [
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.44,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 214,
+      "polygon": [
+        [
+          432,
+          138
+        ],
+        [
+          67,
+          139
+        ],
+        [
+          68,
+          686
+        ],
+        [
+          342,
+          686
+        ],
+        [
+          342,
+          668
+        ],
+        [
+          433,
+          668
+        ],
+        [
+          433,
+          568
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 366,
+          "y": 597,
+          "pano_url": "",
+          "note": "interior window with dark frame in hallway wall",
+          "seen_in": 2
+        }
+      ],
+      "evidence": [
+        "The camera stands in a carpeted corridor with several wood doors, a window opening into a side room, and an exit sign, and the empty office next to it has no built-in fixtures.",
+        "Small empty carpeted room with a wood door opening onto an office corridor, a corner window, and drop-ceiling lights, typical of a private office."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 171,
+      "polygon": [
+        [
+          799,
+          567
+        ],
+        [
+          1168,
+          566
+        ],
+        [
+          1168,
+          402
+        ],
+        [
+          1167,
+          136
+        ],
+        [
+          798,
+          137
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Small empty carpeted room with a wood door, drop ceiling, outlets and one tall window, and no built-in fixtures, which fits a private office."
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.85,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 169,
+      "polygon": [
+        [
+          799,
+          567
+        ],
+        [
+          798,
+          137
+        ],
+        [
+          432,
+          138
+        ],
+        [
+          433,
+          568
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 728,
+          "y": 507,
+          "pano_url": "",
+          "note": "framed interior window in wall between rooms",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 744,
+          "y": 507,
+          "pano_url": "",
+          "note": "ceiling air vent grille",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty carpeted room with a wood door, an exterior window and outlets, plus an interior framed window and ceiling vents, looks like a private office."
+      ]
+    },
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.38,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 154,
+      "polygon": [
+        [
+          434,
+          862
+        ],
+        [
+          433,
+          668
+        ],
+        [
+          433,
+          568
+        ],
+        [
+          799,
+          567
+        ],
+        [
+          1168,
+          566
+        ],
+        [
+          1329,
+          566
+        ],
+        [
+          1329,
+          697
+        ],
+        [
+          1224,
+          697
+        ],
+        [
+          1225,
+          743
+        ],
+        [
+          831,
+          744
+        ],
+        [
+          831,
+          693
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1020,
+          "y": 642,
+          "pano_url": "",
+          "note": "small framed interior window in wall of an office",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 761,
+          "y": 630,
+          "pano_url": "",
+          "note": "interior window with blinds in wall between offices",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted corridor with several dark-framed doorways leading to small empty offices, a larger window office, an exit sign, and no furniture or fixtures.",
+        "Empty carpeted small office with a tall exterior window, wooden door, and corridor of similar office doors.",
+        "Narrow carpeted corridor with blank walls and several open wood doors leading to empty offices, plus an exit sign."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 131,
+      "polygon": [
+        [
+          831,
+          744
+        ],
+        [
+          831,
+          861
+        ],
+        [
+          832,
+          1052
+        ],
+        [
+          1225,
+          1052
+        ],
+        [
+          1225,
+          743
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1147,
+          "y": 783,
+          "pano_url": "",
+          "note": "floor-to-ceiling window glazing in adjacent offices",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1163,
+          "y": 783,
+          "pano_url": "",
+          "note": "ceiling air vent grille next to light fixture",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty carpeted room with a wood door, drop ceiling and bare walls, with similar small offices visible next door."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 121,
+      "polygon": [
+        [
+          1328,
+          401
+        ],
+        [
+          1168,
+          402
+        ],
+        [
+          1167,
+          136
+        ],
+        [
+          1592,
+          135
+        ],
+        [
+          1592,
+          401
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1236,
+          "y": 380,
+          "pano_url": "",
+          "note": "floor-to-ceiling exterior window with vertical blinds",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty carpeted room with a wooden door, drop ceiling and a tall window, sitting off a corridor of similar office doors."
+      ]
+    },
+    {
+      "id": "a5f9age4zzxewres6iqux2emc",
+      "label": "consult_room",
+      "display": "Consult room",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 84,
+      "polygon": [
+        [
+          1329,
+          566
+        ],
+        [
+          1329,
+          697
+        ],
+        [
+          1593,
+          696
+        ],
+        [
+          1592,
+          401
+        ],
+        [
+          1328,
+          401
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 1384,
+          "y": 621,
+          "pano_url": "",
+          "note": "perforated ceiling air vent/diffuser beside light",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty carpeted room with a door labeled 'THERAPIST – AVAILABLE' opening onto a hallway of similar rooms, suggesting a therapy/counseling office."
+      ]
+    },
+    {
+      "id": "2qdmc5i9byxi79ry1pxdkqzea",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 80,
+      "polygon": [
+        [
+          434,
+          862
+        ],
+        [
+          434,
+          1022
+        ],
+        [
+          479,
+          1022
+        ],
+        [
+          480,
+          1053
+        ],
+        [
+          832,
+          1052
+        ],
+        [
+          831,
+          861
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 744,
+          "y": 962,
+          "pano_url": "",
+          "note": "framed interior window in wall to adjacent room",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty carpeted room with a wood door, coat hook, interior windows and exterior blinds, with an adjoining office visible beyond."
+      ]
+    },
+    {
+      "id": "19ab05tns5h6y4qm42esqqpea",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.5,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 29,
+      "polygon": [
+        [
+          1328,
+          401
+        ],
+        [
+          1168,
+          402
+        ],
+        [
+          1168,
+          566
+        ],
+        [
+          1329,
+          566
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Empty carpeted corridor with drop ceiling and wood doors to small offices, one door labeled 'Therapist Available', with no fixtures or built-ins visible."
+      ]
+    }
+  ],
+  "counts": {
+    "private_office": 5,
+    "glass_partition": 4,
+    "ventilation_exhaust": 3,
+    "consult_room": 1,
+    "hallway": 1
+  },
+  "measured": {
+    "rooms": 9,
+    "scans": 13,
+    "area_sqft": 1153,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 9 rooms, 12 photos inside them, 0 rooms with no photo inside",
+    "Second look at photo gc8pm5 (50% sure): now hallway at 55%"
+  ]
+}

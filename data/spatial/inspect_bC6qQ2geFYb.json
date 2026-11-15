@@ -1,0 +1,464 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/bC6qQ2geFYb",
+    "width": 1550,
+    "height": 1058
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.46,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 311,
+      "polygon": [
+        [
+          388,
+          540
+        ],
+        [
+          388,
+          520
+        ],
+        [
+          387,
+          409
+        ],
+        [
+          704,
+          408
+        ],
+        [
+          1004,
+          408
+        ],
+        [
+          1167,
+          408
+        ],
+        [
+          1167,
+          539
+        ],
+        [
+          982,
+          540
+        ],
+        [
+          982,
+          894
+        ],
+        [
+          957,
+          894
+        ],
+        [
+          957,
+          951
+        ],
+        [
+          525,
+          952
+        ],
+        [
+          525,
+          540
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1079,
+          "y": 471,
+          "pano_url": "",
+          "note": "open doorway at right of hallway shows an interior room through a dark-framed glass-like opening",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 938,
+          "y": 472,
+          "pano_url": "",
+          "note": "upper and base cabinets in the kitchenette room seen through the doorway",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 954,
+          "y": 472,
+          "pano_url": "",
+          "note": "laminate countertop with backsplash along the wall in the kitchenette",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 922,
+          "y": 472,
+          "pano_url": "",
+          "note": "small stainless sink with gooseneck faucet in the kitchenette",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 593,
+          "y": 531,
+          "pano_url": "",
+          "note": "floor-to-ceiling window wall with blinds in office",
+          "seen_in": 3
+        },
+        {
+          "type": "glass_partition",
+          "x": 909,
+          "y": 915,
+          "pano_url": "",
+          "note": "floor-to-ceiling glass wall with blinds facing atrium",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "The camera is in a narrow hallway with wood-look flooring, an exit sign and doors to empty carpeted offices on both sides.",
+        "The camera is in a narrow corridor with wood-look flooring, open office doorways on both sides, and an exit sign. A small kitchenette with cabinets and a sink is visible through a doorway.",
+        "The camera stands in a narrow hallway with wood-grain doors to carpeted offices on both sides, and view 4 looks into an office with a window wall and a desk."
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.7,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 265,
+      "polygon": [
+        [
+          1008,
+          951
+        ],
+        [
+          1008,
+          894
+        ],
+        [
+          982,
+          894
+        ],
+        [
+          982,
+          540
+        ],
+        [
+          1167,
+          539
+        ],
+        [
+          1167,
+          408
+        ],
+        [
+          1482,
+          407
+        ],
+        [
+          1483,
+          950
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1330,
+          "y": 511,
+          "pano_url": "",
+          "note": "floor-to-ceiling black-framed windows with mini blinds along the far wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "An empty carpeted room with a wood-veneer door, a window wall with blinds, and a hallway of similar offices outside suggests a private office."
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.88,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 203,
+      "polygon": [
+        [
+          196,
+          541
+        ],
+        [
+          299,
+          541
+        ],
+        [
+          388,
+          540
+        ],
+        [
+          525,
+          540
+        ],
+        [
+          525,
+          952
+        ],
+        [
+          68,
+          953
+        ],
+        [
+          68,
+          541
+        ]
+      ],
+      "features": [
+        {
+          "type": "desks",
+          "x": 441,
+          "y": 591,
+          "pano_url": "",
+          "note": "cherry L-shaped desk with file drawers and return",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 457,
+          "y": 591,
+          "pano_url": "",
+          "note": "floor-to-ceiling glass wall with mini blinds",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small carpeted room with an executive L-shaped wood desk, an exterior glass wall with blinds, and a wood door."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 175,
+      "polygon": [
+        [
+          1482,
+          68
+        ],
+        [
+          1482,
+          407
+        ],
+        [
+          1167,
+          408
+        ],
+        [
+          1004,
+          408
+        ],
+        [
+          1003,
+          68
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Small empty room with white walls, carpet, drop ceiling, and a wood-veneer door in a black frame opening onto a larger open office area; no installed fixtures are visible."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 148,
+      "polygon": [
+        [
+          387,
+          409
+        ],
+        [
+          387,
+          70
+        ],
+        [
+          67,
+          70
+        ],
+        [
+          67,
+          451
+        ],
+        [
+          196,
+          451
+        ],
+        [
+          196,
+          541
+        ],
+        [
+          299,
+          541
+        ],
+        [
+          299,
+          520
+        ],
+        [
+          388,
+          520
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 227,
+          "y": 361,
+          "pano_url": "",
+          "note": "ceiling air vent grille in drop ceiling",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty carpeted room with drop ceiling, wood door and black-framed doorway, outlets and phone jacks, suggesting a small private office.",
+        "Small empty carpeted room with white walls, drop ceiling, outlets and a light switch, and a wood door opening onto a hallway with other office doors."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 116,
+      "polygon": [
+        [
+          704,
+          408
+        ],
+        [
+          387,
+          409
+        ],
+        [
+          387,
+          70
+        ],
+        [
+          704,
+          69
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 640,
+          "y": 362,
+          "pano_url": "",
+          "note": "floor-to-ceiling glass wall with blinds facing atrium courtyard",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 656,
+          "y": 362,
+          "pano_url": "",
+          "note": "ducted ceiling vent grille in drop ceiling",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty carpeted room with a wood door and plain white walls, opening onto an open area with a glass wall facing an atrium, indicating a private office."
+      ]
+    },
+    {
+      "id": "2qdmc5i9byxi79ry1pxdkqzea",
+      "label": "break_room",
+      "display": "Break room",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 110,
+      "polygon": [
+        [
+          704,
+          408
+        ],
+        [
+          704,
+          69
+        ],
+        [
+          1003,
+          68
+        ],
+        [
+          1004,
+          408
+        ]
+      ],
+      "features": [
+        {
+          "type": "counter",
+          "x": 922,
+          "y": 361,
+          "pano_url": "",
+          "note": "laminate counter along right wall with backsplash",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 938,
+          "y": 361,
+          "pano_url": "",
+          "note": "stainless single-basin sink with gooseneck faucet",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 954,
+          "y": 361,
+          "pano_url": "",
+          "note": "beige upper wall cabinets and base cabinets",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small room with a laminate counter, stainless sink, and upper and base cabinets, which suggests a kitchenette or break room."
+      ]
+    }
+  ],
+  "counts": {
+    "private_office": 5,
+    "glass_partition": 3,
+    "desks": 1,
+    "ventilation_exhaust": 2,
+    "break_room": 1,
+    "counter": 1,
+    "sink": 1,
+    "cabinets": 1
+  },
+  "measured": {
+    "rooms": 7,
+    "scans": 13,
+    "area_sqft": 1327,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 7 rooms, 13 photos inside them, 0 rooms with no photo inside",
+    "Second look at photo p4wh4s (55% sure): kept first answer",
+    "Second look at photo se1dwa (55% sure): kept first answer"
+  ]
+}

@@ -1,0 +1,719 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/ZNwAFka5Dab",
+    "width": 2532,
+    "height": 2029
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "other",
+      "display": "Open area: other, showroom",
+      "confidence": 0.5,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 2443,
+      "polygon": [
+        [
+          1522,
+          82
+        ],
+        [
+          267,
+          81
+        ],
+        [
+          102,
+          687
+        ],
+        [
+          434,
+          1936
+        ],
+        [
+          1703,
+          1598
+        ],
+        [
+          1651,
+          1417
+        ],
+        [
+          1604,
+          1252
+        ],
+        [
+          1444,
+          690
+        ],
+        [
+          1522,
+          690
+        ],
+        [
+          1522,
+          382
+        ],
+        [
+          1522,
+          258
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 899,
+          "y": 960,
+          "pano_url": "",
+          "note": "floor-to-ceiling storefront glass wall with entry door",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 915,
+          "y": 960,
+          "pano_url": "",
+          "note": "ceiling HVAC diffuser grilles in drop ceiling",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 953,
+          "y": 1353,
+          "pano_url": "",
+          "note": "floor-to-ceiling storefront glass wall with entry door",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 921,
+          "y": 1353,
+          "pano_url": "",
+          "note": "ceiling HVAC diffuser grilles",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1232,
+          "y": 378,
+          "pano_url": "",
+          "note": "ceiling HVAC return grille with rust staining",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1475,
+          "y": 330,
+          "pano_url": "",
+          "note": "floor-to-ceiling storefront glass wall with two glass doors",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 1443,
+          "y": 330,
+          "pano_url": "",
+          "note": "electrical panel and conduit at end of hallway",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1363,
+          "y": 1285,
+          "pano_url": "",
+          "note": "HVAC return grille visible in opening above wall",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1379,
+          "y": 1285,
+          "pano_url": "",
+          "note": "storefront glass wall with glass entry door along front",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 823,
+          "y": 411,
+          "pano_url": "",
+          "note": "storefront glass wall with entry doors along front",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A large, empty open storefront room with vinyl plank flooring, a drop ceiling, a raised blue carpeted platform (former church stage) and glass storefront walls, with no built-in fixtures, counters or sinks.",
+        "Large empty retail-style storefront space with glass front windows, drop ceiling, vinyl plank floor and a small carpeted raised platform, with no fixtures or built-in features visible.",
+        "Large open empty storefront room with vinyl plank floor, drop ceiling, a carpeted raised platform (former church stage), and no desks, counters or fixtures."
+      ],
+      "zones": [
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.55,
+          "x": 499,
+          "y": 1475,
+          "features": []
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.4,
+          "x": 1441,
+          "y": 881,
+          "features": []
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.5,
+          "x": 899,
+          "y": 960,
+          "features": [
+            "glass_partition",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.5,
+          "x": 921,
+          "y": 1353,
+          "features": [
+            "glass_partition",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.55,
+          "x": 405,
+          "y": 498,
+          "features": []
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.5,
+          "x": 459,
+          "y": 1043,
+          "features": []
+        },
+        {
+          "label": "showroom",
+          "display": "Showroom",
+          "confidence": 0.5,
+          "x": 1216,
+          "y": 378,
+          "features": [
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.55,
+          "x": 1299,
+          "y": 895,
+          "features": []
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.4,
+          "x": 1443,
+          "y": 330,
+          "features": [
+            "glass_partition",
+            "heavy_power"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.55,
+          "x": 1347,
+          "y": 1285,
+          "features": [
+            "ventilation_exhaust",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0.5,
+          "x": 823,
+          "y": 411,
+          "features": [
+            "glass_partition"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "other",
+      "display": "Other",
+      "confidence": 0.36,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 362,
+      "polygon": [
+        [
+          1856,
+          1185
+        ],
+        [
+          1604,
+          1252
+        ],
+        [
+          1444,
+          690
+        ],
+        [
+          1522,
+          690
+        ],
+        [
+          1957,
+          690
+        ],
+        [
+          2083,
+          690
+        ],
+        [
+          2151,
+          950
+        ],
+        [
+          2347,
+          898
+        ],
+        [
+          2385,
+          1043
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 1881,
+          "y": 998,
+          "pano_url": "",
+          "note": "ceiling air supply/return grille",
+          "seen_in": 4
+        },
+        {
+          "type": "glass_partition",
+          "x": 1801,
+          "y": 1153,
+          "pano_url": "",
+          "note": "opening to blue-walled adjacent area, possibly a window",
+          "seen_in": 1
+        },
+        {
+          "type": "toilet",
+          "x": 2201,
+          "y": 1035,
+          "pano_url": "",
+          "note": "toilet and pedestal sink in dark restroom beyond the door, patterned tile floor",
+          "seen_in": 2
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 2238,
+          "y": 1013,
+          "pano_url": "",
+          "note": "ceiling vent grilles and a small vent near the top of the wall",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 2115,
+          "y": 1057,
+          "pano_url": "",
+          "note": "pedestal sink in restroom, with mirror above",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty yellow-walled rooms with scuffed, patched paint, stained ceiling tiles and vinyl plank flooring, opening onto a large open retail floor. They have no fixtures or built-ins and look like former offices or classrooms.",
+        "Small empty enclosed room with a door opening onto a large open floor, drop ceiling, vinyl plank flooring and patched yellow walls, and no fixtures.",
+        "An empty, vacant room with yellow walls, patched paint, vinyl plank flooring, drop ceiling and several doors (including a small closet and a purple/teal room), but no furniture or fixtures that show a specific use."
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.53,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 291,
+      "polygon": [
+        [
+          1522,
+          258
+        ],
+        [
+          1910,
+          259
+        ],
+        [
+          1910,
+          82
+        ],
+        [
+          2464,
+          82
+        ],
+        [
+          2353,
+          475
+        ],
+        [
+          2103,
+          475
+        ],
+        [
+          2103,
+          690
+        ],
+        [
+          2083,
+          690
+        ],
+        [
+          1957,
+          690
+        ],
+        [
+          1957,
+          382
+        ],
+        [
+          1522,
+          382
+        ]
+      ],
+      "features": [
+        {
+          "type": "heavy_power",
+          "x": 2069,
+          "y": 373,
+          "pano_url": "",
+          "note": "electrical panel on wall near rear exit",
+          "seen_in": 6
+        },
+        {
+          "type": "grab_bars",
+          "x": 2085,
+          "y": 373,
+          "pano_url": "",
+          "note": "grab bar visible in restroom doorway with tile floor",
+          "seen_in": 6
+        },
+        {
+          "type": "toilet",
+          "x": 2179,
+          "y": 400,
+          "pano_url": "",
+          "note": "restroom with patterned tile visible through doorway, fixtures not clearly seen",
+          "seen_in": 4
+        },
+        {
+          "type": "sink",
+          "x": 2360,
+          "y": 214,
+          "pano_url": "",
+          "note": "pedestal sink in the restroom",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A narrow corridor with a half-blue, half-gray painted wall connects the open front room to small empty side rooms, a rear exit with an electrical panel, and a restroom with a grab bar.",
+        "A narrow two-tone corridor with a drop ceiling connects an open front area to side rooms, a restroom with a grab bar and tile floor, and a rear EXIT door with an electrical panel.",
+        "The area is a mostly empty set of blue-painted rooms and a narrow corridor with an exit door, an electrical panel and an accessible restroom (toilet, grab bar), so it reads as a circulation and entry area."
+      ]
+    },
+    {
+      "id": "vp36cqumvr5",
+      "label": "other",
+      "display": "Other",
+      "confidence": 0.16,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 211,
+      "polygon": [
+        [
+          2385,
+          1043
+        ],
+        [
+          2477,
+          1389
+        ],
+        [
+          1950,
+          1532
+        ],
+        [
+          1856,
+          1185
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Two narrow open doorways on the left show only dark interiors with no discernible contents, so the room type can't be determined."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "other",
+      "display": "Other",
+      "confidence": 0.3,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 144,
+      "polygon": [
+        [
+          1957,
+          690
+        ],
+        [
+          1957,
+          382
+        ],
+        [
+          1522,
+          382
+        ],
+        [
+          1522,
+          690
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Small empty rooms with blue and gray painted walls, drop ceiling, worn parquet-style flooring and a bare closet-like room; no fixtures or furniture are visible."
+      ]
+    },
+    {
+      "id": "1fk8ikvzwqx",
+      "label": "other",
+      "display": "Unverified room (100 sq ft)",
+      "confidence": 0,
+      "status": "unverified",
+      "source": "none",
+      "area_sqft": 100,
+      "polygon": [
+        [
+          1856,
+          1185
+        ],
+        [
+          1604,
+          1252
+        ],
+        [
+          1651,
+          1417
+        ],
+        [
+          1703,
+          1598
+        ],
+        [
+          1950,
+          1532
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "No photo shows the inside of this room."
+      ]
+    },
+    {
+      "id": "o6usua9i09x",
+      "label": "storage",
+      "display": "Storage",
+      "confidence": 0.3,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 74,
+      "polygon": [
+        [
+          1522,
+          258
+        ],
+        [
+          1910,
+          259
+        ],
+        [
+          1910,
+          82
+        ],
+        [
+          1522,
+          82
+        ]
+      ],
+      "features": [
+        {
+          "type": "heavy_power",
+          "x": 1844,
+          "y": 218,
+          "pano_url": "",
+          "note": "small alarm keypad panel and wall outlet; not heavy-duty, low confidence",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty room with blue and white walls, dark carpet, drop ceiling and a door with a deadbolt, and no furniture or fixtures, so it looks like a small closet or storage room off a hallway."
+      ]
+    },
+    {
+      "id": "a5f9age4zzxewres6iqux2emc",
+      "label": "restroom",
+      "display": "Restroom",
+      "confidence": 0.24,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 53,
+      "polygon": [
+        [
+          2103,
+          690
+        ],
+        [
+          2083,
+          690
+        ],
+        [
+          2151,
+          950
+        ],
+        [
+          2347,
+          898
+        ],
+        [
+          2292,
+          690
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Two doorways on the right show only dark interiors, with purple partition walls and a tile floor in the first, so the room type is unclear and may be a restroom or small utility room."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "restroom",
+      "display": "Restroom",
+      "confidence": 0.97,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 51,
+      "polygon": [
+        [
+          2103,
+          475
+        ],
+        [
+          2103,
+          690
+        ],
+        [
+          2292,
+          690
+        ],
+        [
+          2353,
+          475
+        ]
+      ],
+      "features": [
+        {
+          "type": "toilet",
+          "x": 2213,
+          "y": 573,
+          "pano_url": "",
+          "note": "white tank toilet with toilet paper roll on top",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 2229,
+          "y": 573,
+          "pano_url": "",
+          "note": "pedestal sink with faucet and wall mirror",
+          "seen_in": 1
+        },
+        {
+          "type": "grab_bars",
+          "x": 2245,
+          "y": 573,
+          "pano_url": "",
+          "note": "metal grab bar mounted on wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Men's restroom with a toilet, pedestal sink, mirror, grab bar and a 'Men' sign on the door."
+      ]
+    }
+  ],
+  "counts": {
+    "other": 1,
+    "glass_partition": 5,
+    "ventilation_exhaust": 4,
+    "heavy_power": 2,
+    "hallway": 1,
+    "grab_bars": 2,
+    "toilet": 2,
+    "sink": 2,
+    "restroom": 1
+  },
+  "measured": {
+    "rooms": 9,
+    "scans": 27,
+    "area_sqft": 3729,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 9 rooms, 27 photos inside them, 3 rooms with no photo inside",
+    "Second look at photo ea0qb8 (50% sure): now other at 55%",
+    "Second look at photo 8ihd7u (40% sure): kept first answer",
+    "Second look at photo 6uchws (40% sure): now other at 50%",
+    "Second look at photo fdnzax (40% sure): now other at 50%",
+    "Second look at photo 35ax1x (40% sure): now other at 55%",
+    "Second look at photo 9x5z4x (40% sure): now other at 50%",
+    "Second look at photo xq03x5 (50% sure): kept first answer",
+    "Second look at photo 9zc8is (40% sure): now other at 55%",
+    "Second look at photo e9tquq (40% sure): kept first answer",
+    "Second look at photo qhdqan (40% sure): now other at 55%",
+    "Second look at photo 61ceq6 (40% sure): now other at 50%",
+    "Second look at photo pb5g5u (30% sure): now other at 40%",
+    "Second look at photo im4mqs (50% sure): kept first answer",
+    "Second look at photo wm8f57 (30% sure): now other at 40%",
+    "Second look at photo 9m3k6k (30% sure): now other at 40%",
+    "Second look at photo beb46a (30% sure): now other at 40%",
+    "Second look at photo x9zw56 (35% sure): now other at 50%",
+    "Second look at photo z9dbii (30% sure): now other at 40%",
+    "Second look at photo 1kk1dp (50% sure): now hallway at 55%",
+    "Second look at photo 0eimdn (55% sure): now hallway at 70%",
+    "Second look at photo i7tkn5 (40% sure): now hallway at 50%",
+    "Second look at photo wzhbtn (30% sure): now hallway at 60%",
+    "Second look at photo 5rgs02 (30% sure): now other at 40%",
+    "Room vp36cq (20 m²): looked in from photo z9dbii, view 4 → other at 20%",
+    "Room 1fk8ik (9 m²): no view into it, marked unverified",
+    "Room a5f9ag (5 m²): looked in from photo 9m3k6k, view 4 → restroom at 30%"
+  ]
+}

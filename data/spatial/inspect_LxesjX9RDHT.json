@@ -1,0 +1,616 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/LxesjX9RDHT",
+    "width": 2336,
+    "height": 821
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "open_workspace",
+      "display": "Open area: open workspace, studio / fitness floor, sales floor",
+      "confidence": 0.52,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 1099,
+      "polygon": [
+        [
+          1662,
+          737
+        ],
+        [
+          1662,
+          534
+        ],
+        [
+          1662,
+          401
+        ],
+        [
+          1661,
+          85
+        ],
+        [
+          95,
+          86
+        ],
+        [
+          96,
+          738
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1562,
+          "y": 443,
+          "pano_url": "",
+          "note": "floor-to-ceiling glass wall with framed door opening separating a side room",
+          "seen_in": 3
+        },
+        {
+          "type": "cabinets",
+          "x": 1578,
+          "y": 443,
+          "pano_url": "",
+          "note": "small white wall cabinet and base cabinet in back room",
+          "seen_in": 3
+        },
+        {
+          "type": "sink",
+          "x": 1594,
+          "y": 443,
+          "pano_url": "",
+          "note": "small sink with faucet on granite countertop in back room",
+          "seen_in": 3
+        },
+        {
+          "type": "counter",
+          "x": 1567,
+          "y": 466,
+          "pano_url": "",
+          "note": "granite countertop on base cabinet at end of back room",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1583,
+          "y": 466,
+          "pano_url": "",
+          "note": "ceiling supply and return grilles throughout",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 749,
+          "y": 621,
+          "pano_url": "",
+          "note": "large wall mirror panels along the side wall, which are mirrors rather than glass windows between spaces, so this may not count; kitchenette cabinets are visible beyond",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 717,
+          "y": 621,
+          "pano_url": "",
+          "note": "white base and wall cabinets with countertop in a far kitchenette area",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 199,
+          "y": 589,
+          "pano_url": "",
+          "note": "mirrored or glass wall panels along the left side of the long room",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1205,
+          "y": 632,
+          "pano_url": "",
+          "note": "large mirrored/glass wall panels along one side, with a doorway into a back room",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1211,
+          "y": 254,
+          "pano_url": "",
+          "note": "large wall mirror panels along the side wall, possibly a studio mirror wall",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1227,
+          "y": 254,
+          "pano_url": "",
+          "note": "ducted ceiling diffusers and return grilles throughout",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 251,
+          "y": 188,
+          "pano_url": "",
+          "note": "mirrored/glass wall panels along the far side of the open room",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 219,
+          "y": 188,
+          "pano_url": "",
+          "note": "small kitchenette cabinets visible through a doorway at the back",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 722,
+          "y": 221,
+          "pano_url": "",
+          "note": "large wall mirror panels along the side wall, possibly mirrored glass",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 738,
+          "y": 221,
+          "pano_url": "",
+          "note": "ceiling HVAC supply diffusers",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A large empty storefront-style room with glass front, drop ceiling and vinyl plank floor, plus a glass-walled side room leading to a back room with a small sink and cabinet.",
+        "Large empty open room with vinyl plank flooring, a wall of mirrors, and storefront glass, with a small kitchenette at the far end, suggesting a fitness or dance studio or open retail space.",
+        "A large empty open retail storefront with vinyl plank flooring, drop ceiling, a full glass front, and a 'For Lease retail/professional/restaurant' sign, with no fixtures or built-ins other than mirrored panels."
+      ],
+      "zones": [
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.5,
+          "x": 1567,
+          "y": 466,
+          "features": [
+            "glass_partition",
+            "cabinets",
+            "sink",
+            "counter",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "studio",
+          "display": "Studio / fitness floor",
+          "confidence": 0.5,
+          "x": 717,
+          "y": 621,
+          "features": [
+            "glass_partition",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "sales_floor",
+          "display": "Sales floor",
+          "confidence": 0.6,
+          "x": 183,
+          "y": 589,
+          "features": [
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.55,
+          "x": 1587,
+          "y": 630,
+          "features": [
+            "glass_partition",
+            "sink",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "studio",
+          "display": "Studio / fitness floor",
+          "confidence": 0.45,
+          "x": 1173,
+          "y": 632,
+          "features": [
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.45,
+          "x": 1531,
+          "y": 235,
+          "features": [
+            "glass_partition",
+            "sink",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "studio",
+          "display": "Studio / fitness floor",
+          "confidence": 0.55,
+          "x": 1211,
+          "y": 254,
+          "features": [
+            "glass_partition",
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "sales_floor",
+          "display": "Sales floor",
+          "confidence": 0.6,
+          "x": 219,
+          "y": 188,
+          "features": [
+            "glass_partition",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.5,
+          "x": 706,
+          "y": 221,
+          "features": [
+            "glass_partition",
+            "ventilation_exhaust"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.7,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 125,
+      "polygon": [
+        [
+          2028,
+          401
+        ],
+        [
+          2028,
+          306
+        ],
+        [
+          2028,
+          84
+        ],
+        [
+          1661,
+          85
+        ],
+        [
+          1662,
+          401
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 1936,
+          "y": 150,
+          "pano_url": "",
+          "note": "ceiling HVAC supply diffuser in the drop ceiling",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty room with plain cream walls, black baseboards, vinyl plank flooring, a drop ceiling, a few outlets, and a single six-panel door, with no fixtures or built-ins, which fits a small private office.",
+        "A small empty room with painted walls, a drop ceiling with lights and a vent, a door to a hallway, and only outlets and a light switch, with no fixtures or built-ins."
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "server_utility",
+      "display": "Server / utility room",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 105,
+      "polygon": [
+        [
+          2028,
+          401
+        ],
+        [
+          2028,
+          306
+        ],
+        [
+          2256,
+          306
+        ],
+        [
+          2256,
+          736
+        ],
+        [
+          2029,
+          737
+        ],
+        [
+          2029,
+          534
+        ]
+      ],
+      "features": [
+        {
+          "type": "heavy_power",
+          "x": 2115,
+          "y": 530,
+          "pano_url": "",
+          "note": "two large gray electrical panels with conduit runs",
+          "seen_in": 2
+        },
+        {
+          "type": "sink",
+          "x": 2131,
+          "y": 530,
+          "pano_url": "",
+          "note": "small utility sink with granite top and faucet",
+          "seen_in": 2
+        },
+        {
+          "type": "cabinets",
+          "x": 2147,
+          "y": 530,
+          "pano_url": "",
+          "note": "white base cabinet under sink and wall cabinet above",
+          "seen_in": 2
+        },
+        {
+          "type": "toilet",
+          "x": 2104,
+          "y": 469,
+          "pano_url": "",
+          "note": "toilet partly visible in small restroom with wainscot",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A back-of-house utility area with two electrical panels, an emergency exit door, an electric water heater, and a small sink with cabinets, next to a restroom and a hallway.",
+        "Small utility room with an electric water heater, a utility sink, and several wall-mounted electrical panels beside a rear exit door."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.28,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 80,
+      "polygon": [
+        [
+          1662,
+          737
+        ],
+        [
+          1662,
+          534
+        ],
+        [
+          2029,
+          534
+        ],
+        [
+          2029,
+          737
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 1966,
+          "y": 593,
+          "pano_url": "",
+          "note": "white upper wall cabinet and base cabinet on left",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1982,
+          "y": 593,
+          "pano_url": "",
+          "note": "granite countertop on base cabinet at left",
+          "seen_in": 1
+        },
+        {
+          "type": "heavy_power",
+          "x": 1998,
+          "y": 593,
+          "pano_url": "",
+          "note": "gray electrical panel beside exit door",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1966,
+          "y": 593,
+          "pano_url": "",
+          "note": "recessed water supply valve box in wall, no sink fixture visible",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small empty room with painted walls, vinyl plank flooring, a drop ceiling and a paneled door opens onto a large open storefront space, so it is probably a private office or small back room.",
+        "A small back room off an open suite has a granite-topped base cabinet and wall cabinet, a water valve box, outlets and a rear exit door with an electrical panel, which fits a kitchenette or break area."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "restroom",
+      "display": "Restroom",
+      "confidence": 0.87,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 54,
+      "polygon": [
+        [
+          2028,
+          306
+        ],
+        [
+          2256,
+          306
+        ],
+        [
+          2256,
+          84
+        ],
+        [
+          2028,
+          84
+        ]
+      ],
+      "features": [
+        {
+          "type": "toilet",
+          "x": 2107,
+          "y": 187,
+          "pano_url": "",
+          "note": "white toilet tank against beadboard wall",
+          "seen_in": 2
+        },
+        {
+          "type": "sink",
+          "x": 2125,
+          "y": 128,
+          "pano_url": "",
+          "note": "white vanity with gold faucet and mirror",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 2139,
+          "y": 187,
+          "pano_url": "",
+          "note": "white vanity base cabinet with doors and drawer",
+          "seen_in": 2
+        },
+        {
+          "type": "heavy_power",
+          "x": 2107,
+          "y": 187,
+          "pano_url": "",
+          "note": "two gray electrical panels in adjacent room seen through doorway",
+          "seen_in": 2
+        }
+      ],
+      "evidence": [
+        "A toilet and a vanity with sink, mirror and towel ring sit in a small room with beadboard wainscoting.",
+        "Most views show a restroom with a toilet, vanity with gold faucet and mirror, towel ring and beadboard wainscoting, opening to a utility hallway with electrical panels and an exit door."
+      ]
+    },
+    {
+      "id": "6q29dwu4brk",
+      "label": "hallway",
+      "display": "Hallway",
+      "confidence": 0.4,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 53,
+      "polygon": [
+        [
+          1662,
+          401
+        ],
+        [
+          1662,
+          534
+        ],
+        [
+          2029,
+          534
+        ],
+        [
+          2028,
+          401
+        ]
+      ],
+      "features": [
+        {
+          "type": "sink",
+          "x": 1730,
+          "y": 468,
+          "pano_url": "",
+          "note": "small vanity sink with granite top and faucet",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1746,
+          "y": 468,
+          "pano_url": "",
+          "note": "white base cabinet under sink and wall cabinet above",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1762,
+          "y": 468,
+          "pano_url": "",
+          "note": "storefront glass wall and glass door at far end of open room",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "The camera stands in a small vestibule between an empty open retail room with storefront glass and small side rooms, one holding a vanity sink and cabinets."
+      ]
+    }
+  ],
+  "counts": {
+    "open_workspace": 1,
+    "glass_partition": 7,
+    "cabinets": 5,
+    "sink": 3,
+    "counter": 1,
+    "ventilation_exhaust": 4,
+    "private_office": 1,
+    "server_utility": 1,
+    "heavy_power": 2,
+    "toilet": 2,
+    "restroom": 1
+  },
+  "measured": {
+    "rooms": 6,
+    "scans": 18,
+    "area_sqft": 1516,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 6 rooms, 18 photos inside them, 0 rooms with no photo inside",
+    "Second look at photo x3xyaa (40% sure): now open_workspace at 50%",
+    "Second look at photo zkzp9z (50% sure): kept first answer",
+    "Second look at photo 3ntxgc (40% sure): now sales_floor at 60%",
+    "Second look at photo 45hqbb (45% sure): now open_workspace at 55%",
+    "Second look at photo 6xni32 (45% sure): kept first answer",
+    "Second look at photo fy9q08 (40% sure): now open_workspace at 45%",
+    "Second look at photo 0e4127 (55% sure): kept first answer",
+    "Second look at photo hq41bg (55% sure): now sales_floor at 60%",
+    "Second look at photo kh5dnk (40% sure): now open_workspace at 50%",
+    "Second look at photo yt391f (50% sure): now private_office at 80%",
+    "Second look at photo 6zr5pp (50% sure): now private_office at 60%",
+    "Second look at photo euncwx (40% sure): now server_utility at 60%",
+    "Second look at photo 4wmp3t (55% sure): kept first answer",
+    "Second look at photo mppnni (50% sure): now break_room at 55%",
+    "Second look at photo ddyyb8 (50% sure): now restroom at 80%"
+  ]
+}

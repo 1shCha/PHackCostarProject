@@ -1,0 +1,1178 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/mXRDfAHA7iB",
+    "width": 3922,
+    "height": 2543
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "hallway",
+      "display": "Open area: reception, other, exam room, hallway, lab, waiting area, private office",
+      "confidence": 0.87,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 2770,
+      "polygon": [
+        [
+          2673,
+          1449
+        ],
+        [
+          2673,
+          1491
+        ],
+        [
+          2673,
+          1553
+        ],
+        [
+          2673,
+          1711
+        ],
+        [
+          3087,
+          1710
+        ],
+        [
+          3087,
+          1874
+        ],
+        [
+          2789,
+          1874
+        ],
+        [
+          2485,
+          1874
+        ],
+        [
+          2412,
+          1950
+        ],
+        [
+          2332,
+          1950
+        ],
+        [
+          2242,
+          1950
+        ],
+        [
+          1874,
+          1950
+        ],
+        [
+          1874,
+          2143
+        ],
+        [
+          1874,
+          2331
+        ],
+        [
+          1874,
+          2343
+        ],
+        [
+          1406,
+          2282
+        ],
+        [
+          959,
+          2096
+        ],
+        [
+          560,
+          1785
+        ],
+        [
+          230,
+          1302
+        ],
+        [
+          376,
+          1204
+        ],
+        [
+          234,
+          1262
+        ],
+        [
+          79,
+          862
+        ],
+        [
+          78,
+          76
+        ],
+        [
+          837,
+          76
+        ],
+        [
+          837,
+          121
+        ],
+        [
+          864,
+          121
+        ],
+        [
+          864,
+          859
+        ],
+        [
+          1289,
+          859
+        ],
+        [
+          1289,
+          1298
+        ]
+      ],
+      "features": [
+        {
+          "type": "reception_desk",
+          "x": 489,
+          "y": 1001,
+          "pano_url": "",
+          "note": "reception counter with raised transaction ledge",
+          "seen_in": 4
+        },
+        {
+          "type": "cabinets",
+          "x": 505,
+          "y": 1001,
+          "pano_url": "",
+          "note": "built-in upper wall cabinets",
+          "seen_in": 4
+        },
+        {
+          "type": "glass_partition",
+          "x": 482,
+          "y": 949,
+          "pano_url": "",
+          "note": "interior glass window partition",
+          "seen_in": 3
+        },
+        {
+          "type": "reception_desk",
+          "x": 1829,
+          "y": 1718,
+          "pano_url": "",
+          "note": "built-in reception desk counter with drawers",
+          "seen_in": 4
+        },
+        {
+          "type": "sink",
+          "x": 1950,
+          "y": 1502,
+          "pano_url": "",
+          "note": "sink set into counter in adjacent room",
+          "seen_in": 2
+        },
+        {
+          "type": "cabinets",
+          "x": 1835,
+          "y": 1663,
+          "pano_url": "",
+          "note": "wall and base cabinets in background room",
+          "seen_in": 7
+        },
+        {
+          "type": "glass_partition",
+          "x": 1766,
+          "y": 1601,
+          "pano_url": "",
+          "note": "glass wall and door frame entry",
+          "seen_in": 4
+        },
+        {
+          "type": "cabinets",
+          "x": 1431,
+          "y": 1951,
+          "pano_url": "",
+          "note": "upper and base wall cabinets",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1447,
+          "y": 1951,
+          "pano_url": "",
+          "note": "built-in laminate counter",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1415,
+          "y": 1951,
+          "pano_url": "",
+          "note": "stainless steel sink with faucet",
+          "seen_in": 1
+        },
+        {
+          "type": "floor_drain",
+          "x": 1431,
+          "y": 1951,
+          "pano_url": "",
+          "note": "circular floor drain near center",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 2362,
+          "y": 1862,
+          "pano_url": "",
+          "note": "white upper and lower built-in cabinets in room",
+          "seen_in": 2
+        },
+        {
+          "type": "counter",
+          "x": 2261,
+          "y": 1929,
+          "pano_url": "",
+          "note": "built-in work counter in adjacent room",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 2277,
+          "y": 1929,
+          "pano_url": "",
+          "note": "reception counter with transaction ledge visible down the hall",
+          "seen_in": 1
+        },
+        {
+          "type": "lab_counter",
+          "x": 1572,
+          "y": 1393,
+          "pano_url": "",
+          "note": "lab counter with sink and backsplash",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1540,
+          "y": 1393,
+          "pano_url": "",
+          "note": "stainless steel sink set into counter",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 873,
+          "y": 1440,
+          "pano_url": "",
+          "note": "reception counter desk with raised ledge",
+          "seen_in": 2
+        },
+        {
+          "type": "counter",
+          "x": 783,
+          "y": 1423,
+          "pano_url": "",
+          "note": "built-in desk counter along the wall",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 751,
+          "y": 1423,
+          "pano_url": "",
+          "note": "wall-mounted wooden cabinets",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 767,
+          "y": 1423,
+          "pano_url": "",
+          "note": "interior glass window in background wall",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 1494,
+          "y": 1800,
+          "pano_url": "",
+          "note": "reception counter with transaction ledge on the left",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 693,
+          "y": 557,
+          "pano_url": "",
+          "note": "reception transaction window with counter facing waiting space",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 709,
+          "y": 557,
+          "pano_url": "",
+          "note": "interior glass entry doors",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1994,
+          "y": 1406,
+          "pano_url": "",
+          "note": "laminate counter space around sink",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1804,
+          "y": 1971,
+          "pano_url": "",
+          "note": "",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1127,
+          "y": 1713,
+          "pano_url": "",
+          "note": "built-in upper wall cabinets and lower base cabinets",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1143,
+          "y": 1713,
+          "pano_url": "",
+          "note": "built-in work counter with drawers in adjacent room",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 2712,
+          "y": 1858,
+          "pano_url": "",
+          "note": "",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A reception desk with a raised transaction counter ledge and adjacent glass partition looking into office space.",
+        "A built-in reception desk counter with drawers faces the room entrance, alongside a restroom door and a visible sink cabinet area.",
+        "The space features vinyl tile flooring, a floor drain, a built-in counter with a sink, wall cabinets, and large exterior windows."
+      ],
+      "zones": [
+        {
+          "label": "reception",
+          "display": "Reception",
+          "confidence": 0.95,
+          "x": 485,
+          "y": 955,
+          "features": [
+            "reception_desk",
+            "cabinets",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "other",
+          "display": "Other",
+          "confidence": 0,
+          "x": 762,
+          "y": 1246,
+          "features": []
+        },
+        {
+          "label": "reception",
+          "display": "Reception",
+          "confidence": 0.9,
+          "x": 1906,
+          "y": 1598,
+          "features": [
+            "reception_desk",
+            "sink",
+            "cabinets",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "exam_room",
+          "display": "Exam room",
+          "confidence": 0.85,
+          "x": 1415,
+          "y": 1951,
+          "features": [
+            "cabinets",
+            "counter",
+            "sink",
+            "floor_drain"
+          ]
+        },
+        {
+          "label": "reception",
+          "display": "Reception",
+          "confidence": 0.95,
+          "x": 1668,
+          "y": 1579,
+          "features": [
+            "reception_desk",
+            "cabinets",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.85,
+          "x": 2261,
+          "y": 1929,
+          "features": [
+            "cabinets",
+            "counter",
+            "reception_desk"
+          ]
+        },
+        {
+          "label": "lab",
+          "display": "Lab",
+          "confidence": 0.9,
+          "x": 1540,
+          "y": 1393,
+          "features": [
+            "cabinets",
+            "glass_partition",
+            "lab_counter",
+            "sink"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.9,
+          "x": 751,
+          "y": 1423,
+          "features": [
+            "reception_desk",
+            "counter",
+            "cabinets",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 1462,
+          "y": 1800,
+          "features": [
+            "reception_desk"
+          ]
+        },
+        {
+          "label": "waiting",
+          "display": "Waiting area",
+          "confidence": 0.95,
+          "x": 693,
+          "y": 557,
+          "features": [
+            "reception_desk",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 2616,
+          "y": 1741,
+          "features": []
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.9,
+          "x": 1962,
+          "y": 1406,
+          "features": [
+            "sink",
+            "cabinets",
+            "counter"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.9,
+          "x": 1951,
+          "y": 1833,
+          "features": [
+            "reception_desk",
+            "cabinets",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 2399,
+          "y": 1796,
+          "features": [
+            "cabinets"
+          ]
+        },
+        {
+          "label": "reception",
+          "display": "Reception",
+          "confidence": 0.9,
+          "x": 392,
+          "y": 806,
+          "features": [
+            "reception_desk",
+            "glass_partition",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.8,
+          "x": 1804,
+          "y": 1971,
+          "features": [
+            "cabinets",
+            "sink"
+          ]
+        },
+        {
+          "label": "reception",
+          "display": "Reception",
+          "confidence": 0.85,
+          "x": 472,
+          "y": 1085,
+          "features": [
+            "reception_desk",
+            "glass_partition",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 963,
+          "y": 1457,
+          "features": [
+            "reception_desk"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 1111,
+          "y": 1713,
+          "features": [
+            "cabinets",
+            "counter"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.9,
+          "x": 1790,
+          "y": 1861,
+          "features": [
+            "reception_desk",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "reception",
+          "display": "Reception",
+          "confidence": 0.95,
+          "x": 608,
+          "y": 1160,
+          "features": [
+            "reception_desk",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.95,
+          "x": 2712,
+          "y": 1858,
+          "features": [
+            "cabinets"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "hallway",
+      "display": "Open area: hallway, reception",
+      "confidence": 0.93,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 817,
+      "polygon": [
+        [
+          3854,
+          1325
+        ],
+        [
+          3505,
+          1325
+        ],
+        [
+          3505,
+          1206
+        ],
+        [
+          3327,
+          1206
+        ],
+        [
+          3252,
+          1447
+        ],
+        [
+          3252,
+          1206
+        ],
+        [
+          3252,
+          1048
+        ],
+        [
+          3252,
+          999
+        ],
+        [
+          3523,
+          999
+        ],
+        [
+          3676,
+          998
+        ],
+        [
+          3675,
+          689
+        ],
+        [
+          3253,
+          689
+        ],
+        [
+          3253,
+          787
+        ],
+        [
+          3090,
+          788
+        ],
+        [
+          3090,
+          669
+        ],
+        [
+          2508,
+          670
+        ],
+        [
+          2508,
+          859
+        ],
+        [
+          2673,
+          859
+        ],
+        [
+          2673,
+          1359
+        ],
+        [
+          3087,
+          1359
+        ],
+        [
+          3087,
+          1710
+        ],
+        [
+          3087,
+          1874
+        ],
+        [
+          3252,
+          1874
+        ],
+        [
+          3252,
+          1575
+        ],
+        [
+          3252,
+          1538
+        ],
+        [
+          3605,
+          1538
+        ],
+        [
+          3605,
+          1470
+        ],
+        [
+          3854,
+          1470
+        ]
+      ],
+      "features": [
+        {
+          "type": "sink",
+          "x": 3216,
+          "y": 1094,
+          "pano_url": "",
+          "note": "",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 3197,
+          "y": 1296,
+          "pano_url": "",
+          "note": "",
+          "seen_in": 5
+        },
+        {
+          "type": "cabinets",
+          "x": 2962,
+          "y": 836,
+          "pano_url": "",
+          "note": "",
+          "seen_in": 1
+        },
+        {
+          "type": "desks",
+          "x": 3172,
+          "y": 1396,
+          "pano_url": "",
+          "note": "",
+          "seen_in": 2
+        }
+      ],
+      "evidence": [
+        "The camera is located in a carpeted office hallway corridor with doorways leading into adjacent rooms.",
+        "The camera is standing in a carpeted office hallway with doorways leading to empty rooms and a side room with a visible sink and cabinets.",
+        "An entry area facing exit doors with a pass-through reception window showing office cabinets inside."
+      ],
+      "zones": [
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 3129,
+          "y": 1787,
+          "features": []
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 3216,
+          "y": 1094,
+          "features": [
+            "sink",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "reception",
+          "display": "Reception",
+          "confidence": 0.9,
+          "x": 2930,
+          "y": 836,
+          "features": [
+            "cabinets"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.9,
+          "x": 3179,
+          "y": 935,
+          "features": [
+            "cabinets"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 3111,
+          "y": 1294,
+          "features": [
+            "cabinets",
+            "desks"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.95,
+          "x": 3232,
+          "y": 1499,
+          "features": [
+            "desks",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.9,
+          "x": 3168,
+          "y": 1658,
+          "features": [
+            "cabinets"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.9,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 305,
+      "polygon": [
+        [
+          2789,
+          2330
+        ],
+        [
+          3409,
+          2330
+        ],
+        [
+          3409,
+          1874
+        ],
+        [
+          3252,
+          1874
+        ],
+        [
+          3087,
+          1874
+        ],
+        [
+          2789,
+          1874
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "An empty carpeted private office space featuring large exterior windows and a doorway leading out to a hallway."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "other",
+      "display": "Unverified room (209 sq ft)",
+      "confidence": 0,
+      "status": "unverified",
+      "source": "none",
+      "area_sqft": 209,
+      "polygon": [
+        [
+          2412,
+          1950
+        ],
+        [
+          2485,
+          1874
+        ],
+        [
+          2789,
+          1874
+        ],
+        [
+          2789,
+          2330
+        ],
+        [
+          2332,
+          2330
+        ],
+        [
+          2332,
+          2025
+        ],
+        [
+          2412,
+          2025
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "No photo shows the inside of this room."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "other",
+      "display": "Unverified room (151 sq ft)",
+      "confidence": 0,
+      "status": "unverified",
+      "source": "none",
+      "area_sqft": 151,
+      "polygon": [
+        [
+          2673,
+          1449
+        ],
+        [
+          2673,
+          1491
+        ],
+        [
+          2749,
+          1491
+        ],
+        [
+          2749,
+          1553
+        ],
+        [
+          2673,
+          1553
+        ],
+        [
+          2673,
+          1711
+        ],
+        [
+          3087,
+          1710
+        ],
+        [
+          3087,
+          1359
+        ],
+        [
+          2673,
+          1359
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "No photo shows the inside of this room."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "other",
+      "display": "Unverified room (150 sq ft)",
+      "confidence": 0,
+      "status": "unverified",
+      "source": "none",
+      "area_sqft": 150,
+      "polygon": [
+        [
+          2332,
+          2025
+        ],
+        [
+          2332,
+          1950
+        ],
+        [
+          2242,
+          1950
+        ],
+        [
+          1874,
+          2143
+        ],
+        [
+          1874,
+          2331
+        ],
+        [
+          2332,
+          2330
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "No photo shows the inside of this room."
+      ]
+    },
+    {
+      "id": "2qdmc5i9byxi79ry1pxdkqzea",
+      "label": "other",
+      "display": "Unverified room (136 sq ft)",
+      "confidence": 0,
+      "status": "unverified",
+      "source": "none",
+      "area_sqft": 136,
+      "polygon": [
+        [
+          3409,
+          1874
+        ],
+        [
+          3673,
+          1874
+        ],
+        [
+          3673,
+          1574
+        ],
+        [
+          3252,
+          1575
+        ],
+        [
+          3252,
+          1874
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "No photo shows the inside of this room."
+      ]
+    },
+    {
+      "id": "a5f9age4zzxewres6iqux2emc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.64,
+      "status": "likely",
+      "source": "doorway_view",
+      "area_sqft": 86,
+      "polygon": [
+        [
+          3252,
+          1206
+        ],
+        [
+          3327,
+          1206
+        ],
+        [
+          3505,
+          1206
+        ],
+        [
+          3676,
+          1206
+        ],
+        [
+          3676,
+          998
+        ],
+        [
+          3523,
+          999
+        ],
+        [
+          3327,
+          1048
+        ],
+        [
+          3252,
+          1048
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: An open doorway leads into a small empty room with light tile flooring and plain walls."
+      ]
+    }
+  ],
+  "counts": {
+    "hallway": 2,
+    "reception_desk": 6,
+    "cabinets": 9,
+    "glass_partition": 4,
+    "sink": 5,
+    "counter": 5,
+    "floor_drain": 1,
+    "lab_counter": 1,
+    "desks": 1,
+    "private_office": 2
+  },
+  "measured": {
+    "rooms": 8,
+    "scans": 33,
+    "area_sqft": 4623,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 8 rooms, 30 photos inside them, 5 rooms with no photo inside",
+    "Gemini unavailable for photo s2s3yy; reused an earlier answer",
+    "Gemini unavailable for photo fum3ti; reused an earlier answer",
+    "Gemini unavailable for photo 4k5qwh; reused an earlier answer",
+    "Gemini unavailable for photo 5uyhmg; reused an earlier answer",
+    "Gemini unavailable for photo mmik61; reused an earlier answer",
+    "Gemini unavailable for photo qcne5u; reused an earlier answer",
+    "Gemini unavailable for photo wmu5f6; reused an earlier answer",
+    "Gemini unavailable for photo 0w5hib; reused an earlier answer",
+    "Gemini unavailable for photo s5158s; reused an earlier answer",
+    "Gemini unavailable for photo ynb6r5; reused an earlier answer",
+    "Gemini unavailable for photo 853r6w; reused an earlier answer",
+    "Gemini unavailable for photo i6i8q9; reused an earlier answer",
+    "Gemini unavailable for photo iqb9m7; reused an earlier answer",
+    "Gemini unavailable for photo zqeynt; reused an earlier answer",
+    "Gemini unavailable for photo kgq2m6; reused an earlier answer",
+    "Gemini unavailable for photo w07s9z; reused an earlier answer",
+    "Gemini unavailable for photo z8arxf; reused an earlier answer",
+    "Gemini unavailable for photo 20aadr; reused an earlier answer",
+    "Gemini unavailable for photo c1wd78; reused an earlier answer",
+    "Gemini unavailable for photo maw3ak; reused an earlier answer",
+    "Gemini unavailable for photo 5twg9r; reused an earlier answer",
+    "Gemini unavailable for photo 9akd0n; reused an earlier answer",
+    "Gemini unavailable for photo w57b59; reused an earlier answer",
+    "Gemini unavailable for photo syyhp8; reused an earlier answer",
+    "Gemini unavailable for photo sek03p; reused an earlier answer",
+    "Gemini unavailable for photo b1kwaf; reused an earlier answer",
+    "Gemini unavailable for photo 7f5rxh; reused an earlier answer",
+    "Second look failed for fum3ti: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room tt6gm2: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room tt6gm2: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room tt6gm2: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room tt6gm2: Gemini failed: every model is out of daily quota",
+    "Room tt6gm2 (19 m²): no view into it, marked unverified",
+    "Doorway look failed for room 3m54yf: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room 3m54yf: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room 3m54yf: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room 3m54yf: Gemini failed: every model is out of daily quota",
+    "Room 3m54yf (14 m²): no view into it, marked unverified",
+    "Doorway look failed for room h26t7k: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room h26t7k: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room h26t7k: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room h26t7k: Gemini failed: every model is out of daily quota",
+    "Room h26t7k (14 m²): no view into it, marked unverified",
+    "Doorway look failed for room 2qdmc5: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room 2qdmc5: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room 2qdmc5: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room 2qdmc5: Gemini failed: every model is out of daily quota",
+    "Room 2qdmc5 (13 m²): no view into it, marked unverified",
+    "Doorway look failed for room a5f9ag: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room a5f9ag: Gemini failed: every model is out of daily quota",
+    "Doorway look failed for room a5f9ag: Gemini failed: every model is out of daily quota",
+    "Room a5f9ag (8 m²): looked in from photo w57b59, view 2 → private_office at 80%"
+  ]
+}

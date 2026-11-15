@@ -1,0 +1,414 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/hXsQLNJ9589",
+    "width": 1590,
+    "height": 1361
+  },
+  "rooms": [
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 353,
+      "polygon": [
+        [
+          110,
+          1191
+        ],
+        [
+          110,
+          1239
+        ],
+        [
+          782,
+          1239
+        ],
+        [
+          782,
+          1203
+        ],
+        [
+          782,
+          777
+        ],
+        [
+          67,
+          778
+        ],
+        [
+          67,
+          1191
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 565,
+          "y": 1027,
+          "pano_url": "",
+          "note": "glass-framed opening to adjacent room with black trim, copier visible beyond",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted corner office with hardwood border, floor-to-ceiling windows with blinds, a wood door, and wall outlets and data jacks, but no fixed fixtures.",
+        "Empty corner office with floor-to-ceiling windows, hardwood floor with a patterned area carpet, a solid wood door, and no built-in desks, counters, or fixtures; a copier room is visible next door.",
+        "An empty corner office with floor-to-ceiling windows, a wood door, hardwood floor, area rug, and drop ceiling, with no fixtures that match a specific business."
+      ]
+    },
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.45,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 255,
+      "polygon": [
+        [
+          1145,
+          777
+        ],
+        [
+          782,
+          777
+        ],
+        [
+          67,
+          778
+        ],
+        [
+          67,
+          459
+        ],
+        [
+          244,
+          459
+        ],
+        [
+          244,
+          226
+        ],
+        [
+          723,
+          226
+        ],
+        [
+          723,
+          427
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 721,
+          "y": 709,
+          "pano_url": "",
+          "note": "black-framed glass wall and door into corner office with window view",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 891,
+          "y": 701,
+          "pano_url": "",
+          "note": "dark wood upper and base cabinets with laminate countertop",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 907,
+          "y": 701,
+          "pano_url": "",
+          "note": "sink with faucet in back counter",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 875,
+          "y": 701,
+          "pano_url": "",
+          "note": "white dishwasher beside sink",
+          "seen_in": 1
+        },
+        {
+          "type": "desks",
+          "x": 891,
+          "y": 701,
+          "pano_url": "",
+          "note": "dark wood executive desk left in office",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 621,
+          "y": 608,
+          "pano_url": "",
+          "note": "ceiling HVAC diffuser grille",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 418,
+          "y": 438,
+          "pano_url": "",
+          "note": "leaded beveled glass panel in wood entry door, looks through to corridor",
+          "seen_in": 2
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 175,
+          "y": 629,
+          "pano_url": "",
+          "note": "ceiling air diffuser vent in drop ceiling",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty offices with hardwood and carpet, a window-wall corner room, and a small copier room, all in an office suite with drop ceiling and glass-framed partitions.",
+        "The camera stands in a small office suite with drop ceiling, where one view shows a kitchenette with cabinets, sink and dishwasher, and another shows a wood desk in a carpeted office.",
+        "Empty small room with hardwood floor, drop ceiling, and wood door off a carpeted corridor of similar offices, plus a double glazed-door exit."
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.75,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 184,
+      "polygon": [
+        [
+          1145,
+          1239
+        ],
+        [
+          1145,
+          777
+        ],
+        [
+          1520,
+          777
+        ],
+        [
+          1520,
+          1201
+        ],
+        [
+          1453,
+          1201
+        ],
+        [
+          1453,
+          1239
+        ]
+      ],
+      "features": [
+        {
+          "type": "ventilation_exhaust",
+          "x": 1291,
+          "y": 1126,
+          "pano_url": "",
+          "note": "perforated ceiling HVAC diffuser/vent panel",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1398,
+          "y": 913,
+          "pano_url": "",
+          "note": "large exterior window with blinds in the corner office",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty carpeted room with drop ceiling, wood-grain door, and an exterior window, which is typical of a private office.",
+        "A small empty carpeted room with drop ceiling, a window facing outside, and a wood-veneer door, which suggests a private office."
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.84,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 175,
+      "polygon": [
+        [
+          1145,
+          1239
+        ],
+        [
+          1145,
+          777
+        ],
+        [
+          782,
+          777
+        ],
+        [
+          782,
+          1203
+        ],
+        [
+          843,
+          1203
+        ],
+        [
+          843,
+          1239
+        ],
+        [
+          966,
+          1239
+        ],
+        [
+          966,
+          1193
+        ],
+        [
+          1025,
+          1193
+        ],
+        [
+          1025,
+          1239
+        ]
+      ],
+      "features": [
+        {
+          "type": "desks",
+          "x": 1093,
+          "y": 825,
+          "pano_url": "",
+          "note": "wooden executive desk with chair and paper trays",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1109,
+          "y": 825,
+          "pano_url": "",
+          "note": "wood upper and base cabinets in adjacent kitchenette seen through doorway",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1125,
+          "y": 825,
+          "pano_url": "",
+          "note": "kitchenette countertop in adjacent room seen through doorway",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 924,
+          "y": 1026,
+          "pano_url": "",
+          "note": "dark-framed glass wall at right edge separating from adjacent office area",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small carpeted room with a wooden executive desk and chair, perimeter windows, and a kitchenette visible outside the door.",
+        "Small empty carpeted room with a wood door, glass partition to a larger office containing a wooden desk, and an exterior window with a view of a neighboring building."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "break_room",
+      "display": "Break room",
+      "confidence": 0.7,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 31,
+      "polygon": [
+        [
+          1143,
+          270
+        ],
+        [
+          1288,
+          270
+        ],
+        [
+          1288,
+          74
+        ],
+        [
+          1143,
+          74
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 1209,
+          "y": 215,
+          "pano_url": "",
+          "note": "brown base cabinets with drawers under laminate countertop",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 1225,
+          "y": 215,
+          "pano_url": "",
+          "note": "stainless sink with gooseneck faucet in countertop",
+          "seen_in": 1
+        },
+        {
+          "type": "appliances",
+          "x": 1241,
+          "y": 215,
+          "pano_url": "",
+          "note": "stainless dishwasher beside sink",
+          "seen_in": 1
+        },
+        {
+          "type": "server_rack",
+          "x": 1209,
+          "y": 215,
+          "pano_url": "",
+          "note": "wall-mounted patch panel and network equipment on plywood backboard",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A narrow room with a kitchenette counter, sink, dishwasher and base cabinets, plus a small network patch panel on a plywood backboard."
+      ]
+    }
+  ],
+  "counts": {
+    "private_office": 3,
+    "glass_partition": 3,
+    "ventilation_exhaust": 1,
+    "desks": 1,
+    "cabinets": 2,
+    "counter": 1,
+    "break_room": 1,
+    "sink": 1,
+    "appliances": 1,
+    "server_rack": 1
+  },
+  "measured": {
+    "rooms": 5,
+    "scans": 22,
+    "area_sqft": 997,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 5 rooms, 14 photos inside them, 0 rooms with no photo inside",
+    "Second look at photo 7fcbtu (55% sure): now private_office at 80%",
+    "Second look at photo pmkg25 (55% sure): kept first answer",
+    "Second look at photo rw1byg (40% sure): kept first answer",
+    "Second look at photo w4is18 (55% sure): kept first answer",
+    "Second look at photo necbha (55% sure): now private_office at 60%",
+    "Second look at photo 7z8g61 (40% sure): kept first answer"
+  ]
+}

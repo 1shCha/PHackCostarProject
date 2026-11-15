@@ -1,0 +1,982 @@
+{
+  "floorplan": {
+    "url": "/api/floorplan/SgKbPPm1YYW",
+    "width": 3525,
+    "height": 2917
+  },
+  "rooms": [
+    {
+      "id": "613htqkzf66zz7hf7n8kzszed",
+      "label": "open_workspace",
+      "display": "Open area: open workspace",
+      "confidence": 0.73,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 1246,
+      "polygon": [
+        [
+          2405,
+          1824
+        ],
+        [
+          2404,
+          2332
+        ],
+        [
+          2404,
+          2754
+        ],
+        [
+          2347,
+          2754
+        ],
+        [
+          2347,
+          2815
+        ],
+        [
+          1357,
+          2814
+        ],
+        [
+          1357,
+          2753
+        ],
+        [
+          1302,
+          2753
+        ],
+        [
+          1302,
+          2332
+        ],
+        [
+          1162,
+          2332
+        ],
+        [
+          1162,
+          1937
+        ],
+        [
+          1162,
+          1822
+        ],
+        [
+          1359,
+          1822
+        ],
+        [
+          1880,
+          1823
+        ]
+      ],
+      "features": [
+        {
+          "type": "reception_desk",
+          "x": 1781,
+          "y": 2581,
+          "pano_url": "",
+          "note": "dark L-shaped desk with raised ledge in front of red accent wall",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1797,
+          "y": 2581,
+          "pano_url": "",
+          "note": "glass door and sidelight at suite 450 entrance",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 2299,
+          "y": 1855,
+          "pano_url": "",
+          "note": "glass door and sidelight at suite 450 entry",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 2267,
+          "y": 1855,
+          "pano_url": "",
+          "note": "dark wood desk with ledge near red wall",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 1810,
+          "y": 2115,
+          "pano_url": "",
+          "note": "dark laminate desk with raised ledge in front of red wall",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1826,
+          "y": 2115,
+          "pano_url": "",
+          "note": "glass door and sidelight with suite number 450 on left",
+          "seen_in": 1
+        },
+        {
+          "type": "reception_desk",
+          "x": 1327,
+          "y": 1882,
+          "pano_url": "",
+          "note": "small dark desk/counter in front of red wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A large empty open-plan office floor with a drop ceiling, perimeter windows, a leftover reception desk and a glass-fronted office door.",
+        "Large empty carpeted open office floor with drop ceiling, perimeter windows, a glass suite entry door numbered 450, and a leftover reception desk.",
+        "Large empty carpeted open office floor with perimeter windows, drop ceiling, a small front desk by a red wall and a corridor leading to other rooms."
+      ],
+      "zones": [
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.8,
+          "x": 1781,
+          "y": 2581,
+          "features": [
+            "reception_desk",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.6,
+          "x": 2267,
+          "y": 1855,
+          "features": [
+            "glass_partition",
+            "reception_desk"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.8,
+          "x": 1794,
+          "y": 2115,
+          "features": [
+            "reception_desk",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.7,
+          "x": 1327,
+          "y": 1882,
+          "features": [
+            "reception_desk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cdz3fkt38kae7tapstpt0eaeb",
+      "label": "private_office",
+      "display": "Open area: private office, hallway, break room, open workspace",
+      "confidence": 0.62,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 837,
+      "polygon": [
+        [
+          1711,
+          662
+        ],
+        [
+          1711,
+          774
+        ],
+        [
+          1711,
+          799
+        ],
+        [
+          1618,
+          799
+        ],
+        [
+          1351,
+          799
+        ],
+        [
+          1351,
+          853
+        ],
+        [
+          1297,
+          853
+        ],
+        [
+          1296,
+          1309
+        ],
+        [
+          1163,
+          1308
+        ],
+        [
+          1162,
+          1781
+        ],
+        [
+          1359,
+          1781
+        ],
+        [
+          1359,
+          1822
+        ],
+        [
+          1880,
+          1823
+        ],
+        [
+          1880,
+          1307
+        ],
+        [
+          2091,
+          1307
+        ],
+        [
+          2091,
+          1265
+        ],
+        [
+          2165,
+          1265
+        ],
+        [
+          2165,
+          900
+        ],
+        [
+          1822,
+          900
+        ],
+        [
+          1822,
+          662
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1757,
+          "y": 774,
+          "pano_url": "",
+          "note": "door with glass panel and frosted film leading to adjoining room",
+          "seen_in": 3
+        },
+        {
+          "type": "glass_partition",
+          "x": 1748,
+          "y": 1237,
+          "pano_url": "",
+          "note": "interior window with blinds in corridor wall",
+          "seen_in": 2
+        },
+        {
+          "type": "cabinets",
+          "x": 1825,
+          "y": 1249,
+          "pano_url": "",
+          "note": "wood cabinets glimpsed through the opening at the end of the hallway",
+          "seen_in": 1
+        },
+        {
+          "type": "cabinets",
+          "x": 1783,
+          "y": 874,
+          "pano_url": "",
+          "note": "oak upper and base cabinets along wall of kitchenette",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 1799,
+          "y": 874,
+          "pano_url": "",
+          "note": "laminate granite-look countertop on base cabinets",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 1839,
+          "y": 1766,
+          "pano_url": "",
+          "note": "glass wall with mini blinds between rooms",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "An empty carpeted room with window blinds, a drop ceiling, and a glass-paneled interior door, which suggests a vacant private office or small office suite.",
+        "Empty carpeted rooms with drop ceilings, glass-paneled doors, interior windows with blinds and exterior windows, in a row of small offices off a hallway.",
+        "A narrow carpeted corridor with drop ceiling, empty walls and open doorways leading to other empty rooms, with no furniture or fixtures."
+      ],
+      "zones": [
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.55,
+          "x": 1727,
+          "y": 729,
+          "features": [
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.6,
+          "x": 1793,
+          "y": 1249,
+          "features": [
+            "glass_partition",
+            "cabinets"
+          ]
+        },
+        {
+          "label": "hallway",
+          "display": "Hallway",
+          "confidence": 0.6,
+          "x": 1762,
+          "y": 721,
+          "features": [
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "break_room",
+          "display": "Break room",
+          "confidence": 0.55,
+          "x": 1783,
+          "y": 874,
+          "features": [
+            "cabinets",
+            "counter",
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.6,
+          "x": 1807,
+          "y": 1766,
+          "features": [
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.8,
+          "x": 1671,
+          "y": 1226,
+          "features": [
+            "glass_partition"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xy2x8mpaaqknp7q2c3nnbw1ma",
+      "label": "private_office",
+      "display": "Open area: private office, open workspace",
+      "confidence": 0.6,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 659,
+      "polygon": [
+        [
+          429,
+          1944
+        ],
+        [
+          367,
+          1944
+        ],
+        [
+          367,
+          1824
+        ],
+        [
+          187,
+          1824
+        ],
+        [
+          188,
+          1307
+        ],
+        [
+          1163,
+          1308
+        ],
+        [
+          1162,
+          1781
+        ],
+        [
+          1162,
+          1822
+        ],
+        [
+          1162,
+          1937
+        ],
+        [
+          792,
+          1936
+        ],
+        [
+          548,
+          1936
+        ],
+        [
+          429,
+          2257
+        ],
+        [
+          429,
+          2007
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1061,
+          "y": 1389,
+          "pano_url": "",
+          "note": "dark-framed opening with glass/door sidelight leading to adjoining office",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 633,
+          "y": 1383,
+          "pano_url": "",
+          "note": "ceiling HVAC grille/diffuser with staining",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 637,
+          "y": 1758,
+          "pano_url": "",
+          "note": "ceiling HVAC diffuser/vent panel",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted room with drop ceiling, a door, an adjoining room visible through an opening, and a window with blinds, which fits a small private office.",
+        "Empty carpeted rooms with exterior windows with blinds, outlets, a light switch, and doors off a narrow corridor; no fixtures or built-ins, so likely vacant private offices.",
+        "Empty carpeted room with drop ceiling, exterior window wall with blinds, and a door, which fits a small private office."
+      ],
+      "zones": [
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.6,
+          "x": 1061,
+          "y": 1389,
+          "features": [
+            "glass_partition"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.6,
+          "x": 623,
+          "y": 1874,
+          "features": []
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.6,
+          "x": 617,
+          "y": 1383,
+          "features": [
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "private_office",
+          "display": "Private office",
+          "confidence": 0.6,
+          "x": 605,
+          "y": 1758,
+          "features": [
+            "ventilation_exhaust"
+          ]
+        },
+        {
+          "label": "open_workspace",
+          "display": "Open workspace",
+          "confidence": 0.6,
+          "x": 1108,
+          "y": 1881,
+          "features": []
+        }
+      ]
+    },
+    {
+      "id": "tt6gm2a0463x9wmnx7rn6gugc",
+      "label": "open_workspace",
+      "display": "Open workspace",
+      "confidence": 0.4,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 358,
+      "polygon": [
+        [
+          2890,
+          2265
+        ],
+        [
+          2833,
+          2265
+        ],
+        [
+          2833,
+          2332
+        ],
+        [
+          2404,
+          2332
+        ],
+        [
+          2405,
+          1824
+        ],
+        [
+          2524,
+          1824
+        ],
+        [
+          2524,
+          1441
+        ],
+        [
+          2630,
+          1441
+        ],
+        [
+          2630,
+          1635
+        ],
+        [
+          2891,
+          1635
+        ],
+        [
+          2890,
+          1832
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 2560,
+          "y": 2001,
+          "pano_url": "",
+          "note": "white shaker base cabinet unit, uninstalled, near window",
+          "seen_in": 2
+        },
+        {
+          "type": "glass_partition",
+          "x": 2576,
+          "y": 2001,
+          "pano_url": "",
+          "note": "black-framed glass double door and glass sidelight to corridor",
+          "seen_in": 2
+        },
+        {
+          "type": "cabinets",
+          "x": 2861,
+          "y": 1773,
+          "pano_url": "",
+          "note": "white base cabinet, unfinished, standing in the corner by the windows",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 2829,
+          "y": 1773,
+          "pano_url": "",
+          "note": "glass-paneled door and sidelight to the corridor, black frames",
+          "seen_in": 1
+        },
+        {
+          "type": "shelving",
+          "x": 2845,
+          "y": 1773,
+          "pano_url": "",
+          "note": "dark freestanding bookcase with drawers (furniture, not heavy shelving)",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A large empty carpeted office floor with a drop ceiling, perimeter windows, glass-framed entry doors and a few leftover construction materials.",
+        "Large empty carpeted suite with perimeter windows, partially demolished partition offices, and a few loose items (glass panels, base cabinet, mini-split unit), so it is a vacant open office area.",
+        "The suite is made up of several small carpeted perimeter rooms with window walls and framed doorways, and it holds only a few leftover items (a base cabinet, a bookcase, a task chair and a guest chair), so it reads as a vacated private-office area."
+      ]
+    },
+    {
+      "id": "h26t7ky77ew74yb0pg8qqf5rd",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.5,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 325,
+      "polygon": [
+        [
+          1711,
+          662
+        ],
+        [
+          1711,
+          774
+        ],
+        [
+          1619,
+          774
+        ],
+        [
+          1618,
+          799
+        ],
+        [
+          1351,
+          799
+        ],
+        [
+          1297,
+          799
+        ],
+        [
+          1298,
+          65
+        ],
+        [
+          1712,
+          66
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 1508,
+          "y": 705,
+          "pano_url": "",
+          "note": "floor-to-ceiling window wall with blinds along left side (exterior windows)",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted room with drop ceiling, an orange accent wall, window blinds, and a small adjoining room through a doorway, with no fixtures or furniture."
+      ]
+    },
+    {
+      "id": "3m54yff1z7crxaywd8if9rb0d",
+      "label": "other",
+      "display": "Other",
+      "confidence": 0.4,
+      "status": "unverified",
+      "source": "photos_inside",
+      "area_sqft": 260,
+      "polygon": [
+        [
+          1822,
+          578
+        ],
+        [
+          1822,
+          662
+        ],
+        [
+          1711,
+          662
+        ],
+        [
+          1712,
+          66
+        ],
+        [
+          2166,
+          66
+        ],
+        [
+          2165,
+          578
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Empty carpeted room with drop ceiling and fluorescent lights, two wooden literature display racks and a plywood panel on the wall, and no built-in fixtures; a hallway is visible through the door."
+      ]
+    },
+    {
+      "id": "2qdmc5i9byxi79ry1pxdkqzea",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.55,
+      "status": "likely",
+      "source": "photos_inside",
+      "area_sqft": 204,
+      "polygon": [
+        [
+          3382,
+          1775
+        ],
+        [
+          3321,
+          1775
+        ],
+        [
+          3320,
+          1832
+        ],
+        [
+          2890,
+          1832
+        ],
+        [
+          2891,
+          1635
+        ],
+        [
+          2891,
+          1438
+        ],
+        [
+          3382,
+          1439
+        ]
+      ],
+      "features": [
+        {
+          "type": "shelving",
+          "x": 2950,
+          "y": 1760,
+          "pano_url": "",
+          "note": "black freestanding bookcase with drawers; likely furniture, not heavy racking",
+          "seen_in": 1
+        },
+        {
+          "type": "glass_partition",
+          "x": 2966,
+          "y": 1760,
+          "pano_url": "",
+          "note": "large glass panel leaning on wall, not installed",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Empty carpeted corner room with perimeter windows, drop ceiling and a small side room, with only a leftover bookcase, chair and glass panel."
+      ]
+    },
+    {
+      "id": "a5f9age4zzxewres6iqux2emc",
+      "label": "private_office",
+      "display": "Private office",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 170,
+      "polygon": [
+        [
+          429,
+          2257
+        ],
+        [
+          429,
+          2332
+        ],
+        [
+          67,
+          2332
+        ],
+        [
+          67,
+          1961
+        ],
+        [
+          187,
+          1961
+        ],
+        [
+          187,
+          1824
+        ],
+        [
+          367,
+          1824
+        ],
+        [
+          367,
+          1944
+        ],
+        [
+          429,
+          2007
+        ]
+      ],
+      "features": [
+        {
+          "type": "glass_partition",
+          "x": 308,
+          "y": 1912,
+          "pano_url": "",
+          "note": "windows with blinds along exterior wall",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "Small empty carpeted room with drop ceiling and exterior windows, plus a closed door and a hallway with other doorways, typical of a private office."
+      ]
+    },
+    {
+      "id": "19ab05tns5h6y4qm42esqqpea",
+      "label": "open_workspace",
+      "display": "Open workspace",
+      "confidence": 0.4,
+      "status": "unverified",
+      "source": "doorway_view",
+      "area_sqft": 157,
+      "polygon": [
+        [
+          1162,
+          2332
+        ],
+        [
+          1162,
+          1937
+        ],
+        [
+          792,
+          1936
+        ],
+        [
+          791,
+          2331
+        ]
+      ],
+      "features": [],
+      "evidence": [
+        "Seen through the doorway: Through the open doorway is an empty carpeted room with windows and blinds, with no fixtures or furniture visible."
+      ]
+    },
+    {
+      "id": "m8npxsuk79xy21dd09x9wtped",
+      "label": "break_room",
+      "display": "Break room",
+      "confidence": 0.8,
+      "status": "confirmed",
+      "source": "photos_inside",
+      "area_sqft": 119,
+      "polygon": [
+        [
+          1822,
+          578
+        ],
+        [
+          1822,
+          662
+        ],
+        [
+          1822,
+          900
+        ],
+        [
+          2165,
+          900
+        ],
+        [
+          2165,
+          578
+        ]
+      ],
+      "features": [
+        {
+          "type": "cabinets",
+          "x": 1990,
+          "y": 855,
+          "pano_url": "",
+          "note": "oak upper wall cabinets and base cabinets with drawers",
+          "seen_in": 1
+        },
+        {
+          "type": "counter",
+          "x": 2006,
+          "y": 855,
+          "pano_url": "",
+          "note": "built-in laminate countertop along wall with backsplash",
+          "seen_in": 1
+        },
+        {
+          "type": "sink",
+          "x": 2022,
+          "y": 855,
+          "pano_url": "",
+          "note": "double stainless sink with faucet in countertop",
+          "seen_in": 1
+        },
+        {
+          "type": "ventilation_exhaust",
+          "x": 1990,
+          "y": 855,
+          "pano_url": "",
+          "note": "ceiling air diffuser/vent grilles",
+          "seen_in": 1
+        }
+      ],
+      "evidence": [
+        "A small room with oak cabinets, a laminate counter and double sink, and outlets along the wall suggests a kitchenette or break room."
+      ]
+    }
+  ],
+  "counts": {
+    "open_workspace": 1,
+    "reception_desk": 4,
+    "glass_partition": 10,
+    "private_office": 5,
+    "cabinets": 3,
+    "counter": 2,
+    "ventilation_exhaust": 3,
+    "shelving": 1,
+    "break_room": 1,
+    "sink": 1
+  },
+  "measured": {
+    "rooms": 10,
+    "scans": 23,
+    "area_sqft": 4335,
+    "source": "Matterport scan; rooms labeled by Gemini from 360° photos"
+  },
+  "agent_log": [
+    "Plan: 10 rooms, 23 photos inside them, 1 rooms with no photo inside",
+    "Second look at photo ka38bk (55% sure): kept first answer",
+    "Second look at photo 03pn8x (50% sure): now private_office at 60%",
+    "Second look at photo n5ah10 (40% sure): now break_room at 55%",
+    "Second look at photo n4948d (55% sure): now private_office at 60%",
+    "Second look at photo sfcme9 (55% sure): now private_office at 60%",
+    "Second look at photo nr19a6 (50% sure): now open_workspace at 60%",
+    "Second look at photo uhy18f (55% sure): now private_office at 60%",
+    "Room 19ab05 (15 m²): looked in from photo zf0my9, view 2 → open_workspace at 50%"
+  ]
+}

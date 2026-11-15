@@ -15,8 +15,9 @@ const MODEL_FOR: Record<string, string> = {
   travis_900: "mXRDfAHA7iB",
 };
 
+/** `id` is a suite key from MODEL_FOR ("travis_900") or a Matterport model id from search results. */
 function savedInspection(id: string) {
-  const modelId = MODEL_FOR[id];
+  const modelId = MODEL_FOR[id] ?? (/^[A-Za-z0-9]{6,20}$/.test(id) ? id : undefined);
   const file = modelId && path.join(process.cwd(), "data", "spatial", `inspect_${modelId}.json`);
   return file && existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : null;
 }

@@ -1,6 +1,7 @@
 // One place for every image question we ask Gemini.
 // Calls the Gemini REST API directly so each request has a timeout (the SDK can retry silently for minutes).
-// Retries when Google is busy, falls back to another model, and caches every answer under cache/vision.
+// Retries when Google is busy, falls back to another Gemini model, then to Claude (if ANTHROPIC_API_KEY is set),
+// and caches every answer under cache/vision. Set VISION_PROVIDER=claude to skip Gemini entirely.
 
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
@@ -47,7 +48,13 @@ export async function askVisionJSON<T>(imagePaths: string[], prompt: string): Pr
   ];
 
   let lastError = "";
-  for (const model of [...new Set(MODELS)].filter((m) => !outOfQuota.has(m))) {
+  const save = (model: string, answer: T) => {
+    mkdirSync(CACHE, { recursive: true });
+    writeFileSync(file, JSON.stringify({ model, images: imagePaths.map((p) => path.basename(p)), answer }, null, 1));
+    return answer;
+  };
+  const geminiModels = process.env.VISION_PROVIDER === "claude" ? [] : [...new Set(MODELS)];
+  for (const model of geminiModels.filter((m) => !outOfQuota.has(m))) {
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
@@ -59,10 +66,7 @@ export async function askVisionJSON<T>(imagePaths: string[], prompt: string): Pr
         const body = await res.json();
         if (res.ok) {
           const text: string = body.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text ?? "").join("") ?? "";
-          const answer = JSON.parse(text) as T;
-          mkdirSync(CACHE, { recursive: true });
-          writeFileSync(file, JSON.stringify({ model, images: imagePaths.map((p) => path.basename(p)), answer }, null, 1));
-          return answer;
+          return save(model, JSON.parse(text) as T);
         }
         lastError = `${model} ${res.status}: ${body.error?.message ?? "unknown error"}`;
         if (res.status === 429 && /per day|PerDay/i.test(lastError)) {
@@ -80,5 +84,49 @@ export async function askVisionJSON<T>(imagePaths: string[], prompt: string): Pr
       }
     }
   }
-  throw new Error(`Gemini failed: ${lastError || "every model is out of daily quota"}`);
+  // Gemini is out (quota, outage) or skipped: ask Claude instead, if a key is set.
+  if (process.env.ANTHROPIC_API_KEY?.trim()) {
+    try {
+      const { model, answer } = await askClaude<T>(imagePaths, prompt);
+      return save(model, answer);
+    } catch (e) {
+      lastError += `${lastError ? "; " : ""}${(e as Error).message}`;
+    }
+  }
+  throw new Error(`Vision failed: ${lastError || "every Gemini model is out of daily quota and no ANTHROPIC_API_KEY is set"}`);
+}
+
+/** Same question, asked to Claude. Used when Gemini can't answer. */
+async function askClaude<T>(imagePaths: string[], prompt: string): Promise<{ model: string; answer: T }> {
+  const { default: Anthropic } = await import("@anthropic-ai/sdk");
+  const model = process.env.ANTHROPIC_VISION_MODEL?.trim() || process.env.ANTHROPIC_MODEL?.trim() || "claude-sonnet-5-5";
+  const workspaceId = process.env.ANTHROPIC_WORKSPACE_ID?.trim();
+  const client = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY,
+    timeout: 120_000,
+    maxRetries: 3, // the SDK waits and retries on 429 / 5xx
+    ...(workspaceId ? { defaultHeaders: { "anthropic-workspace-id": workspaceId } } : {}),
+  });
+  const response = await client.messages.create({
+    model,
+    max_tokens: 4096,
+    messages: [{
+      role: "user",
+      content: [
+        ...imagePaths.map((p) => ({
+          type: "image" as const,
+          source: { type: "base64" as const, media_type: "image/jpeg" as const, data: readFileSync(p).toString("base64") },
+        })),
+        { type: "text" as const, text: `${prompt}\n\nReply with only the JSON object, no other text.` },
+      ],
+    }],
+  });
+  if (response.stop_reason === "max_tokens") throw new Error(`${model}: answer was cut off`);
+  const text = response.content.map((b) => (b.type === "text" ? b.text : "")).join("");
+  const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1); // tolerate a ```json fence
+  try {
+    return { model, answer: JSON.parse(json) as T };
+  } catch {
+    throw new Error(`${model}: answer was not JSON`);
+  }
 }
