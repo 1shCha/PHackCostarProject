@@ -3,12 +3,9 @@ import "server-only";
 import type { DuckDBValue } from "@duckdb/node-api";
 import { queryDuckDB } from "../duckdb";
 
-export class ToolValidationError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "ToolValidationError";
-  }
-}
+import { callBackendTool, usesRemoteBackend } from "../backend";
+import { ToolValidationError } from "../tool-errors";
+export { ToolValidationError } from "../tool-errors";
 
 export interface SourceReference {
   dataset: string;
@@ -186,6 +183,7 @@ async function rows<T>(sql: string, parameters: DuckDBValue[] = []): Promise<T[]
 }
 
 export async function find_properties(input: FindPropertiesInput): Promise<Page<PropertyMatch>> {
+  if (usesRemoteBackend()) return callBackendTool<Page<PropertyMatch>>("find_properties", input);
   objectInput(input);
   const query = normalize(text(input.query, "query"));
   if (!query) throw new ToolValidationError("query must contain letters or digits.");
@@ -254,6 +252,7 @@ async function selectSuites(where: string, parameters: DuckDBValue[], pagination
 }
 
 export async function find_suites(input: FindSuitesInput): Promise<Page<SuiteIdentity>> {
+  if (usesRemoteBackend()) return callBackendTool<Page<SuiteIdentity>>("find_suites", input);
   objectInput(input);
   const parameters: DuckDBValue[] = [decimalId(input.property_id, "property_id")];
   const filters = ["s.property_id = ?::BIGINT"];
@@ -295,6 +294,7 @@ async function selectHistory(table: "suite_history" | "suite_history_candidates"
 }
 
 export async function get_tenant_history(input: TenantHistoryInput): Promise<TenantHistoryResult> {
+  if (usesRemoteBackend()) return callBackendTool<TenantHistoryResult>("get_tenant_history", input);
   objectInput(input);
   const suiteId = text(input.suite_id, "suite_id").toLowerCase();
   if (!/^[a-f0-9]{64}$/.test(suiteId)) {

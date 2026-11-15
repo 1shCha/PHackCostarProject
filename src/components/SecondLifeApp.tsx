@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Card } from "@/agents";
 import AskSpace from "@/components/AskSpace";
 import VoiceLayer, { type NavCommand } from "@/components/VoiceLayer";
+import AerialMap, { SUITE_900, type AerialPin } from "@/components/AerialMap";
 import { Tour3D } from "./Tour3D";
 import type { SearchResponse, SearchResult } from "@/lib/search";
 
@@ -215,6 +216,11 @@ function Home({
 }) {
   return (
     <main className="home">
+      <div className="home-aerial" aria-hidden="true">
+        <AerialMap center={SUITE_900} zoom={16.2} pitch={58} />
+        <div className="home-veil" />
+        <p className="aerial-hint">Live Vexcel aerial · Texas Medical Center, Houston · drag to explore</p>
+      </div>
       <section className="hero">
         <div className="eyebrow">
           <Icon name="spark" size={16} /> Space intelligence, not just listings
@@ -461,6 +467,8 @@ function cardFor(r: SearchResult | null, base: Card): Card {
       asking_rent_psf_yr: (r.asking_rent ?? base.suite.asking_rent_psf_yr) as number,
       listing_notes: r.reasons,
       matterport_model_id: (r.model_id ?? "") as string,
+      lat: r.latitude ?? base.suite.lat,
+      lon: r.longitude ?? base.suite.lon,
     },
     history: {
       ...base.history,
@@ -549,6 +557,7 @@ function Results({
         </div>
       </div>
       {data.results.length === 0 && <p>No listed spaces match that size. Try a wider range.</p>}
+      <ResultsMap results={data.results} open={open} />
       <div className="result-grid">
         {data.results.map((r, i) => {
           const level = i === 0 ? "best" : r.badge === "Good fit" ? "good" : "possible";
@@ -614,6 +623,40 @@ function Results({
         })}
       </div>
     </main>
+  );
+}
+
+/** Vexcel aerial with a numbered pin per result; click a pin to open that suite. */
+function ResultsMap({ results, open }: { results: SearchResult[]; open: (r: SearchResult) => void }) {
+  const pins = useMemo<AerialPin[]>(
+    () =>
+      results
+        .filter((r) => r.latitude !== null && r.longitude !== null)
+        .map((r, i) => ({
+          id: r.suite_id,
+          lat: r.latitude as number,
+          lon: r.longitude as number,
+          label: `${r.suite} · ${r.address}`,
+          sub: `${r.sqft.toLocaleString()} sq ft${r.asking_rent ? ` · $${r.asking_rent}/sf` : ""}`,
+          best: i === 0,
+        })),
+    [results],
+  );
+  if (!pins.length) return null;
+  return (
+    <div className="results-aerial">
+      <AerialMap
+        pins={pins}
+        orbit={false}
+        pitch={45}
+        zoom={11}
+        onPick={(id) => {
+          const r = results.find((x) => x.suite_id === id);
+          if (r) open(r);
+        }}
+      />
+      <p className="aerial-hint">Vexcel aerial · tap a pin to open that suite</p>
+    </div>
   );
 }
 
@@ -837,7 +880,10 @@ function SpaceCard({
   return (
     <main className="page space-page">
       <Back onClick={back} label="All matches" />
-      <section className="space-hero">
+      <section className="space-hero has-aerial">
+        <div className="space-aerial" aria-hidden="true">
+          <AerialMap center={s.key === "travis_900" ? SUITE_900 : { lat: s.lat, lon: s.lon }} zoom={17.2} pitch={60} />
+        </div>
         <div className="space-hero-top">
           <div>
             <p className="kicker light">{match}</p>

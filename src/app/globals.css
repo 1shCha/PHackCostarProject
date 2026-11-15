@@ -2583,3 +2583,42 @@ footer .brand svg {
   .tour-room { font-size: 16px; }
 }
 .voice-missed { opacity: .85; }
+
+/* ---------- Live Vexcel aerial ---------- */
+.aerial-map, .aerial-map.maplibregl-map { position: absolute !important; inset: 0; width: 100%; height: 100%; }
+.aerial-map .maplibregl-ctrl-group { border-radius: 12px; overflow: hidden; }
+.aerial-hint { position: absolute; left: 16px; bottom: 14px; z-index: 3; margin: 0; padding: 6px 12px; border-radius: 999px; background: rgba(42, 26, 30, .72); color: var(--paper); font-size: 12px; letter-spacing: .02em; backdrop-filter: blur(8px); pointer-events: none; }
+
+/* Home: the aerial fills the background; the hero floats above it */
+.home { overflow: hidden; }
+.home-aerial { position: absolute; inset: 0; z-index: 0; }
+.home-veil { position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 62% 58% at 50% 40%, rgba(247, 241, 234, .93) 0%, rgba(247, 241, 234, .82) 45%, rgba(247, 241, 234, .25) 78%, rgba(247, 241, 234, .1) 100%),
+    linear-gradient(180deg, rgba(247, 241, 234, .55) 0%, rgba(247, 241, 234, 0) 18%, rgba(247, 241, 234, 0) 70%, rgba(247, 241, 234, .9) 100%); }
+.home .hero, .home .layers-strip, .home .home-proof { position: relative; z-index: 2; }
+/* Let drags reach the map everywhere except real controls */
+.home .hero, .home .hero * { pointer-events: none; }
+.home .hero .search-card, .home .hero .search-card *, .home .hero button, .home .hero a, .home .hero input { pointer-events: auto; }
+.home .aerial-hint { bottom: 18px; }
+
+/* Results: map with a pin per suite */
+.results-aerial { position: relative; height: 420px; margin: 8px 0 28px; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 18px 40px -26px rgba(42, 26, 30, .45); background: #1d1416; }
+.aerial-pin { display: flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; cursor: pointer; transform-origin: bottom center; }
+.aerial-pin-dot { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--sage); color: #fff; font: 600 13px Inter, sans-serif; border: 2px solid #fff; box-shadow: 0 6px 16px rgba(0, 0, 0, .35); }
+.aerial-pin.best .aerial-pin-dot { width: 38px; height: 38px; background: var(--orange); font-size: 15px; animation: voice-breathe 2.2s ease-in-out infinite; }
+.aerial-pin-label { display: none; flex-direction: column; text-align: left; padding: 6px 10px; border-radius: 10px; background: rgba(255, 255, 255, .95); box-shadow: 0 8px 20px rgba(0, 0, 0, .25); white-space: nowrap; }
+.aerial-pin-label b { font: 600 13px Inter, sans-serif; color: var(--ink); }
+.aerial-pin-label em { font: 400 12px Inter, sans-serif; font-style: normal; color: var(--grey); }
+.aerial-pin:hover .aerial-pin-label, .aerial-pin.best .aerial-pin-label { display: flex; }
+
+/* Suite page: the building from above behind the header */
+.space-hero.has-aerial { position: relative; overflow: hidden; isolation: isolate; }
+.space-aerial { position: absolute; inset: 0; z-index: -2; }
+.space-hero.has-aerial::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, rgba(94, 43, 53, .96) 0%, rgba(94, 43, 53, .9) 42%, rgba(94, 43, 53, .55) 70%, rgba(94, 43, 53, .25) 100%); }
+.space-hero.has-aerial .space-aerial .maplibregl-ctrl-bottom-right { display: none; }
+@media (max-width: 760px) {
+  .results-aerial { height: 300px; }
+  .space-hero.has-aerial::after { background: rgba(94, 43, 53, .88); }
+}

@@ -1,5 +1,5 @@
 // Tenant search: "I'm a barber looking for 1,500–2,000 sq ft in Houston" → ranked real suites.
-// Reads listed suites, past tenants and rents from the CoStar DuckDB (DUCKDB_PATH), and scores what's
+// Reads listed suites, past tenants and rents from the hosted CoStar API (or local DuckDB), and scores what's
 // built in with the Role 2 inspection (data/spatial/inspect_<model>.json) when a suite has been labeled.
 //
 // Score (0–100) = size fit (30) + past tenants in the same kind of business (30) + what's built in (40).
@@ -9,6 +9,7 @@ import "server-only";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { queryDuckDB } from "./duckdb";
+import { callBackendTool, usesRemoteBackend } from "./backend";
 import { fitFor } from "./spatial/buildout";
 import { profileFor, type Profile } from "./spatial/profiles";
 
@@ -68,11 +69,14 @@ function savedInspection(modelId: string | null) {
 
 type Row = {
   suite_id: string; suite: string; city: string; sqft: number; building_name: string | null; street: string | null;
-  property_type: string | null; model_ids: string[] | null;
+  property_type: string | null; model_ids: string[] | null; latitude: number | null; longitude: number | null;
   asking: number | null; signed: number | null; n_signed: string | number | null; past: { company: string | null; industry: string | null; from: string | null; to: string | null }[] | null;
 };
 
 async function candidates(q: SearchQuery): Promise<Row[]> {
+  if (usesRemoteBackend()) {
+    return callBackendTool<Row[]>("search_candidates", { sqft_min: q.sqft_min, sqft_max: q.sqft_max, city: q.city });
+  }
   // 15% slack on each side so a 1,450 sf suite still shows for "1,500–2,000".
   const lo = q.sqft_min !== null ? q.sqft_min * 0.85 : 0;
   const hi = q.sqft_max !== null ? q.sqft_max * 1.15 : 1e9;
@@ -82,6 +86,7 @@ async function candidates(q: SearchQuery): Promise<Row[]> {
       FROM suite_listing_links GROUP BY suite_id),
     picked AS (
       SELECT s.suite_id, s.suite_normalized AS suite, s.city, l.sqft, s.property_id, p.building_name, p.property_type_label AS property_type,
+        p.latitude, p.longitude,
         trim(concat_ws(' ', json_extract_string(p.address, '$.streetNumber'), json_extract_string(p.address, '$.streetDirection'),
           json_extract_string(p.address, '$.streetName'), json_extract_string(p.address, '$.streetType'))) AS street
       FROM listed l JOIN suites s USING (suite_id) JOIN properties p USING (property_id)
@@ -102,7 +107,7 @@ async function candidates(q: SearchQuery): Promise<Row[]> {
       SELECT suite_id, list({company: company_name, industry: resolved_industry_label,
         "from": strftime(timeline_start, '%Y-%m-%d'), "to": strftime(to_date, '%Y-%m-%d')} ORDER BY timeline_start) AS past
       FROM suite_history GROUP BY suite_id)
-    SELECT pk.suite_id, pk.suite, pk.city, pk.sqft, pk.building_name, pk.street, pk.property_type,
+    SELECT pk.suite_id, pk.suite, pk.city, pk.sqft, pk.building_name, pk.street, pk.property_type, pk.latitude, pk.longitude,
       sc.model_ids, a.asking, sg.signed, sg.n_signed, ps.past
     FROM picked pk LEFT JOIN scan sc USING (suite_id) LEFT JOIN asking a USING (suite_id)
       LEFT JOIN signed sg ON sg.property_id = pk.property_id LEFT JOIN past ps USING (suite_id)`,
@@ -159,6 +164,8 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
     building: r.building_name,
     suite: `Suite ${r.suite}`,
     city: r.city,
+    latitude: r.latitude === null ? null : Number(r.latitude), // building location, for the aerial map
+    longitude: r.longitude === null ? null : Number(r.longitude),
     sqft: Math.round(r.sqft),
     property_type: r.property_type,
     asking_rent: r.asking !== null ? Math.round(r.asking * 100) / 100 : null, // $/sf/yr
