@@ -9,6 +9,7 @@ import type { Card } from "@/agents";
 import { fetchAnswer, forSpeech, getRecognition, TopicCard, type Answer, type Recognition, type Topic } from "@/components/AskSpace";
 import { HELP_GROUPS, parseCommand, ROOM_NAMES, splitWake, type Command, type Mode, type RoomKey } from "@/lib/voice/commands";
 import { connectSdk, keyForLabel, TourController, tourSrc } from "@/lib/tour/controller";
+import { speakAloud, stopSpeaking } from "@/lib/voice/speaker";
 
 export type NavCommand =
   | Extract<Command, { kind: "nav.search" | "nav.open" | "nav.offer" | "nav.back" | "nav.home" | "nav.mode" }>
@@ -274,7 +275,7 @@ export default function VoiceLayer({
     enabled.current = false;
     awakeUntil.current = 0;
     setPhase("off");
-    window.speechSynthesis?.cancel();
+    stopSpeaking();
     try {
       rec.current?.stop();
       localStorage.removeItem(STORE);
@@ -302,7 +303,7 @@ export default function VoiceLayer({
       } catch {
         // Ignore.
       }
-      window.speechSynthesis?.cancel();
+      stopSpeaking();
     };
   }, [enable]);
 
@@ -310,24 +311,20 @@ export default function VoiceLayer({
   const speak = useCallback(
     (text: string) => {
       const line = forSpeech(text);
-      if (!line || !window.speechSynthesis) return;
+      if (!line) return;
       window.clearTimeout(speakTimer.current);
-      window.speechSynthesis.cancel();
+      stopSpeaking();
       pauseRec(); // don't let the app hear itself
       setPhase("speaking");
-      const u = new SpeechSynthesisUtterance(line);
-      u.rate = 1.04;
       const done = () => {
         window.clearTimeout(speakTimer.current);
         if (convo.current) awakeUntil.current = Date.now() + CONVO_MS;
         setPhase(!enabled.current ? "off" : convo.current ? "awake" : "idle");
         resumeRec();
       };
-      u.onend = done;
-      u.onerror = done;
-      // Safety net: Chrome sometimes never fires onend.
-      speakTimer.current = window.setTimeout(done, 2500 + line.split(" ").length * 450);
-      window.speechSynthesis.speak(u);
+      // Safety net in case playback never reports the end (allows a few seconds to fetch the AI voice).
+      speakTimer.current = window.setTimeout(done, 10_000 + line.split(" ").length * 450);
+      speakAloud(line, done); // natural Gemini voice, or the best browser voice as a fallback
     },
     [pauseRec, resumeRec],
   );
@@ -493,7 +490,7 @@ export default function VoiceLayer({
           say("Okay. Say Hey SecondLife when you need me.");
           return;
         case "ui.stop":
-          window.speechSynthesis?.cancel();
+          stopSpeaking();
           setReply("");
           return;
         case "ui.help":
@@ -709,7 +706,7 @@ export default function VoiceLayer({
         <div className="voice-bar">
           <button
             className={`voice-orb ${phase}`}
-            onClick={() => (phase === "off" ? enable() : phase === "speaking" ? window.speechSynthesis.cancel() : disable())}
+            onClick={() => (phase === "off" ? enable() : phase === "speaking" ? stopSpeaking() : disable())}
             aria-label={phase === "off" ? "Turn on hands-free voice" : "Turn off hands-free voice"}
             title={phase === "off" ? "Turn on voice" : "Turn off voice"}
           >
