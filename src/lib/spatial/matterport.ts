@@ -25,7 +25,7 @@ export type MpModel = {
     dimensionEstimates: { area?: number; height?: number } | null;
     boundary: { edges: { id: string }[] } | null;
   }[];
-  panoLocations: { id: string; label: string; position: Vec3 }[];
+  panoLocations: { id: string; label: string; position: Vec3; rotation?: { x: number; y: number; z: number; w: number } }[];
   assets: {
     floorplans: {
       format: string;
@@ -45,7 +45,7 @@ const MODEL_QUERY = `query Model($id: ID!) { model(id: $id) {
   id name
   floors { id vertices { id position { x y } } edges { id type thickness vertices { id } } }
   rooms { id floor { id } classifications { label confidence } dimensionEstimates { area height } boundary { edges { id } } }
-  panoLocations { id label position { x y z } }
+  panoLocations { id label position { x y z } rotation { x y z w } }
   assets { floorplans(provider: "matterport") { format flags url width height resolution origin { x y } } }
 } }`;
 
@@ -75,7 +75,10 @@ export async function graph<T>(query: string, variables: Record<string, unknown>
 /** Rooms, walls, scan positions and floor plans for one model. Cached after the first call. */
 export async function getModel(id: string, { refresh = false } = {}): Promise<MpModel> {
   const file = path.join(CACHE, `${id}.json`);
-  if (!refresh && existsSync(file)) return JSON.parse(readFileSync(file, "utf8"));
+  if (!refresh && existsSync(file)) {
+    const cached: MpModel = JSON.parse(readFileSync(file, "utf8"));
+    if (cached.panoLocations.every((p) => p.rotation)) return cached; // older caches lack rotation: refetch
+  }
   const data = await graph<{ model: MpModel }>(MODEL_QUERY, { id });
   mkdirSync(CACHE, { recursive: true });
   writeFileSync(file, JSON.stringify(data.model, null, 1));
