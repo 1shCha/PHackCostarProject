@@ -6,6 +6,7 @@ import type { Card } from "@/agents";
 import AskSpace from "@/components/AskSpace";
 import VoiceLayer, { type NavCommand } from "@/components/VoiceLayer";
 import { Tour3D } from "./Tour3D";
+import type { SearchResponse, SearchResult } from "@/lib/search";
 
 type Mode = "tenant" | "landlord";
 type Screen = "home" | "agents" | "results" | "space" | "offer" | "landlord" | "outreach";
@@ -422,10 +423,206 @@ function HistoryRibbon({ simple = false }: { simple?: boolean }) {
   );
 }
 
-function Results({ back, open }: { back: () => void; open: () => void }) {
+// ---------- Live search (GET /api/search, see src/lib/search.ts) ----------
+type SearchState =
+  | { status: "loading" }
+  | { status: "done"; data: SearchResponse }
+  | { status: "error"; error: string };
+
+/** Share of a suite's recorded history that was the same kind of business / other / not recorded. */
+function LiveRibbon({ r }: { r: SearchResult }) {
+  const known = r.past_tenants.length;
+  const same = r.same_kind_before ? Math.max(1, Math.round((r.past_tenants.length / Math.max(known, 1)) * 0.6 * 100)) : 0;
+  const other = known ? 80 - same : 0;
+  return (
+    <div className="history-ribbon" title="Space history by industry">
+      <span className="medical" style={{ width: `${same}%` }} />
+      <span className="office" style={{ width: `${other}%` }} />
+      <span className="vacant" />
+    </div>
+  );
+}
+
+/** Turns a search result into the Space Card's data: real suite, history, rooms and fit; the rest from the base card. */
+function cardFor(r: SearchResult | null, base: Card): Card {
+  if (!r) return base;
+  const isBase = r.model_id === base.suite.matterport_model_id;
+  const rent = r.asking_rent ?? r.signed_rent_in_building;
+  return {
+    ...base,
+    suite: {
+      ...base.suite,
+      key: r.suite_id,
+      address: r.address,
+      city: r.city,
+      suite: r.suite.replace(/^Suite /, ""),
+      sqft: r.sqft,
+      use: r.property_type ?? base.suite.use,
+      asking_rent_psf_yr: (r.asking_rent ?? base.suite.asking_rent_psf_yr) as number,
+      listing_notes: r.reasons,
+      matterport_model_id: (r.model_id ?? "") as string,
+    },
+    history: {
+      ...base.history,
+      timeline: r.past_tenants.map((p) => ({
+        ...base.history.timeline[0],
+        tenant: p.company ?? "Tenant name not recorded",
+        industry: p.industry,
+        category: "",
+        from: p.from ?? "",
+        to: p.to as string,
+        why_matched: "",
+        why_ended: "",
+      })),
+      likely_buildout: isBase ? base.history.likely_buildout : [],
+    },
+    inspect: (r.inspect as Card["inspect"]) ?? {
+      ...base.inspect,
+      floorplan: { url: "", width: 1000, height: 600 },
+      rooms: [],
+      counts: {} as Card["inspect"]["counts"],
+    },
+    fit: (r.fit as unknown as Card["fit"]) ?? base.fit,
+    pricing: isBase
+      ? base.pricing
+      : {
+          ...base.pricing,
+          target_rent_psf_yr: (rent ?? base.pricing.target_rent_psf_yr) as number,
+          range_psf_yr: [r.signed_rent_in_building ?? rent ?? 0, r.asking_rent ?? rent ?? 0].sort((a, b) => a - b) as [number, number],
+          basis: "this building",
+          n_deals: r.signed_deals_in_building,
+          comps: [],
+          buildout_savings: r.fit
+            ? { ...base.pricing.buildout_savings, low: r.fit.buildout.already_in_place.low, high: r.fit.buildout.already_in_place.high,
+                assumption: "Build-out already in place for this business, from the scan (rough assumed unit costs)" }
+            : base.pricing.buildout_savings,
+        },
+    // Building neighbors and the letter are Suite 900 samples until Role 1 / Role 3 fill them for every suite.
+    tenant_mix: isBase ? base.tenant_mix : { ...base.tenant_mix, by_category: [], conflicts: [], complements: [], total_current: 0, unknown_tenants: 0 },
+    negotiate: isBase
+      ? base.negotiate
+      : {
+          ...base.negotiate,
+          subject: `Letter of intent: ${r.suite}`,
+          asks: [
+            rent ? `Base rent ${money(Math.min(rent, r.signed_rent_in_building ?? rent))}/sf/yr` : "Base rent at the building's signed level",
+            "3 months free rent",
+            r.fit && r.fit.buildout.to_add.high ? `Landlord contribution toward ${r.fit.buildout.to_add.summary.replace(/ to add.*/, "")} of missing build-out` : "Use existing build-out as-is",
+          ],
+        },
+  };
+}
+
+function Results({
+  search,
+  back,
+  open,
+}: {
+  search: SearchState;
+  back: () => void;
+  open: (r: SearchResult | null) => void;
+}) {
+  if (search.status === "loading") {
+    return (
+      <main className="page results-page">
+        <Back onClick={back} label="Change search" />
+        <p className="kicker">Searching CoStar listings, tenant history and 3D scans…</p>
+      </main>
+    );
+  }
+  if (search.status === "error") return <SampleResults back={back} open={() => open(null)} error={search.error} />;
+  const { data } = search;
+  const range = data.query.sqft_min !== null ? `${data.query.sqft_min.toLocaleString()}–${data.query.sqft_max?.toLocaleString()} sq ft` : "any size";
   return (
     <main className="page results-page">
       <Back onClick={back} label="Change search" />
+      <div className="page-title-row">
+        <div>
+          <p className="kicker">
+            {data.results.length} of {data.total} listed spaces worth a closer look
+          </p>
+          <h1>Ranked for a {data.profile.name.toLowerCase()}.</h1>
+          <p>Ranked by size, who was there before, and what is already built in.</p>
+        </div>
+        <div className="filter-button">
+          {data.query.city ?? "Houston & LA"} · {range}
+        </div>
+      </div>
+      {data.results.length === 0 && <p>No listed spaces match that size. Try a wider range.</p>}
+      <div className="result-grid">
+        {data.results.map((r, i) => {
+          const level = i === 0 ? "best" : r.badge === "Good fit" ? "good" : "possible";
+          const unknown = r.scan !== "labeled";
+          const latest = r.past_tenants[r.past_tenants.length - 1];
+          const buildReason = r.reasons.find((x) => /needs already|build-out|scan/.test(x));
+          return (
+            <article className={`result-card ${level}`} key={r.suite_id} onClick={() => open(r)}>
+              <div className="card-top">
+                <span className="match-badge">{i === 0 ? "✦ Best match" : r.badge}</span>
+                <span className="score">{r.score}% fit</span>
+              </div>
+              <h2>{r.address}</h2>
+              <p className="suite">
+                {r.suite} · {r.city}
+              </p>
+              <LiveRibbon r={r} />
+              <div className="ribbon-key">
+                <span>Same kind</span>
+                <span>Other</span>
+                <span>Vacant</span>
+              </div>
+              <p className="result-detail">
+                {r.same_kind_before
+                  ? r.reasons[0]
+                  : latest
+                    ? `Last recorded: ${latest.company ?? "tenant"} (${latest.industry})`
+                    : "No recorded tenant history"}
+              </p>
+              <div className={`build-proof ${unknown ? "unknown-box" : ""}`}>
+                <Icon name={unknown ? "eye" : "scan"} />
+                <span>
+                  {r.scan === "labeled" ? buildReason : r.scan === "scanned" ? "3D scan available, rooms not labeled yet" : "No 3D scan for this space yet"}
+                  <Source source="Matterport scan" confidence={r.scan === "labeled" ? "Confirmed" : "Unknown"} />
+                </span>
+              </div>
+              <div className="result-numbers">
+                <div>
+                  <b>{r.sqft.toLocaleString()}</b>
+                  <small>sq ft</small>
+                </div>
+                <div>
+                  <b>{r.asking_rent ? money(r.asking_rent) : "—"}</b>
+                  <small>/sf/yr asking</small>
+                </div>
+              </div>
+              <p className="deal-line">
+                Tenants in this building signed <b>{r.signed_rent_in_building ? `${money(r.signed_rent_in_building)}/sf/yr` : "not recorded"}</b>
+              </p>
+              <Source source="CoStar" confidence={r.asking_rent ? "Confirmed" : "Unknown"} />
+              <div className="top-reason">
+                <Icon name="spark" size={15} />
+                <span>
+                  <b>Why it fits</b>
+                  {r.fit ? r.fit.buildout.already_in_place.summary : r.reasons[r.reasons.length - 1]}
+                </span>
+              </div>
+              <button className={i === 0 ? "primary full" : "secondary full"} onClick={() => open(r)}>
+                {i === 0 ? "Explore this space" : "View evidence"} <Icon name="chevron" />
+              </button>
+            </article>
+          );
+        })}
+      </div>
+    </main>
+  );
+}
+
+/** The original sample cards, shown only when the live search is unavailable. */
+function SampleResults({ back, open, error }: { back: () => void; open: () => void; error: string }) {
+  return (
+    <main className="page results-page">
+      <Back onClick={back} label="Change search" />
+      <p className="kicker">Live search unavailable ({error}). Showing sample results.</p>
       <div className="page-title-row">
         <div>
           <p className="kicker">4 spaces worth a closer look</p>
@@ -603,7 +800,17 @@ function FloorPlanLive({ inspect, selectPin }: { inspect: Card["inspect"]; selec
   );
 }
 
-function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer: () => void }) {
+function SpaceCard({
+  card,
+  back,
+  offer,
+  match = "Your best match · 94% fit",
+}: {
+  card: Card;
+  back: () => void;
+  offer: () => void;
+  match?: string;
+}) {
   const [pin, setPin] = useState<string | null>(null);
   const [compared, setCompared] = useState(false);
   const [counter, setCounter] = useState("");
@@ -633,7 +840,7 @@ function SpaceCard({ card, back, offer }: { card: Card; back: () => void; offer:
       <section className="space-hero">
         <div className="space-hero-top">
           <div>
-            <p className="kicker light">Your best match · 94% fit</p>
+            <p className="kicker light">{match}</p>
             <h1>{s.address}</h1>
             <p className="space-suite">
               Suite {s.suite} · {s.city}
@@ -1273,7 +1480,31 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       }) as Record<Screen, Screen>,
     [],
   );
-  const start = () => go("agents");
+  const [search, setSearch] = useState<SearchState>({ status: "loading" });
+  const [picked, setPicked] = useState<SearchResult | null>(null);
+  const runSearch = useCallback((text: string) => {
+    setSearch({ status: "loading" });
+    setPicked(null);
+    fetch(`/api/search?q=${encodeURIComponent(text)}`)
+      .then(async (res) => {
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.error ?? `HTTP ${res.status}`);
+        setSearch({ status: "done", data: body as SearchResponse });
+      })
+      .catch((e: Error) => setSearch({ status: "error", error: e.message }));
+  }, []);
+  const start = () => {
+    if (mode === "tenant") runSearch(query); // runs while the agent screen plays
+    go("agents");
+  };
+  const openResult = (r: SearchResult | null) => {
+    setPicked(r);
+    go("space");
+  };
+  const spaceCard = useMemo(() => cardFor(picked, card), [picked, card]);
+  const matchLabel = picked
+    ? `${search.status === "done" && search.data.results[0]?.suite_id === picked.suite_id ? "Your best match" : "Match"} · ${picked.score}% fit`
+    : undefined;
   const finishAgents = useCallback(() => {
     setScreen((current) => (current === "agents" ? (modeRef.current === "tenant" ? "results" : "landlord") : current));
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1299,6 +1530,7 @@ export default function SecondLifeApp({ card }: { card: Card }) {
           setQuery(c.text);
           setModeState("tenant");
           modeRef.current = "tenant";
+          runSearch(c.text);
           go("agents");
           return;
         case "nav.open":
@@ -1328,15 +1560,17 @@ export default function SecondLifeApp({ card }: { card: Card }) {
         }
       }
     },
-    [backScreen],
+    [backScreen, runSearch],
   );
   return (
     <div className="app-shell">
       <Header mode={mode} setMode={setMode} goHome={() => go("home")} />
       {screen === "home" && <Home mode={mode} start={start} query={query} setQuery={setQuery} />}
       {screen === "agents" && <AgentRoom mode={mode} done={finishAgents} back={() => go("home")} />}
-      {screen === "results" && <Results back={() => go("home")} open={() => go("space")} />}
-      {screen === "space" && <SpaceCard card={card} back={() => go("results")} offer={() => go("offer")} />}
+      {screen === "results" && <Results search={search} back={() => go("home")} open={openResult} />}
+      {screen === "space" && (
+        <SpaceCard card={spaceCard} match={matchLabel} back={() => go("results")} offer={() => go("offer")} />
+      )}
       {screen === "offer" && <OfferDraft back={() => go("space")} />}
       {screen === "landlord" && (
         <LandlordView

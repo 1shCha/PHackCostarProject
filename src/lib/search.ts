@@ -69,7 +69,7 @@ function savedInspection(modelId: string | null) {
 type Row = {
   suite_id: string; suite: string; city: string; sqft: number; building_name: string | null; street: string | null;
   property_type: string | null; model_ids: string[] | null;
-  asking: number | null; signed: number | null; past: { company: string | null; industry: string | null; from: string | null; to: string | null }[] | null;
+  asking: number | null; signed: number | null; n_signed: string | number | null; past: { company: string | null; industry: string | null; from: string | null; to: string | null }[] | null;
 };
 
 async function candidates(q: SearchQuery): Promise<Row[]> {
@@ -96,14 +96,14 @@ async function candidates(q: SearchQuery): Promise<Row[]> {
       WHERE dl.match_status = 'supported' AND r.rent_kind = 'asking' AND r.is_usable AND r.period_label = 'Yearly'
       GROUP BY dl.suite_id),
     signed AS (
-      SELECT property_id, median(annual_per_sqft_low) AS signed FROM rent_evidence
+      SELECT property_id, median(annual_per_sqft_low) AS signed, count(*) AS n_signed FROM rent_evidence
       WHERE rent_kind = 'actual' AND is_usable AND period_label = 'Yearly' GROUP BY property_id),
     past AS (
       SELECT suite_id, list({company: company_name, industry: resolved_industry_label,
         "from": strftime(timeline_start, '%Y-%m-%d'), "to": strftime(to_date, '%Y-%m-%d')} ORDER BY timeline_start) AS past
       FROM suite_history GROUP BY suite_id)
     SELECT pk.suite_id, pk.suite, pk.city, pk.sqft, pk.building_name, pk.street, pk.property_type,
-      sc.model_ids, a.asking, sg.signed, ps.past
+      sc.model_ids, a.asking, sg.signed, sg.n_signed, ps.past
     FROM picked pk LEFT JOIN scan sc USING (suite_id) LEFT JOIN asking a USING (suite_id)
       LEFT JOIN signed sg ON sg.property_id = pk.property_id LEFT JOIN past ps USING (suite_id)`,
     [lo, hi, q.city, q.city])) as unknown as Row[];
@@ -117,7 +117,20 @@ function sizeScore(sqft: number, q: SearchQuery) {
 
 function rank(r: Row, q: SearchQuery, profile: Profile) {
   const want = INDUSTRIES[profile.category] ?? [];
-  const past = (r.past ?? []).filter((p) => p.company || p.industry);
+  // CoStar can hold several records for one tenancy: merge them per company (earliest start, latest end).
+  const merged = new Map<string, NonNullable<Row["past"]>[number]>();
+  for (const p of r.past ?? []) {
+    if (!p.company && !p.industry) continue;
+    const key = (p.company ?? `unnamed-${p.industry}-${p.from}`).toLowerCase();
+    const prev = merged.get(key);
+    if (!prev) merged.set(key, { ...p });
+    else {
+      if (p.from && (!prev.from || p.from < prev.from)) prev.from = p.from;
+      prev.to = !prev.to || !p.to ? null : p.to > prev.to ? p.to : prev.to; // no end date = still there
+      prev.industry ??= p.industry;
+    }
+  }
+  const past = [...merged.values()].sort((a, b) => (a.from ?? "").localeCompare(b.from ?? ""));
   const same = past.filter((p) => p.industry && want.includes(p.industry)).reverse(); // most recent first
   const history = same.length ? 30 : past.some((p) => p.industry) ? 5 : 10; // unknown history is better than a mismatch
   // A suite can have several scans with the same name: prefer one we've labeled.
@@ -150,10 +163,12 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
     property_type: r.property_type,
     asking_rent: r.asking !== null ? Math.round(r.asking * 100) / 100 : null, // $/sf/yr
     signed_rent_in_building: r.signed !== null ? Math.round(r.signed * 100) / 100 : null,
+    signed_deals_in_building: Number(r.n_signed ?? 0),
     past_tenants: past.map((p) => ({ company: p.company, industry: readable(p.industry), from: p.from, to: p.to })),
     same_kind_before: same.length > 0,
     scan: (modelId ? (inspection ? "labeled" : "scanned") : "none") as "labeled" | "scanned" | "none",
-    fit: fit && { score: fit.score, checks: fit.checks, buildout: fit.buildout },
+    fit, // full fit for this business (null when the suite has no room labels)
+    inspect: inspection as unknown, // room labels for the Space Card (null when not labeled)
     score,
     score_parts: { size: sizeScore(r.sqft, q), history, built_in: built },
     reasons,
@@ -161,6 +176,9 @@ function rank(r: Row, q: SearchQuery, profile: Profile) {
 }
 
 const SCAN_ORDER = { labeled: 0, scanned: 1, none: 2 } as const;
+
+export type SearchResponse = Awaited<ReturnType<typeof searchSpaces>>;
+export type SearchResult = SearchResponse["results"][number];
 
 export async function searchSpaces(text: string, limit = 8) {
   const q = parseQuery(text);
