@@ -1,145 +1,150 @@
-# SecondLife
+# 🏢 SecondLife
 
-Every commercial space remembers who was there. SecondLife reads a suite's tenant history, checks what's built into it, and matches it to the business that values it most.
+> **Every commercial space remembers who was there.**
+> SecondLife reads a suite's tenant history, checks what's built into it, and matches it to the business that values it most.
 
-## Run it
+🏆 Built for CoStar's **AI for the Built World** track
+
+---
+
+## 📚 Contents
+
+- [The problem](#-the-problem)
+- [What SecondLife does](#-what-secondlife-does)
+- [Features](#-features)
+- [Team](#-team)
+- [Quick start](#-quick-start)
+- [Configuration](#-configuration)
+- [Architecture](#%EF%B8%8F-architecture)
+- [Chat API](#-chat-api)
+- [Agent tools](#-agent-tools)
+- [Testing](#-testing)
+- [Evidence and honesty rules](#%EF%B8%8F-evidence-and-honesty-rules)
+- [Contributing](#-contributing)
+
+---
+
+## 🤔 The problem
+
+A commercial listing gives you square footage, a price, and a few photos. It doesn't answer the questions a business owner actually has:
+
+- 🧾 **Who was here before?** Did a business like mine use this suite?
+- 🛠️ **What's already built in?** Exam rooms, sinks, a reception area, private offices?
+- 🚗 **How do people get there?** Parking, loading, outdoor space?
+
+Today, finding out takes site visits, broker calls, and guesswork.
+
+## ✨ What SecondLife does
+
+Describe the space you want in plain English, for example:
+
+> *"I'm a barber looking for 1,500–2,000 sq ft in Houston."*
+
+SecondLife returns **real, ranked suites**, each backed by three layers of evidence:
+
+| | Layer | Source | What it tells you |
+|---|---|---|---|
+| 📜 | **What was here** | CoStar lease history | Past tenants, tenant mix, rent comps |
+| 🧱 | **What's built in** | Matterport 3D scans | Rooms, labels, visible features (sinks, cabinets…) |
+| 🛰️ | **How people get there** | Vexcel aerial imagery | Parking, loading areas, outdoor space |
+
+### 🎯 Fit score (0–100)
+
+| Points | Signal |
+|---:|---|
+| **30** | 📐 Size fit |
+| **30** | 🔁 Same kind of business here before (CoStar industry, plus tenant names where labels are broad: law firms, salons, cafés) |
+| **40** | 🧰 What's built in (AI-labeled scan rooms; unscanned suites get a neutral score and say so) |
+
+## 🚀 Features
+
+- 🔎 **Natural-language search** over real CoStar listings
+- 🗺️ **Live aerial map** (Vexcel) that orbits behind every page and flies to result pins and the open suite
+- 🏬 **Suite page:** who was here, what's likely built in, floor plan from the scan, getting there, target rent, good neighbors
+- 🚶 **3D walkthrough tour** from Matterport panoramas ("take me to the exam room")
+- 🎙️ **Voice mode** with natural TTS (Gemini, with a browser voice as fallback) to open results and drive the tour
+- 💬 **Ask the space:** a chat agent that answers with **citations** (`[S1]`, `[S2]`) to source records
+- 📝 **Offer workspace:** a draft letter of intent with a suggested counter, ready for broker review
+
+## 👥 Team
+
+| Role | Who | Focus | Main files |
+|---|---|---|---|
+| 1️⃣ CoStar data | **Ishaan** | Suites, history, tenant mix, pricing, prospects | `src/agents/costar.ts`, `src/lib/tools/` |
+| 2️⃣ Matterport + Vexcel | **Riley** | Rooms and features from 3D scans, fit, aerial view | `src/agents/spatial.ts`, `src/lib/spatial/` |
+| 3️⃣ Product | **Cherry** | Agent orchestration, the letter, UI, voice and tour | `src/agents/index.ts`, `src/app/`, `src/components/` |
+
+---
+
+## ⚡ Quick start
 
 ```bash
 npm install
+cp .env.example .env.local   # then fill in your keys
 npm run dev
 ```
-Open http://localhost:3000
 
-## Who works where
+Open 👉 http://localhost:3000
 
-| Role | Your file | What you do |
-|---|---|---|
-| 1 · CoStar data | `src/agents/costar.ts` | suite, history, tenant mix, pricing, prospects from the CoStar kit |
-| 2 · Matterport + Vexcel | `src/agents/spatial.ts` | rooms and pins from the 3D scan, fit, aerial view |
-| 3 · Product | `src/agents/index.ts` + `src/app/page.tsx` | runs all agents, Claude writes the letter, the screen |
+## 🔑 Configuration
 
-`data/demo.json` is the sample answer for every agent. **Your function must return the same shape.** Edit only your own file to avoid conflicts.
+All keys go in the git-ignored **`.env.local`**. See [`.env.example`](.env.example) for the full list.
 
-## Rules
+| Variable | Required | Purpose |
+|---|:---:|---|
+| `BACKEND_API_URL`, `BACKEND_API_KEY` | ✅ | Hosted DuckDB API (preferred data source) |
+| `GEMINI_API_KEY` | ✅ | Chat agent, vision analysis, TTS |
+| `MATTERPORT_API_KEY`, `MATTERPORT_API_TOKEN` | ✅ | 3D scan metadata and panoramas |
+| `VEXCEL_API_KEY` | ✅ | Aerial imagery |
+| `NEXT_PUBLIC_MATTERPORT_SDK_KEY` | ✅ | In-browser 3D tour (safe to expose; allow-list your domains) |
+| `ANTHROPIC_API_KEY` | ➖ | Automatic Claude fallback |
+| `ANTHROPIC_MODEL` | ➖ | Defaults to `claude-sonnet-5-5` |
+| `ANTHROPIC_WORKSPACE_ID` | ➖ | Only for keys not scoped to a workspace |
+| `GEMINI_CHAT_MODEL` / `GEMINI_MODEL` | ➖ | Chat model override (default `gemini-3.8-flash`) |
+| `GEMINI_VISION_MODEL` / `ANTHROPIC_VISION_MODEL` | ➖ | Image-analysis model overrides |
+| `CHAT_PROVIDER` | ➖ | Set to `anthropic` to answer chat with Claude first |
+| `DUCKDB_PATH` | ➖ | Local database fallback (used only when **both** backend settings are absent) |
+| `SPATIAL_CACHE_DIR` | ➖ | Override the spatial cache location |
 
-- Work on your own branch, open small pull requests.
-- Copy `.env.example` to `.env` for keys. Never commit `.env`.
-- Never commit the CoStar kit. Put it in `data/kit/` (ignored by git). This repo is public.
+> 🔒 Never expose `BACKEND_API_KEY` or any provider key through `NEXT_PUBLIC_` variables or client components.
 
-## DuckDB backend
+<details>
+<summary>🦆 <b>Hosted API vs. local DuckDB</b></summary>
 
-The backend reads an existing consolidated database with `@duckdb/node-api`.
-Set `DUCKDB_PATH` in the ignored `.env.local` file to the absolute path of
-`commercial_clean.duckdb` (or a path relative to the repository root). See
-`.env.example`. The database stays outside Git; it is not copied into the app.
+- With **both** `BACKEND_API_URL` and `BACKEND_API_KEY` set, the property, suite, tenant-history, spatial-context, search and health tools use the hosted API. Set them in your hosting dashboard too.
+- To use a local database instead, remove both backend settings and set `DUCKDB_PATH` to `commercial_clean.duckdb` (absolute, or relative to the repo root).
+- Partial configuration or remote failures report an error. The app never silently switches to local data.
+- The local database opens `READ_ONLY` with external access disabled. Restart the app after changing `DUCKDB_PATH`, and close any DuckDB writer/UI session that holds the file.
+- Health check: `GET /api/data/health` returns `status: "ok"`, the engine version, access mode, and row counts. An unavailable database returns `503`.
 
-Run `npm run check:duckdb` to verify read-only access, the expected views,
-parameter binding, and JSON serialization against your configured database.
-Then run `npm run dev` and request `GET /api/data/health`. A successful response
-has `status: "ok"`, the engine version, access mode, and counts for properties,
-suites, suite history, and rent evidence. BIGINT counts serialize as strings.
-An unavailable database returns HTTP 503; details are logged only on the server.
-This endpoint runs on every request and does not return tenant or rent records.
+</details>
 
-Server code can import `queryDuckDB` from `src/lib/duckdb.ts` and pass trusted SQL
-with positional parameters (`?`). It returns JSON-safe rows. The module is
-server-only, opens the file in `READ_ONLY` mode with external access disabled,
-reuses the database instance, and closes each query connection. Do not pass
-arbitrary client or LLM SQL to it; agent tools will supply reviewed queries.
-Restart the app after changing `DUCKDB_PATH` or rebuilding/replacing the database.
-Close any DuckDB writer/UI session if it prevents the backend from opening it.
+---
 
-Deployment requires a Node.js server with the database mounted at `DUCKDB_PATH`
-and native DuckDB bindings available; the path on your laptop is local setup.
-The existing demo page still uses sample data. The tenant-history agent is
-available through `POST /api/chat`; connecting a chat UI is the next step. The database's availability and tenant records describe source
-snapshots, not a live availability feed.
+## 🏗️ Architecture
 
-## Property, suite, and tenant-history tools
-
-These server-only functions live in `src/lib/tools/costar.ts`. They use the same
-`DUCKDB_PATH` and read-only connection as the health endpoint. They are backend
-functions registered with the Gemini tenant-history agent described below.
-
-```ts
-import { find_properties, find_suites, get_tenant_history } from "@/lib/tools/costar";
-
-const properties = await find_properties({ query: "6655 Travis St", city: "Houston", state: "TX" });
-// Present multiple matches for clarification before choosing a property.
-const suites = await find_suites({ property_id: "238587", suite: "Suite 900" });
-// Preserve separate floor candidates; use the selected result's stable suite_id.
-const history = await get_tenant_history({ suite_id: suites.items[0].suite_id });
+```
+Browser (Next.js 15 · React 19 · Tailwind 4 · MapLibre)
+   │
+   ├── /api/search         ranked suites + fit scores
+   ├── /api/suite-details  neighbors, rent comps, prospects
+   ├── /api/chat           cited Q&A agent (Gemini → Claude fallback)
+   ├── /api/voice-intent   voice commands
+   ├── /api/tts            natural voice
+   ├── /api/aerial/[z]     Vexcel tile proxy (keeps key server-side)
+   ├── /api/floorplan/[id] floor plans from scans
+   └── /api/tour-places    named tour stops
+          │
+          ├── 📊 CoStar data  → hosted DuckDB API (Render) or local DuckDB
+          ├── 🧱 Matterport   → room geometry + panorama vision analysis
+          └── 🛰️ Vexcel       → aerial extracts + vision analysis
 ```
 
-- `find_properties({ query, city?, state?, limit?, offset? })` searches building
-  names and primary addresses. Case, whitespace, and punctuation are normalized;
-  every query token must occur in the name/address text. Exact names, street
-  addresses, or full addresses rank before partial matches, then by property ID.
-  City/state filters are case-insensitive exact matches. There is no typo matching
-  or street-abbreviation expansion. Punctuation is a separator, never a SQL wildcard.
-- `find_suites({ property_id, suite?, property_floor_id?, limit?, offset? })` lists
-  recorded suites or filters by the database's exact normalized label. `Suite 900`,
-  `STE. 900`, and `#900` match `900`; `0900` is distinct. Repeated labels on different
-  floors remain separate results. Listing references do not duplicate suite rows.
-  Missing property metadata is flagged in `warnings`.
-- Both searches return `{ items, total, limit, offset }`. Defaults are 20 items and
-  offset 0; limits must be integers from 1 to 100. Results never silently select a
-  match. Empty pages retain the total match count.
-- `get_tenant_history({ suite_id })` returns `status: "ok"` with suite identity,
-  `supported_history`, `candidate_history`, and `issues`, or `status: "not_found"`
-  for an unknown suite. An existing suite may have empty history. History arrays
-  contain all suite-scoped source occurrences, ordered by timeline start (nulls
-  last), occupancy ID, then history ID. Company names are not deduplication keys.
+**Source-first routing:** tenant questions start with DuckDB 📊, interior questions with Matterport 🧱, and parking or outdoor questions with Vexcel 🛰️. A keyword router picks the primary source, and other sources can then fill in missing evidence.
 
-All identifiers and source-line numbers are strings, dates are JSON-safe strings,
-and unavailable values stay null. Source references retain dataset, source line,
-source file, record ID, and JSON Pointer when available. An unresolved source
-record retains its dataset/line locator with null file and record ID. Raw source
-payloads are never returned. History includes occupancy and company references;
-suite identity includes its listing references, and issues carry their own evidence.
+**Provider-independent agent:** Gemini and Claude adapters share one set of tool schemas. Gemini runs first, and on a rate limit, timeout, network or 5xx error, Claude gets one fresh attempt.
 
-Invalid inputs throw `ToolValidationError`; unavailable databases and query failures
-remain operational errors. Callers must handle these separately from empty results.
-SQL is fixed by server code and values are bound as parameters.
-
-Suites reflect the supplied listing catalog, not every possible suite or live
-availability. Supported history records an association of suite label and floor;
-it does not establish unchanged physical boundaries. Candidate history remains
-uncertain. Overlaps, date problems, and conflicting evidence are retained in
-`issues`. Missing records do not prove vacancy, and lease expiration is never
-substituted for an occupancy end or evidence of current tenancy.
-
-Verification:
-
-```bash
-npm run test:costar-tools   # isolated synthetic database; no private data needed
-npm run check:costar-tools # real configured database; two known suite examples
-npm run check:duckdb
-```
-
-The integration check compares both example suites with direct SQL and resolves
-source references and JSON Pointers without saving or printing private records.
-
-## Tenant-history agent and Claude fallback
-
-Set `GEMINI_API_KEY` in the ignored `.env.local` file alongside `DUCKDB_PATH`.
-The chat agent chooses `GEMINI_CHAT_MODEL`, then `GEMINI_MODEL`, then defaults to
-`gemini-3.8-flash`. A chat-specific override leaves the spatial vision model alone.
-Add `ANTHROPIC_API_KEY` to enable automatic Claude fallback. Claude uses
-`ANTHROPIC_MODEL`, defaulting to `claude-sonnet-5-5`. If a key is not scoped to a
-workspace, also set `ANTHROPIC_WORKSPACE_ID`; a workspace-scoped key needs no extra
-setting. Model access and quota depend on the corresponding provider account.
-
-Tool declarations and dispatch are provider independent. Gemini and Claude
-adapters translate the same schemas into their native SDK formats, preserving
-model content, thought signatures and tool-call IDs. The common loop executes
-reviewed DuckDB queries, annotates sources and validates citations. Provider
-objects and keys are not returned or logged. Implementation references:
-[Gemini SDK](https://googleapis.github.io/js-genai/release_docs/),
-[Claude tool results](https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls),
-and [Claude workspace authentication](https://platform.claude.com/docs/en/manage-claude/authentication).
-
-With `npm run dev` running, send one question:
+## 💬 Chat API
 
 ```bash
 curl http://localhost:3000/api/chat \
@@ -147,189 +152,112 @@ curl http://localhost:3000/api/chat \
   --data '{"question":"Who previously occupied Suite 900 at 6655 Travis St, Houston, TX?"}'
 ```
 
-`POST /api/chat` accepts only `{ question: string }` (1–8000 characters; maximum
-32 KiB request body). It returns `{ answer, sources, tool_calls, model, provider, fallback, routing }` with no
-caching. Source references are assigned IDs such as `S1`, and the answer cites
-`[S1]`. Only cited references are returned in `sources`. Unknown citations or
-missing citations after evidence retrieval cause an explicit error. Citation
-identity checks do not independently prove that every generated claim follows
-from the cited evidence.
+**Request:** `{ question: string }` (1–8000 chars, 32 KiB max body)
+**Response:** `{ answer, sources, tool_calls, model, provider, fallback, routing }`
 
-The agent is instructed to clarify ambiguous properties/suites, separate supported
-history from uncertain candidates and retain date issues. Matterport/Vexcel tools
-are available as described below; rent and availability tools remain unsupported. This is a
-single-question endpoint: it accepts no client-supplied model/tool transcripts,
-stores no conversation state, and has no chat UI or authentication layer yet.
+<details>
+<summary>📋 <b>Details: citations, limits, errors</b></summary>
 
-Gemini runs first. Quota/rate limits (429), request timeouts, network failures
-and temporary service errors (5xx) trigger one Claude attempt when its key is
-configured. Claude starts from the original question, with a fresh transcript and
-citation registry; read-only DuckDB calls may repeat. There is no switch back to
-Gemini. Successful responses identify `provider` (`gemini` or `anthropic`) and
-`fallback` (`null`, or `{ from: "gemini", reason: "RATE_LIMITED" }`, for example).
-Only the answering provider's sources and tool-call summary are returned.
+- **Citations:** source references get IDs like `S1`, and the answer cites `[S1]`. Only cited sources are returned. Unknown or missing citations cause an explicit error.
+- **Fallback:** `provider` is `gemini` or `anthropic`, and `fallback` is `null` or e.g. `{ from: "gemini", reason: "RATE_LIMITED" }`. Invalid input, credential, database, citation and loop-limit errors do **not** trigger fallback.
+- **Limits:** max 8 model turns and 12 tool calls per attempt. The 110 s overall budget gives Gemini ≤ 30 s and Claude ≤ 75 s. Each SDK request times out at 30 s with no automatic retries.
+- **Stateless:** single question per request, no stored conversation, no client-supplied transcripts.
 
-Invalid input, missing/invalid credentials or model configuration, database
-failures, citation failures and loop-limit errors do not trigger fallback.
-Ambiguity prompts are normal successful responses. Client cancellation stops the
-request without starting Claude. With no Claude key, the original Gemini error
-is returned.
+| Status | Meaning |
+|---:|---|
+| `400` | Invalid input |
+| `413` | Body too large |
+| `429` | Final provider quota/rate limit |
+| `502` | Provider, incomplete response, citation or loop-limit failure |
+| `503` | Missing configuration or database failure |
+| `504` | Cancellation or timeout |
 
-Each provider attempt permits at most eight model turns and twelve tool calls.
-The request has a 110-second overall abort budget: Gemini gets up to 30 seconds
-and Claude up to 75 seconds, each constrained by the overall deadline. Individual
-SDK requests time out after 30 seconds and automatic SDK retries are disabled.
-Errors return `{ error: { code, message } }`: invalid input (400), oversized body
-(413), final provider quota/rate limits (429), missing configuration/database
-failures (503), cancellation/timeout (504), or provider/incomplete-response/
-citation/loop-limit failures (502). If both providers fail, `error.attempts` lists
-their provider names and sanitized error codes.
+Errors look like `{ error: { code, message } }`. If both providers fail, `error.attempts` lists each provider and its sanitized error code.
 
-```bash
-npm run test:tenant-agent          # deterministic model/dispatcher/HTTP validation tests
-npm run check:tenant-agent:offline # scripted model + actual DuckDB tools; no Gemini calls
-npm run check:tenant-agent         # live Gemini + Claude fallback + DuckDB; consumes API quota
+</details>
+
+## 🧰 Agent tools
+
+Seven server-only tools are shared by both model providers.
+
+| Tool | Source | What it does |
+|---|---|---|
+| `find_properties` | 📊 CoStar | Search buildings by name/address, with optional city/state |
+| `find_suites` | 📊 CoStar | List a property's suites or match a label (`Suite 900` = `STE. 900` = `#900`) |
+| `get_tenant_history` | 📊 CoStar | Supported and candidate history, plus issues, for one suite |
+| `get_spatial_context` | 📊 CoStar | Coordinates and candidate Matterport models for a property |
+| `get_matterport_rooms` | 🧱 Matterport | Room counts, approximate area, labels, panorama IDs |
+| `inspect_matterport_features` | 🧱 Matterport | AI vision over 1–2 panoramas for visible features |
+| `inspect_vexcel_site` | 🛰️ Vexcel | AI vision over an aerial extract (20–150 m half-width) for parking, loading, outdoor space |
+
+```ts
+import { find_properties, find_suites, get_tenant_history } from "@/lib/tools/costar";
+
+const properties = await find_properties({ query: "6655 Travis St", city: "Houston", state: "TX" });
+const suites = await find_suites({ property_id: "238587", suite: "Suite 900" });
+const history = await get_tenant_history({ suite_id: suites.items[0].suite_id });
 ```
 
-The live check verifies all three tools were called, the answer mentions an actual
-supported tenant, and its citations reference the selected suite's evidence. It
-prints verification status and call names rather than private tenant records.
-An exhausted Gemini quota exercises Claude fallback when its key is configured.
-If neither provider is available, the live check fails explicitly. The offline check verifies orchestration and real data
-access but does not establish live model behavior.
+<details>
+<summary>🔬 <b>Tool behavior in detail</b></summary>
 
-## Spatial backend and source-first routing
+**Search tools**
+- `find_properties({ query, city?, state?, limit?, offset? })`: every query token must appear in the name/address. Exact matches rank first. No typo matching or abbreviation expansion.
+- `find_suites({ property_id, suite?, property_floor_id?, limit?, offset? })`: repeated labels on different floors stay separate. `0900` is distinct from `900`.
+- Both return `{ items, total, limit, offset }` (default 20, max 100) and never silently pick a match.
 
-The backend now exposes seven tools to both model providers: the three DuckDB
-property/suite/history tools plus `get_spatial_context`, `get_matterport_rooms`,
-`inspect_matterport_features`, and `inspect_vexcel_site`. No chat UI is required;
-use the existing `POST /api/chat` endpoint or invoke tools in a server-side script.
-The legacy demo-card pipeline is separate and remains unchanged.
+**Tenant history**
+- `get_tenant_history({ suite_id })` returns `status: "ok"` with `supported_history`, `candidate_history` and `issues`, or `status: "not_found"`.
+- IDs and line numbers are strings, dates are JSON-safe, and missing values stay `null`. Raw source payloads are never returned.
+- Invalid inputs throw `ToolValidationError`. Database failures are operational errors, separate from empty results.
 
-Source order follows the question: tenant history starts with DuckDB, interior
-rooms/features with Matterport, and parking/outdoors with Vexcel. Property/suite
-resolution and DuckDB coordinate/scan lookup are allowed before domain evidence.
-A transparent keyword router recognizes the supported vocabulary and uses the
-first mentioned domain for mixed questions; unknown wording leaves the primary
-source unset and the model follows the source-first instructions. The execution
-policy prevents a different domain from running before an attempt at the selected
-primary source. It then permits other sources to supply missing evidence. This
-is a bounded routing baseline, not a general intent classifier. `routing` reports
-`primary_source`, `requested_sources`, and `unsupported_capabilities`.
+**Spatial tools**
+- Matterport rooms exclude voids, rooms under 2 m² and unusable boundaries. Multi-floor models omit panorama-to-room lists.
+- Feature inspection samples up to four faces per panorama. Repeated views may show the same object, so don't sum them into an inventory.
+- Vexcel pins the newest dated collection. Its output is **not** a parcel survey, a stall count, or evidence of ownership or compliance.
+- Vision output is runtime-validated: recognized feature/status values and real image IDs only.
+- Metadata, images and reports are cached in git-ignored `cache/spatial-tools/` with no automatic expiry. Delete the cache to refresh.
 
-Rent and availability tools were deliberately excluded from this increment. Those
-questions are identified as unsupported rather than answered from tenant history.
+</details>
 
-### Tools and evidence limits
+---
 
-- `get_spatial_context({ property_id, suite_id? })` reads property coordinates and
-  candidate model links from DuckDB. A suite ID must belong to the selected
-  property. Links are building-level associations; a matching model name is only
-  a suite hint. Shared models and index/segment conflicts remain visible. Empty
-  model lists and missing properties are explicit results.
-- `get_matterport_rooms({ model_id })` retrieves/caches actual model metadata and
-  returns geometry-derived room counts, approximate area, Matterport's labels and
-  panorama IDs. Void classifications, rooms below 2 square metres and unusable
-  boundaries are excluded. No dummy inspection is substituted. Capture date and
-  suite extent remain unverified. Multi-floor models omit panorama-to-room lists
-  because the existing geometry association is two-dimensional.
-- `inspect_matterport_features({ model_id, room_id?, max_panoramas? })` analyzes up
-  to four horizontal faces from each selected panorama: one panorama by default,
-  maximum two. Room IDs can target a single-floor scan; multi-floor room targeting
-  requires verified floor association and is rejected for now. The default sample
-  uses sorted panorama IDs. Reports include visible features, image IDs, evidence
-  descriptions, limitations and sampled/available panorama counts. Sampling is
-  explicitly non-exhaustive. Repeated views may show the same object; do not sum
-  observations into a unique sink or cabinet inventory. `not_observed` means not
-  visible in the sample, never proven absent.
-- `inspect_vexcel_site({ latitude, longitude, half_width_m? })` validates coordinates,
-  obtains ortho coverage, pins the newest dated collection and retrieves an aerial
-  extract of a coordinate vicinity. The default square extends 80 metres from the
-  center in each direction; allowed half-widths are 20–150 metres. Images are
-  analyzed for visible parking, stalls, loading areas, outdoor space and trees.
-  Collection capture date is retained but not certified as an exact pixel timestamp.
-  This is not a verified parcel or evidence of parking ownership, available stalls
-  today, legal boundaries, accessibility compliance or a certified count. Missing
-  imagery is `no_coverage`, not zero parking.
+## 🧪 Testing
 
-New image analysis uses Gemini with Claude fallback for transient provider errors,
-independently of conversational fallback. Provider output is runtime-validated:
-observations must use recognized feature/status values and actual supplied image
-IDs; unavailable/uncertain observations cannot have numerical counts. A rejected
-report or unavailable visual provider is an explicit source failure. Validation
-checks provenance and structure, not the correctness of visual interpretation.
-Human review is still needed for consequential measurements and inventories.
+| Command | What it checks | Uses quota? |
+|---|---|:---:|
+| `npm run test:costar-tools` | Data tools against an isolated synthetic database | ❌ |
+| `npm run test:tenant-agent` | Model adapters, dispatcher, HTTP validation, fallback | ❌ |
+| `npm run test:spatial` | HTTP/vision fixtures and routing | ❌ |
+| `npm run test:backend` | Remote client safety and remote search | ❌ |
+| `npm run check:duckdb` | Read-only access to your local database | ❌ |
+| `npm run check:costar-tools` | Real database, two known suites | ❌ |
+| `npm run check:tenant-agent:offline` | Scripted model with real data tools | ❌ |
+| `npm run check:backend` | Remote property → suite → history → cited answer | ❌ |
+| `npm run check:remote-search` | Remote vs. local search parity (needs `DUCKDB_PATH`) | ❌ |
+| `npm run check:tenant-agent` | Live Gemini + Claude fallback + data | ⚠️ |
+| `npm run check:spatial` | Live Matterport and Vexcel tools | ⚠️ |
+| `npm run check:spatial-agent` | Four live routing / combined-source cases | ⚠️ |
 
-Spatial references use dataset `matterport` or `vexcel`, `source_type`, record/image
-IDs, capture/retrieval dates, scope and an `asset_path` to the private local image.
-They have `source_line: null` rather than invented CSV line numbers. The common
-citation registry supports both database and image evidence. Source failures
-return `SOURCE_UNAVAILABLE` tool errors and `tool_calls.status: "unavailable"`,
-allowing the model to explain missing evidence or use a relevant alternative;
-they do not silently switch conversation providers or become empty successful data.
+> Live checks print verification status, never private tenant records or images.
 
-### Configuration and testing
+## 🛡️ Evidence and honesty rules
 
-Add `MATTERPORT_API_KEY`, `MATTERPORT_API_TOKEN`, and `VEXCEL_API_KEY` to `.env.local`.
-Optional `GEMINI_VISION_MODEL` and `ANTHROPIC_VISION_MODEL` select image-analysis
-models; the latter falls back to `ANTHROPIC_MODEL`. The defaults match the chat
-providers. Keys stay on the server, and Vexcel uses the API-key header rather than
-URLs. Network requests have time/size limits and do not log provider bodies.
-Matterport downloads accept only HTTPS Matterport image hosts.
+**Evidence, not guesswork.** SecondLife is built to say what it knows and nothing more:
 
-Metadata snapshots, content-hashed images and validated visual reports are stored
-under ignored `cache/spatial-tools/`. `SPATIAL_CACHE_DIR` can override the location
-for isolated tests. Cached metadata/reports are snapshots without automatic expiry;
-remove the cache to refresh them. Reports are keyed by image content, analysis task
-and model overrides. Only cached images are retained, not credential-bearing URLs
-in returned evidence. Existing spatial scripts are not changed by this pipeline.
+- ✅ Every chat answer cites its sources
+- 🔀 Uncertain tenant history is kept separate from supported history
+- 👀 `not_observed` in a scan means *not seen in the sample*, never *proven absent*
+- 🛰️ Missing imagery is `no_coverage`, never *zero parking*
+- 📅 Missing records don't prove vacancy, and lease expiration is never treated as an occupancy end
+- 🚫 No sample or placeholder data is shown, so a suite without data gets a plain empty state
+- 🤝 Everything is a **draft for a broker to review**
 
-```bash
-npm run test:spatial        # isolated HTTP/vision fixtures and routing checks
-npm run test:costar-tools   # also tests coordinate/model context and suite mismatch
-npm run test:tenant-agent   # both provider adapters and fallback regressions
-npm run check:spatial       # live metadata, interior and aerial tools; consumes quota
-npm run check:spatial-agent # also evaluates four live routing/combined-source cases
-```
+> ⚠️ Listing and tenant records are source snapshots, not a live availability feed.
 
-Live checks use Suite 900's recorded building association and independently verify
-artifact hashes, observation image references, metadata limits and provider call
-order. They do not establish suite extent, exact object counts or universal model
-accuracy. The four agent cases cover rooms, sinks/cabinets, parking/outdoors and
-history followed by interior evidence. No private image or fixture from the live
-checks is committed to Git.
+## 🤝 Contributing
 
-## Hosted DuckDB API connection
-
-With `BACKEND_API_URL` and `BACKEND_API_KEY` set in the server environment, the
-property, suite, tenant-history, spatial-context, and database-health tools use
-the hosted API. These settings are read from `.env.local` during local Next.js
-development. They must also be configured in the Next.js hosting dashboard.
-The key matches the Render service's `API_KEY`; never expose it through
-`NEXT_PUBLIC_` variables or client components.
-
-No local `DUCKDB_PATH` is required for these tools in remote mode. Existing local
-SQL utilities still need it. To intentionally use the local data tools, remove
-both backend settings. Partial configuration or remote failures report an error
-instead of silently switching to local data. Trailing slashes on the backend
-URL are handled automatically.
-
-Run `npm run test:backend` for client safety tests. Run `npm run check:backend`
-for the real remote property → suite → history → cited-answer integration check.
-That check deliberately sets the local database path to a nonexistent file and
-uses a scripted model, so it verifies remote data/citations without spending
-model API quota.
-
-### Remote database on for_ishaan_update_backend
-
-This branch retains its existing UI, voice commands, tour, saved inspection data,
-and business-fit scoring. Its search candidate query now uses the authenticated
-`search_candidates` backend operation, so both `/api/search` and chat work without
-a local database. Use the same `BACKEND_API_URL` and `BACKEND_API_KEY` as the
-other remote-database branch; no new secrets are required.
-
-`npm run test:backend` covers remote search and error handling. For a full parity
-check, run `npm run check:remote-search` with backend settings and a local
-`DUCKDB_PATH`: it compares remote/local results and scores, deliberately disabling
-the local path for every remote call. Known barber, dermatologist, and law-firm
-queries were checked against the hosted data.
+- 🌿 Work on your own branch and open small pull requests.
+- 🔐 Keep keys in `.env.local`. Never commit `.env` or `.env.local`.
+- 🚫 **Never commit the CoStar kit.** Put it in `data/kit/` (git-ignored). This repo is public.
+- 🦆 The database stays outside Git.
