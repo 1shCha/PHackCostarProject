@@ -307,6 +307,34 @@ export class TourController {
     return { ok: true, say: name === "this area" || name === "this space" ? "" : `This is the ${name}.` };
   }
 
+  /** This suite's own room names from our labels ("Open area", "Private office"), for the voice command picker. */
+  placeNames(): string[] {
+    const fromLabels = this.places.filter((pl) => pl.key !== "hallway").map((pl) => pl.display);
+    return [...new Set(fromLabels.length ? fromLabels : this.knownRoomNames())];
+  }
+
+  /** Walk to a room by its label as shown to the user ("Open area"). Falls back to the shared room words. */
+  goToPlaceNamed(name: string): Promise<TourResult> {
+    return this.run(async () => {
+      const n = name.trim().toLowerCase();
+      const matches = this.places.filter((pl) => pl.display.toLowerCase() === n);
+      if (matches.length) return this.walkToPlaces(matches);
+      const key = keyForLabel(name);
+      if (key) return this.places.length ? this.goToPlace(key) : { ok: false, say: `I can't find the ${n} in this scan.` };
+      return { ok: false, say: `I can't find the ${n} in this scan. Say "next room" to keep walking.` };
+    });
+  }
+
+  /** Number of stops in the walking order (big rooms have several). */
+  get stopCount() {
+    return this.stops.length;
+  }
+
+  /** Move to stop i of the walking order (used by the narrated walkthrough). */
+  walkStop(i: number): Promise<TourResult> {
+    return this.run(() => this.walkToStop(i));
+  }
+
   /** Development check: what the SDK has reported so far. */
   debug() {
     return { sweeps: this.sweeps.length, stops: this.stops.length, stop: this.stopIndex, places: this.places.length, here: this.currentRoomName(), rooms: this.rooms.map((r) => `${r.label || "?"}:${r.sweeps.length}`), current: this.currentSweep, mode: this.mode, roomIds: this.currentRoomIds };
@@ -426,6 +454,10 @@ export class TourController {
       const known = this.knownRoomNames();
       return { ok: false, say: `I don't see a ${ROOM_NAMES[key]} in this suite. I can take you to the ${known.join(", the ")}.` };
     }
+    return this.walkToPlaces(matches);
+  }
+
+  private async walkToPlaces(matches: Place[]): Promise<TourResult> {
     const here = this.currentPos();
     const ordered = here ? [...matches].sort((a, b) => flat(a.p, here) - flat(b.p, here)) : matches;
     const target = (here && ordered.find((pl) => flat(pl.p, here) > 2)) || ordered[0];

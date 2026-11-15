@@ -9,6 +9,8 @@ export type Command =
   | { kind: "tour.next" }
   | { kind: "tour.prev" }
   | { kind: "tour.goto"; room: RoomKey }
+  | { kind: "tour.gotoPlace"; name: string } // a room by this suite's own label ("Open area"), picked by /api/voice-intent
+  | { kind: "tour.guide" } // narrated walk through every room
   | { kind: "tour.turn"; degrees: number }
   | { kind: "tour.look"; degrees: number }
   | { kind: "tour.spin" }
@@ -162,6 +164,9 @@ export function parseCommand(raw: string, ctx: { inTour: boolean }): Command {
     has(/\b(tour|tours|3d|three d|walk ?through|walkthrough|virtual|interior)\b/) ||
     has(/\b(inside|in side)\b/) ||
     has(/\b(take me through|walk me through|show me around|look around (the|this) (space|suite|unit|place)|explore (the|this) (space|suite|unit|inside))\b/));
+  // Guided, narrated walkthrough of the whole suite (works from the page or inside the tour).
+  if (!historyQuestion && has(/\b(walk me through|guided tour|give me (a|the) (full |guided |whole )?tour|tour guide|show me everything|full tour|walk me around|show me the whole (space|suite|place))\b/))
+    return { kind: "tour.guide" };
   if (wantsTour && room) return { kind: "tour.goto", room };
   if (wantsTour) return { kind: "tour.start" };
 
@@ -228,6 +233,6 @@ export function parseCommand(raw: string, ctx: { inTour: boolean }): Command {
 export const HELP_GROUPS: { title: string; items: string[] }[] = [
   { title: "Find a space", items: ["I'm a dermatologist looking for 6,000 sq ft in Houston", "Open the best match", "Go back", "Go home"] },
   { title: "Ask the space", items: ["What was here before?", "Would this work for a dermatologist?", "What's a fair rent?", "Who should lease this next?"] },
-  { title: "Walk through it", items: ["Show me inside", "Next room", "Take me to the office", "Turn around", "Turn left", "Give me a 360", "Dollhouse view", "Floor plan", "What's in this room?", "Exit tour"] },
+  { title: "Walk through it", items: ["Show me inside", "Next room", "Take me to the office", "Turn around", "Turn left", "Give me a 360", "Dollhouse view", "Floor plan", "What's in this room?", "Walk me through it", "Exit tour"] },
   { title: "Other", items: ["Switch to landlord", "Draft an offer", "Stop", "Close", "That's all (stop listening)"] },
 ];

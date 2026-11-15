@@ -10,6 +10,7 @@ import { fetchAnswer, forSpeech, getRecognition, TopicCard, type Answer, type Re
 import { HELP_GROUPS, parseCommand, ROOM_NAMES, splitWake, type Command, type Mode, type RoomKey } from "@/lib/voice/commands";
 import { connectSdk, keyForLabel, TourController, tourSrc } from "@/lib/tour/controller";
 import { speakAloud, stopSpeaking } from "@/lib/voice/speaker";
+import { intentToCommand, resolveIntent } from "@/lib/voice/intent";
 
 export type NavCommand =
   | Extract<Command, { kind: "nav.search" | "nav.open" | "nav.offer" | "nav.back" | "nav.home" | "nav.mode" }>
@@ -60,6 +61,20 @@ function describeRoom(card: Card, key: RoomKey | null, name: string): string {
   const builtText = built ? ` Built in by a past tenant, from the ${built.source}.` : "";
   return `You're in the ${ROOM_NAMES[key]}.${featureText}${count}${builtText}`;
 }
+
+/** What the guide says on arriving in a room, from this suite's own labels (area and what the scan saw). */
+function narrate(card: Card, name: string): string {
+  const n = name.toLowerCase();
+  type Z = { display: string; features?: string[] };
+  const room = card.inspect.rooms.find((r) => r.display.toLowerCase() === n);
+  const zone = card.inspect.rooms.flatMap((r) => ((r as { zones?: Z[] }).zones ?? [])).find((z) => z.display.toLowerCase() === n);
+  const area = room?.area_sqft ? `, about ${Math.round(room.area_sqft / 10) * 10} square feet` : "";
+  const feats = [...new Set(room ? room.features.map((f) => f.type) : zone?.features ?? [])].map((f) => f.replace(/_/g, " ")).slice(0, 3);
+  const list = feats.length > 1 ? `${feats.slice(0, -1).join(", ")} and ${feats[feats.length - 1]}` : feats[0];
+  return `This is the ${n}${area}.${list ? ` The scan shows ${list}.` : ""}`;
+}
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function TourOverlay({
   modelId,
@@ -160,6 +175,7 @@ export default function VoiceLayer({
   const tourStatusRef = useRef<TourStatus>("loading");
   const controller = useRef<TourController | null>(null);
   const pending = useRef<Command | null>(null);
+  const guideRun = useRef(0); // bumping this stops a narrated walkthrough in progress
   const handleRef = useRef<(text: string) => void>(() => {});
   const speakTimer = useRef<number | undefined>(undefined);
 
@@ -311,18 +327,22 @@ export default function VoiceLayer({
 
   // ---------- Talking back ----------
   const speak = useCallback(
-    (text: string) => {
+    (text: string, after?: () => void) => {
       const line = forSpeech(text);
-      if (!line) return;
+      if (!line) return after?.();
       window.clearTimeout(speakTimer.current);
       stopSpeaking();
       pauseRec(); // don't let the app hear itself
       setPhase("speaking");
+      let ended = false;
       const done = () => {
+        if (ended) return;
+        ended = true;
         window.clearTimeout(speakTimer.current);
         if (convo.current) awakeUntil.current = Date.now() + CONVO_MS;
         setPhase(!enabled.current ? "off" : convo.current ? "awake" : "idle");
         resumeRec();
+        after?.();
       };
       // Safety net in case playback never reports the end (allows a few seconds to fetch the AI voice).
       speakTimer.current = window.setTimeout(done, 10_000 + line.split(" ").length * 450);
@@ -336,6 +356,16 @@ export default function VoiceLayer({
       setReply(text);
       if (spoken && text) speak(text);
     },
+    [speak],
+  );
+
+  /** Says a line and resolves when it has finished playing (for the narrated walkthrough). */
+  const sayAndWait = useCallback(
+    (text: string) =>
+      new Promise<void>((resolve) => {
+        setReply(text);
+        speak(text, resolve);
+      }),
     [speak],
   );
 
@@ -368,6 +398,35 @@ export default function VoiceLayer({
         case "tour.goto":
           r = await c.goTo(cmd.room);
           break;
+        case "tour.gotoPlace":
+          r = await c.goToPlaceNamed(cmd.name);
+          break;
+        case "tour.guide": {
+          // Narrated walk: visit every stop in order, describe each new room, wait for the voice to finish.
+          const run = ++guideRun.current;
+          const total = c.stopCount;
+          if (!total) {
+            say("The tour is still loading. Try again in a moment.");
+            return;
+          }
+          const where = card.suite.suite ? `Suite ${card.suite.suite}${card.suite.address ? ` at ${card.suite.address}` : ""}` : "this suite";
+          await sayAndWait(`Let's walk through ${where}. Say stop any time.`);
+          let last = "";
+          for (let i = 0; i < total; i++) {
+            if (guideRun.current !== run) return; // stopped, or another command took over
+            await c.walkStop(i);
+            refreshRoom();
+            const name = c.currentRoomName();
+            if (name !== last && name !== "this area" && name !== "this space") {
+              last = name;
+              await sayAndWait(narrate(card, name));
+            } else {
+              await sleep(1800); // same room, further in: let the view settle
+            }
+          }
+          if (guideRun.current === run) say("That's the whole suite. Ask me anything about it, or say exit tour.");
+          return;
+        }
         case "tour.turn":
           setReply(cmd.degrees === 180 ? "Turning around" : cmd.degrees < 0 ? "Turning left" : "Turning right");
           r = await c.turn(cmd.degrees);
@@ -398,7 +457,7 @@ export default function VoiceLayer({
       refreshRoom();
       if (r.say) say(r.say, true);
     },
-    [card, refreshRoom, say],
+    [card, refreshRoom, say, sayAndWait],
   );
 
   const openTour = useCallback(
@@ -425,6 +484,7 @@ export default function VoiceLayer({
   );
 
   const closeTour = useCallback(() => {
+    guideRun.current++;
     tourOpenRef.current = false;
     pending.current = null;
     controller.current?.dispose();
@@ -476,10 +536,30 @@ export default function VoiceLayer({
     async (text: string) => {
       if (busy.current) return;
       const inTour = tourOpenRef.current;
-      const cmd = parseCommand(text, { inTour });
+      let cmd = parseCommand(text, { inTour });
       const addressed = fresh.current; // first sentence right after "Hey SecondLife"
       fresh.current = false;
       if (cmd.kind === "none") return;
+      // In the tour, sentences the keyword matcher can't place go to Claude, which picks a tour action
+      // ("can we see where people would wait?" → go to the waiting area). Failures keep the old behavior.
+      const c = controller.current;
+      if (cmd.kind === "ask" && inTour && c && text.trim().split(/\s+/).length >= 2) {
+        busy.current = true;
+        try {
+          const picked = intentToCommand(
+            await resolveIntent(text, { inTour, rooms: c.placeNames(), here: c.currentRoomName() }),
+            text,
+          );
+          if (picked === "ignore") {
+            if (!addressed) return;
+          } else {
+            cmd = picked;
+          }
+        } finally {
+          busy.current = false;
+        }
+      }
+      if (cmd.kind !== "tour.guide") guideRun.current++; // any other command ends a walkthrough
       // Not addressed directly (tour or ongoing conversation): ignore chatter that isn't a command or a clear question.
       if (cmd.kind === "ask" && !addressed && (inTour || convo.current) &&
           (!QUESTION.test(text.trim().toLowerCase()) || text.trim().split(/\s+/).length < 3)) {
@@ -523,6 +603,8 @@ export default function VoiceLayer({
         case "tour.next":
         case "tour.prev":
         case "tour.goto":
+        case "tour.gotoPlace":
+        case "tour.guide":
         case "tour.turn":
         case "tour.look":
         case "tour.spin":
@@ -717,7 +799,7 @@ export default function VoiceLayer({
         <div className="voice-bar">
           <button
             className={`voice-orb ${phase}`}
-            onClick={() => (phase === "off" ? enable() : phase === "speaking" ? stopSpeaking() : disable())}
+            onClick={() => (phase === "off" ? enable() : phase === "speaking" ? (guideRun.current++, stopSpeaking()) : disable())}
             aria-label={phase === "off" ? "Turn on hands-free voice" : "Turn off hands-free voice"}
             title={phase === "off" ? "Turn on voice" : "Turn off voice"}
           >
