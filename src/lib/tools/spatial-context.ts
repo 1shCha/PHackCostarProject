@@ -1,8 +1,9 @@
 import "server-only";
+import { callBackendTool, usesRemoteBackend } from "../backend";
 import { queryDuckDB } from "../duckdb";
 import { ToolValidationError, type SourceReference } from "./costar";
 
-export async function get_spatial_context(input: { property_id: string; suite_id?: string }) {
+async function getLocalSpatialContext(input: { property_id: string; suite_id?: string }) {
   if (typeof input?.property_id !== "string" || !/^\d+$/.test(input.property_id) || BigInt(input.property_id) > BigInt("9223372036854775807")) throw new ToolValidationError("property_id must be a decimal BIGINT string.");
   if (input.suite_id !== undefined && (typeof input.suite_id !== "string" || !/^[a-f0-9]{64}$/i.test(input.suite_id))) throw new ToolValidationError("suite_id must be a 64-character hexadecimal identifier.");
   const [property] = await queryDuckDB(`SELECT cast(p.property_id AS VARCHAR) AS property_id, p.building_name, p.latitude, p.longitude,
@@ -32,4 +33,9 @@ export async function get_spatial_context(input: { property_id: string; suite_id
       source_references: [reference(model)] })),
     limitations: ["Coordinates anchor the property, not verified parcel boundaries.", "Scan links are recorded building associations. A matching model name is only a suite hint; scan extent must be verified."],
     source_references: [reference(property)] };
+}
+
+export async function get_spatial_context(input: { property_id: string; suite_id?: string }): Promise<Awaited<ReturnType<typeof getLocalSpatialContext>>> {
+  if (usesRemoteBackend()) return callBackendTool("get_spatial_context", input);
+  return getLocalSpatialContext(input);
 }

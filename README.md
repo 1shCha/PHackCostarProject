@@ -298,3 +298,24 @@ order. They do not establish suite extent, exact object counts or universal mode
 accuracy. The four agent cases cover rooms, sinks/cabinets, parking/outdoors and
 history followed by interior evidence. No private image or fixture from the live
 checks is committed to Git.
+
+## Hosted DuckDB API connection
+
+With `BACKEND_API_URL` and `BACKEND_API_KEY` set in the server environment, the
+property, suite, tenant-history, spatial-context, and database-health tools use
+the hosted API. These settings are read from `.env.local` during local Next.js
+development. They must also be configured in the Next.js hosting dashboard.
+The key matches the Render service's `API_KEY`; never expose it through
+`NEXT_PUBLIC_` variables or client components.
+
+No local `DUCKDB_PATH` is required for these tools in remote mode. Existing local
+SQL utilities still need it. To intentionally use the local data tools, remove
+both backend settings. Partial configuration or remote failures report an error
+instead of silently switching to local data. Trailing slashes on the backend
+URL are handled automatically.
+
+Run `npm run test:backend` for client safety tests. Run `npm run check:backend`
+for the real remote property → suite → history → cited-answer integration check.
+That check deliberately sets the local database path to a nonexistent file and
+uses a scripted model, so it verifies remote data/citations without spending
+model API quota.
