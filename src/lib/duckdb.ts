@@ -2,7 +2,9 @@ import "server-only";
 
 import { stat } from "node:fs/promises";
 import path from "node:path";
-import { DuckDBInstance, type DuckDBValue } from "@duckdb/node-api";
+import type { DuckDBInstance, DuckDBValue } from "@duckdb/node-api";
+
+import { callBackendTool, usesRemoteBackend } from "./backend";
 
 // Preserve the instance across Next.js development reloads. Each query gets its
 // own connection, so simultaneous requests do not share connection state.
@@ -21,6 +23,7 @@ async function openDatabase(): Promise<DuckDBInstance> {
     throw new Error("DUCKDB_PATH must point to a database file.");
   }
 
+  const { DuckDBInstance } = await import("@duckdb/node-api");
   return DuckDBInstance.create(databasePath, {
     access_mode: "READ_ONLY",
     enable_external_access: "false",
@@ -54,7 +57,8 @@ export async function queryDuckDB(sql: string, parameters: DuckDBValue[] = []) {
   }
 }
 
-export async function getDuckDBHealth() {
+export async function getDuckDBHealth(): Promise<Record<string, unknown>> {
+  if (usesRemoteBackend()) return callBackendTool<Record<string, unknown>>("database_health", {});
   const [health] = await queryDuckDB(`
     SELECT version() AS version,
            current_setting('access_mode') AS access_mode,
@@ -63,5 +67,6 @@ export async function getDuckDBHealth() {
            (SELECT count(*) FROM suite_history) AS suite_history_count,
            (SELECT count(*) FROM deals_normalized) AS rent_evidence_count
   `);
+  if (!health) throw new Error("Database health query returned no result.");
   return health;
 }

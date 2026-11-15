@@ -1,5 +1,5 @@
 // Tenant search: "I'm a barber looking for 1,500–2,000 sq ft in Houston" → ranked real suites.
-// Reads listed suites, past tenants and rents from the CoStar DuckDB (DUCKDB_PATH), and scores what's
+// Reads listed suites, past tenants and rents from the hosted CoStar API (or local DuckDB), and scores what's
 // built in with the Role 2 inspection (data/spatial/inspect_<model>.json) when a suite has been labeled.
 //
 // Score (0–100) = size fit (30) + past tenants in the same kind of business (30) + what's built in (40).
@@ -9,6 +9,7 @@ import "server-only";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { queryDuckDB } from "./duckdb";
+import { callBackendTool, usesRemoteBackend } from "./backend";
 import { fitFor } from "./spatial/buildout";
 import { profileFor, type Profile } from "./spatial/profiles";
 
@@ -73,6 +74,9 @@ type Row = {
 };
 
 async function candidates(q: SearchQuery): Promise<Row[]> {
+  if (usesRemoteBackend()) {
+    return callBackendTool<Row[]>("search_candidates", { sqft_min: q.sqft_min, sqft_max: q.sqft_max, city: q.city });
+  }
   // 15% slack on each side so a 1,450 sf suite still shows for "1,500–2,000".
   const lo = q.sqft_min !== null ? q.sqft_min * 0.85 : 0;
   const hi = q.sqft_max !== null ? q.sqft_max * 1.15 : 1e9;

@@ -15,7 +15,10 @@
     "check:tenant-agent:offline": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-tenant-agent.ts --offline",
     "test:spatial": "node --conditions=react-server --import tsx --test src/lib/spatial/spatial.test.ts",
     "check:spatial": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-spatial.ts",
-    "check:spatial-agent": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-spatial.ts --agent"
+    "check:spatial-agent": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-spatial.ts --agent",
+    "test:backend": "node --conditions=react-server --import tsx --test src/lib/backend.test.ts src/lib/search-remote.test.ts",
+    "check:backend": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-remote-backend.ts",
+    "check:remote-search": "node --conditions=react-server --import tsx --env-file=.env.local scripts/check-remote-search.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",
