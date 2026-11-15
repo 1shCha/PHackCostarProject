@@ -128,10 +128,12 @@ export default function VoiceLayer({
   card,
   mode,
   onNav,
+  suiteOpen,
 }: {
   card: Card;
   mode: Mode;
   onNav: (c: NavCommand) => string | void;
+  suiteOpen: boolean;
 }) {
   const [phase, setPhase] = useState<Phase>("off");
   const [supported, setSupported] = useState(true);
@@ -574,7 +576,7 @@ export default function VoiceLayer({
           setAnswer(null);
           setReply("");
           setPhase("thinking");
-          const a = await fetchAnswer(card, cmd.question);
+          const a = await fetchAnswer(card, cmd.question, suiteOpen || tourOpenRef.current);
           busy.current = false;
           setAnswer(a);
           if (!tourOpenRef.current) onNav({ kind: "nav.scroll", topic: a.topic });
@@ -583,7 +585,7 @@ export default function VoiceLayer({
         }
       }
     },
-    [card, closeTour, mode, onNav, openTour, runTour, say, speak],
+    [card, closeTour, mode, onNav, openTour, runTour, say, speak, suiteOpen],
   );
 
   useEffect(() => {
@@ -693,7 +695,7 @@ export default function VoiceLayer({
             <p className="ask-q">“{answer.question}”</p>
             <p className="ask-text">{answer.text}</p>
             <p className="ask-src">{answer.live ? "Live answer from CoStar data" : "Answer from this suite’s card"}</p>
-            {!tourOpen && <TopicCard card={card} topic={answer.topic} />}
+            {!tourOpen && suiteOpen && <TopicCard card={card} topic={answer.topic} />}
           </div>
         )}
 

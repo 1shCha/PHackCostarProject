@@ -94,10 +94,10 @@ export function offlineAnswer(card: Card, topic: Topic): string {
       const top = prospects.companies.slice(0, 3);
       return `The best next tenants are ${top.map((c) => c.name).join(", ")}. ${top[0] ? `${top[0].name}: ${top[0].reason}.` : ""}`;
     }
-    default:
-      return `Suite ${s.suite} is ${Math.round(s.sqft).toLocaleString()} square feet of medical office. ${
-        s.listing_notes[0] ?? ""
-      }`;
+    default: {
+      const note = s.listing_notes.find((n) => n && !/placeholder|example/i.test(n)) ?? "";
+      return `Suite ${s.suite} at ${s.address} is ${Math.round(s.sqft).toLocaleString()} square feet. ${note}`.trim();
+    }
   }
 }
 
@@ -225,10 +225,32 @@ export function TopicCard({ card, topic }: { card: Card; topic: Topic }) {
 }
 
 // Ask the chat agent; fall back to an answer built from the card if it is unavailable or slow.
-export async function fetchAnswer(card: Card, question: string): Promise<Answer> {
+// With no suite open (home, results), the question goes to the agent as asked, and there is no card to fall back on.
+const NO_SUITE_HINT =
+  "Open a suite first, or tell me what you're looking for. For example: I'm a dermatologist looking for 6,000 square feet in Houston.";
+
+export async function fetchAnswer(card: Card, question: string, suiteOpen = true): Promise<Answer> {
   const clean = question.trim();
   const topic = topicOf(clean);
   const s = card.suite;
+  if (!suiteOpen) {
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: `${clean} Answer in 2-3 short sentences.` }),
+        signal: AbortSignal.timeout(25_000),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { answer?: string };
+        const text = data.answer?.trim() ? cleanAnswer(data.answer) : "";
+        if (text) return { question: clean, text, topic: "general", live: true };
+      }
+    } catch {
+      // fall through to the hint
+    }
+    return { question: clean, text: NO_SUITE_HINT, topic: "general", live: false };
+  }
   // The live agent answers tenant-history and general questions from the CoStar database (fast, cited).
   // Rooms/fit, rent, neighbors and prospects come from the card (instant, and the agent has no rent data yet).
   if (topic !== "history" && topic !== "general") {

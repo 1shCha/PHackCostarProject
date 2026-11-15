@@ -1508,8 +1508,20 @@ export default function SecondLifeApp({ card }: { card: Card }) {
   };
   const spaceCard = useMemo(() => cardFor(picked, card), [picked, card]);
   const searchRef = useRef(search);
+  const pendingOpen = useRef<{ rank?: number; suite?: string } | null>(null);
   useEffect(() => {
     searchRef.current = search;
+    // An "open …" that arrived before any search: open the match once the real search is back.
+    if (search.status !== "done" || !pendingOpen.current) return;
+    const want = pendingOpen.current;
+    pendingOpen.current = null;
+    const bare = (x: string) => x.toLowerCase().replace(/^suite\s*/, "").replace(/\s+/g, "");
+    const results = search.data.results;
+    const r = (want.suite ? results.find((x) => bare(x.suite) === bare(want.suite!)) : results[(want.rank ?? 1) - 1]) ?? results[0];
+    if (r) {
+      setPicked(r);
+      setScreen("space");
+    } else setScreen("results");
   }, [search]);
   const matchLabel = picked
     ? `${search.status === "done" && search.data.results[0]?.suite_id === picked.suite_id ? "Your best match" : "Match"} · ${picked.score}% fit`
@@ -1551,11 +1563,17 @@ export default function SecondLifeApp({ card }: { card: Card }) {
           const results = s.status === "done" ? s.data.results : [];
           const bare = (x: string) => x.toLowerCase().replace(/^suite\s*/, "").replace(/\s+/g, "");
           let r: SearchResult | null = null;
+          if (!results.length) {
+            // No search yet: run the real one (the search box text), then open the match. Never the sample card.
+            pendingOpen.current = { rank: c.rank, suite: c.suite };
+            runSearch(query);
+            go("agents");
+            return c.suite ? `Finding Suite ${c.suite.toUpperCase()}.` : "Finding your best match.";
+          }
           if (c.suite) {
             r = results.find((x) => bare(x.suite) === bare(c.suite!)) ?? null;
-            if (!r && results.length) return `I don't see Suite ${c.suite.toUpperCase()} in these matches. Say "open the best match" or "open the second match".`;
-            if (!r && bare(c.suite) !== bare(card.suite.suite)) return "Tell me what kind of space you need first, then I can open that suite.";
-          } else if (results.length) {
+            if (!r) return `I don't see Suite ${c.suite.toUpperCase()} in these matches. Say "open the best match" or "open the second match".`;
+          } else {
             r = results[(c.rank ?? 1) - 1] ?? null;
             if (!r) return `There are only ${results.length} matches.`;
           }
@@ -1587,7 +1605,7 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps -- openResult and go only call state setters
-    [backScreen, runSearch, card],
+    [backScreen, runSearch, card, query],
   );
   // Full-screen aerial behind every page: the Medical Center on home, the results as pins, the open suite up close.
   const resultPins = useMemo<AerialPin[]>(
@@ -1654,7 +1672,12 @@ export default function SecondLifeApp({ card }: { card: Card }) {
       {screen === "outreach" && <Outreach name={prospect} back={() => go("landlord")} />}
       {screen !== "home" && <Footer />}
       {screen === "home" && <Footer />}
-      <VoiceLayer card={screen === "space" || screen === "offer" ? spaceCard : picked ? spaceCard : card} mode={mode} onNav={onNav} />
+      <VoiceLayer
+        card={picked ? spaceCard : card}
+        mode={mode}
+        onNav={onNav}
+        suiteOpen={(screen === "space" || screen === "offer") && !!picked}
+      />
       <button className="floating-back" onClick={() => go(backScreen[screen])} aria-label="Go back">
         <Icon name="arrow" />
       </button>
