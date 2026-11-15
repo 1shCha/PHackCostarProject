@@ -96,6 +96,14 @@ type Stop = { room: TourRoom | null; sweep: Sweep };
 
 const STOP_SPACING_M = 2.5;
 
+/** Named spots from our own room labels (see /api/tour-places), in Matterport model metres. */
+export type TourPlaces = {
+  places: { label: string; display: string; x: number; y: number }[];
+  panos: { id: string; x: number; y: number; z: number }[];
+};
+type Place = { key: RoomKey | null; label: string; display: string; p: { x: number; z: number } };
+const flat = (a: { x: number; z: number }, b: { x: number; z: number }) => Math.hypot(a.x - b.x, a.z - b.z);
+
 // Pick photo spots inside a group that are at least STOP_SPACING_M apart.
 function spreadOut(sweeps: Sweep[]): Sweep[] {
   const picked: Sweep[] = [];
@@ -110,6 +118,9 @@ export class TourController {
   private rooms: TourRoom[] = [];
   private stops: Stop[] = [];
   private stopIndex = -1;
+  private placesRaw: TourPlaces | null = null;
+  private places: Place[] = [];
+  private lastSaid = "";
   private currentSweep = "";
   private currentRoomIds: string[] = [];
   private mode = "";
@@ -211,7 +222,54 @@ export class TourController {
       here = st.sweep.position;
     }
     this.stops = stops;
+    this.calibrate();
     this.onChange?.();
+  }
+
+  /** Our room labels (reception, exam room, lab…), used for names and "take me to…". */
+  setPlaces(data: TourPlaces) {
+    this.placesRaw = data;
+    this.calibrate();
+    this.onChange?.();
+  }
+
+  // Model coordinates (x, y on the floor) map to the 3D view's (x, z). Work out the axis direction by
+  // checking which choice puts the labeled photo spots on top of the tour's own photo spots.
+  private calibrate() {
+    const raw = this.placesRaw;
+    if (!raw?.places.length || !raw.panos.length || !this.sweeps.length) return;
+    const options = [(x: number, y: number) => ({ x, z: -y }), (x: number, y: number) => ({ x, z: y })];
+    let best = options[0];
+    let bestErr = Infinity;
+    for (const t of options) {
+      const pts = raw.panos.map((pn) => t(pn.x, pn.y));
+      const err = this.sweeps.reduce((sum, sw) => sum + Math.min(...pts.map((q) => flat(q, sw.position))), 0) / this.sweeps.length;
+      if (err < bestErr) {
+        bestErr = err;
+        best = t;
+      }
+    }
+    this.places = bestErr < 1.5
+      ? raw.places.map((pl) => ({ key: keyForLabel(pl.label.replace(/_/g, " ")), label: pl.label, display: pl.display, p: best(pl.x, pl.y) }))
+      : [];
+  }
+
+  private currentPos(): Vec3 | null {
+    return this.sweeps.find((sw) => sw.id === this.currentSweep || sw.sid === this.currentSweep)?.position ?? null;
+  }
+
+  private placeNear(pos: Vec3 | { x: number; z: number } | null, max = 3.5): Place | null {
+    if (!pos || !this.places.length) return null;
+    let best: Place | null = null;
+    let bestD = max;
+    for (const pl of this.places) {
+      const d = flat(pl.p, pos);
+      if (d < bestD) {
+        bestD = d;
+        best = pl;
+      }
+    }
+    return best;
   }
 
   // Where we are in the walk: the stop we moved to last, or the stop nearest the current photo spot.
@@ -238,6 +296,12 @@ export class TourController {
     await this.sdk.Sweep.moveTo(st.sweep.id, { transition: this.sdk.Camera.TransitionType.FLY, transitionTime: 1500 });
     const prev = this.stops[this.stopIndex]?.room;
     this.stopIndex = i;
+    const named = this.placeNear(st.sweep.position)?.display.toLowerCase();
+    if (named) {
+      const say = named !== this.lastSaid ? `This is the ${named}.` : "";
+      this.lastSaid = named;
+      return { ok: true, say };
+    }
     const name = this.roomName(st.room ?? undefined);
     if (st.room && prev === st.room) return { ok: true, say: "" }; // same room, further in: just move
     return { ok: true, say: name === "this area" || name === "this space" ? "" : `This is the ${name}.` };
@@ -245,7 +309,7 @@ export class TourController {
 
   /** Development check: what the SDK has reported so far. */
   debug() {
-    return { sweeps: this.sweeps.length, stops: this.stops.length, stop: this.stopIndex, rooms: this.rooms.map((r) => `${r.label || "?"}:${r.sweeps.length}`), current: this.currentSweep, mode: this.mode, roomIds: this.currentRoomIds };
+    return { sweeps: this.sweeps.length, stops: this.stops.length, stop: this.stopIndex, places: this.places.length, here: this.currentRoomName(), rooms: this.rooms.map((r) => `${r.label || "?"}:${r.sweeps.length}`), current: this.currentSweep, mode: this.mode, roomIds: this.currentRoomIds };
   }
 
   get ready() {
@@ -274,14 +338,21 @@ export class TourController {
   }
 
   currentRoomName(): string {
+    const pl = this.placeNear(this.currentPos());
+    if (pl) return pl.display.toLowerCase();
     return this.roomName(this.rooms[this.roomIndexOfCurrent()]);
   }
 
   currentRoomKey(): RoomKey | null {
+    const pl = this.placeNear(this.currentPos());
+    if (pl) return pl.key;
     return this.rooms[this.roomIndexOfCurrent()]?.key ?? null;
   }
 
   knownRoomNames(): string[] {
+    if (this.places.length) {
+      return [...new Set(this.places.filter((pl) => pl.key && pl.key !== "hallway").map((pl) => ROOM_NAMES[pl.key!]))];
+    }
     return [...new Set(this.rooms.filter((r) => r.key).map((r) => ROOM_NAMES[r.key!]))];
   }
 
@@ -329,6 +400,7 @@ export class TourController {
 
   goTo(key: RoomKey): Promise<TourResult> {
     return this.run(async () => {
+      if (this.places.length) return this.goToPlace(key);
       const matches = this.rooms.filter((r) => r.key === key);
       if (!matches.length) {
         const known = this.knownRoomNames();
@@ -345,6 +417,26 @@ export class TourController {
       const target = matches.length > 1 && this.rooms[here] === after ? matches[(matches.indexOf(after) + 1) % matches.length] : after;
       return this.walkToRoom(target);
     });
+  }
+
+  // Walk to the photo spot closest to a labeled place (the nearest one you're not already standing at).
+  private async goToPlace(key: RoomKey): Promise<TourResult> {
+    const matches = this.places.filter((pl) => pl.key === key);
+    if (!matches.length) {
+      const known = this.knownRoomNames();
+      return { ok: false, say: `I don't see a ${ROOM_NAMES[key]} in this suite. I can take you to the ${known.join(", the ")}.` };
+    }
+    const here = this.currentPos();
+    const ordered = here ? [...matches].sort((a, b) => flat(a.p, here) - flat(b.p, here)) : matches;
+    const target = (here && ordered.find((pl) => flat(pl.p, here) > 2)) || ordered[0];
+    const sweep = [...this.sweeps].sort((a, b) => flat(a.position, target.p) - flat(b.position, target.p))[0];
+    if (!sweep) return { ok: false, say: "I can't reach that part of the scan." };
+    if (this.mode === this.sdk.Mode.Mode.DOLLHOUSE || this.mode === this.sdk.Mode.Mode.FLOORPLAN) await this.ensureInside();
+    await this.sdk.Sweep.moveTo(sweep.id, { transition: this.sdk.Camera.TransitionType.FLY, transitionTime: 1600 });
+    const stop = this.stops.findIndex((st) => st.sweep.id === sweep.id);
+    if (stop >= 0) this.stopIndex = stop;
+    this.lastSaid = target.display.toLowerCase();
+    return { ok: true, say: `This is the ${this.lastSaid}.` };
   }
 
   turn(degrees: number): Promise<TourResult> {

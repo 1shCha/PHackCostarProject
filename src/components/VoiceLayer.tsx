@@ -438,6 +438,11 @@ export default function VoiceLayer({
       controller.current = c;
       if (process.env.NODE_ENV !== "production") (window as unknown as { slTour?: unknown }).slTour = c;
       if (!c) return;
+      // Our own room names (the scan itself often labels everything "Other").
+      fetch(`/api/tour-places/${card.suite.matterport_model_id}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => data && controller.current === c && c.setPlaces(data))
+        .catch(() => {});
       c.onChange = () => {
         refreshRoom();
         // Run a command that was asked for while the scan was still loading.
@@ -448,7 +453,7 @@ export default function VoiceLayer({
         }
       };
     },
-    [refreshRoom, runTour],
+    [card.suite.matterport_model_id, refreshRoom, runTour],
   );
 
   const onTourStatus = useCallback(
